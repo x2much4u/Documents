@@ -143,6 +143,10 @@
         .feature-card h4 {
             margin-top: 0;
             margin-bottom: 8px;
+            font-size: 1em;
+        }
+        .feature-card p {
+            font-size: 0.9em;
         }
         footer {
             background: #2d2d2d;
@@ -193,7 +197,7 @@
     <div class="container">
         <header>
             <h1>VividAvatarFX</h1>
-            <p>VRChat アバターギミック</p>
+            <p>VRChat想定アバターギミック</p>
         </header>
 
         <div class="content">
@@ -375,23 +379,11 @@
             <p>VRChatのRadial Puppetで使用するため、全てのパラメータは0〜1の範囲に正規化されます。</p>
             
             <div class="code-block">
-                     例: ToneCurveRedScale (0-10) → 
-                <br> 正規化 (0-1) 正規化値 = 元の値 / 10.0
-                <br> 例: LensDistortionBarrel (-1 to 1) → 
-                <br> 正規化 (0-1)正規化値 = (元の値 + 1.0) / 2.0
+                例: ToneCurveRedScale (0-10) → 正規化 (0-1)</br>
+                正規化値 = 元の値 / 10.0</br>
+                例: LensDistortionBarrel (-1 to 1) → 正規化 (0-1)</br>
+                正規化値 = (元の値 + 1.0) / 2.0
             </div>
-
-            <h3>カメラ判定</h3>
-            <p>シェーダー内で以下の判定を行い、適切な場面でエフェクトを表示します:</p>
-            <ul>
-                <li><strong>VRView:</strong> ステレオレンダリング検出</li>
-                <li><strong>PlayerView:</strong> FOV 60°のデスクトップビュー</li>
-                <li><strong>Screenshot:</strong> 1280x720, 1920x1080, 3840x2160 解像度</li>
-                <li><strong>Mirror:</strong> プロジェクション行列のオフセットで検出（除外）</li>
-            </ul>
-
-            <h3>対応シェーダープロパティ数</h3>
-            <p>合計80以上のシェーダープロパティを制御可能です。</p>
 
             <h2 id="faq">よくある質問</h2>
 
