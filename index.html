@@ -36,6 +36,7 @@
             height: 100vh;
             overflow-y: auto;
             border-right: 2px solid #e9ecef;
+            transition: transform 0.3s ease;
         }
         .sidebar h2 {
             color: #667eea;
@@ -69,10 +70,69 @@
             color: white;
             font-weight: bold;
         }
+        .sidebar-subnav {
+            list-style: none;
+            margin: 5px 0 10px 0;
+            padding-left: 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .sidebar-subnav.active {
+            max-height: 500px;
+        }
+        .sidebar-subnav a {
+            padding: 6px 12px;
+            font-size: 0.85em;
+            color: #764ba2;
+        }
+        .sidebar-subnav a:hover {
+            background: #f0e7f5;
+            color: #764ba2;
+        }
+        .sidebar-subnav a.active {
+            background: transparent;
+            color: #764ba2;
+            font-weight: bold;
+        }
+        .hamburger {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        .overlay.active {
+            display: block;
+        }
         .main-content {
             flex: 1;
             overflow-y: auto;
-            height: 100vh;
         }
         header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -232,18 +292,27 @@
         }
         
         @media (max-width: 900px) {
+            .hamburger {
+                display: block;
+            }
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                transform: translateX(-100%);
+                z-index: 1000;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
             .container {
                 flex-direction: column;
             }
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-                border-right: none;
-                border-bottom: 2px solid #e9ecef;
-            }
             .main-content {
                 height: auto;
+                width: 100%;
             }
             header h1 {
                 font-size: 1.5em;
@@ -256,6 +325,7 @@
             }
             .content {
                 padding: 15px;
+                padding-top: 60px;
             }
             .feature-grid {
                 grid-template-columns: 1fr;
@@ -265,8 +335,38 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const sections = document.querySelectorAll('h2[id]');
-            const navLinks = document.querySelectorAll('.sidebar-nav a');
+            const navLinks = document.querySelectorAll('.sidebar-nav > li > a');
+            const subNavs = document.querySelectorAll('.sidebar-subnav');
             const mainContent = document.querySelector('.main-content');
+            const hamburger = document.querySelector('.hamburger');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.overlay');
+            
+            // ハンバーガーメニューの開閉
+            if (hamburger) {
+                hamburger.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    overlay.classList.toggle('active');
+                });
+            }
+            
+            // オーバーレイクリックでメニューを閉じる
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                });
+            }
+            
+            // サイドバーのリンククリック時にメニューを閉じる（モバイルのみ）
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 900) {
+                        sidebar.classList.remove('active');
+                        overlay.classList.remove('active');
+                    }
+                });
+            });
             
             function setActiveLink() {
                 let currentSection = '';
@@ -274,16 +374,29 @@
                 
                 sections.forEach(section => {
                     const sectionTop = section.offsetTop - mainContent.offsetTop;
-                    const sectionHeight = section.clientHeight;
                     if (scrollPosition >= sectionTop - 100) {
                         currentSection = section.getAttribute('id');
                     }
                 });
                 
+                // すべてのサブナビを非表示
+                subNavs.forEach(subnav => {
+                    subnav.classList.remove('active');
+                });
+                
+                // メインナビのアクティブ状態を更新
                 navLinks.forEach(link => {
                     link.classList.remove('active');
-                    if (link.getAttribute('href') === '#' + currentSection) {
+                    const href = link.getAttribute('href').substring(1);
+                    
+                    if (href === currentSection) {
                         link.classList.add('active');
+                        // 対応するサブナビを表示
+                        const parentLi = link.parentElement;
+                        const subnav = parentLi.querySelector('.sidebar-subnav');
+                        if (subnav) {
+                            subnav.classList.add('active');
+                        }
                     }
                 });
             }
@@ -297,18 +410,53 @@
     </script>
 </head>
 <body>
+    <button class="hamburger" aria-label="メニューを開く">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="overlay"></div>
+    
     <div class="container">
         <aside class="sidebar">
             <h2>目次</h2>
             <ul class="sidebar-nav">
-                <li><a href="#quickstart">クイックスタート</a></li>
-                <li><a href="#overview">概要</a></li>
-                <li><a href="#adjustment">エフェクトの調整方法</a></li>
-                <li><a href="#preset">プリセット機能</a></li>
-                <li><a href="#technical">技術仕様</a></li>
-                <li><a href="#faq">よくある質問</a></li>
-                <li><a href="#license">ライセンス情報</a></li>
-                <li><a href="#future">予定されている修正・追加機能</a></li>
+                <li>
+                    <a href="#quickstart">クイックスタート</a>
+                </li>
+                <li>
+                    <a href="#overview">概要</a>
+                    <ul class="sidebar-subnav">
+                        <li><a href="#overview-features">主な機能</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#adjustment">エフェクトの調整方法</a>
+                    <ul class="sidebar-subnav">
+                        <li><a href="#adjustment-editor">マテリアルエディタから調整</a></li>
+                        <li><a href="#adjustment-params">主要なパラメータ</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#preset">プリセット機能</a>
+                    <ul class="sidebar-subnav">
+                        <li><a href="#preset-register">プリセットの登録</a></li>
+                        <li><a href="#preset-load">プリセットの読み込み</a></li>
+                        <li><a href="#preset-export">エクスポート機能</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#technical">技術仕様</a>
+                </li>
+                <li>
+                    <a href="#faq">よくある質問</a>
+                </li>
+                <li>
+                    <a href="#license">ライセンス情報</a>
+                </li>
+                <li>
+                    <a href="#future">予定されている修正・追加機能</a>
+                </li>
             </ul>
         </aside>
         
@@ -319,7 +467,7 @@
         </header>
 
         <div class="content">
-            <h3>ドキュメントの最終更新 : 2025/10/02 - 1:58</h3>
+            <h3>ドキュメントの最終更新 : 2025/10/02 - 2:38</h3>
             <h3>最新パッケージ : Ver.0.9.4</h3>
             <p>更新は　ここ　からDLできます。※テスターさん用、今だけ</p>
             <p></p>
@@ -401,7 +549,7 @@
             <p>VividAvatarFXは、VRChatアバターの視界に様々な視覚エフェクトを追加できるアバターギミックです。カラーグレーディング、グリッチエフェクト、レンズ歪み、ビネット、ブルームなど、多彩なエフェクトをVRC内で制御できます。</p>
 
             <h3>主な機能</h3>
-            <div class="feature-grid">
+            <div class="feature-grid" id="overview-features">
                 <div class="feature-card">
                     <h4>カラーグレーディング</h4>
                     <p>明度、彩度、コントラスト、色相シフト、ガンマ調整</p>
@@ -422,10 +570,10 @@
 
             <h2 id="adjustment">エフェクトの調整方法</h2>
 
-            <h3>マテリアルエディタから調整</h3>
+            <h3 id="adjustment-editor">マテリアルエディタから調整</h3>
             <p><code>Assets/x2much4u/VividAvatarFX/Material/VividAvatarFX.mat</code> を選択すると、Inspectorにカスタムエディタが表示されます。</p>
 
-            <h3>主要なパラメータ</h3>
+            <h3 id="adjustment-params">主要なパラメータ</h3>
             
             <h4>基本設定</h4>
             <ul>
@@ -457,7 +605,7 @@
 
             <h2 id="preset">プリセット機能</h2>
 
-            <h3>プリセットの登録</h3>
+            <h3 id="preset-register">プリセットの登録</h3>
             <p>現在のマテリアル設定をプリセットとして保存できます。</p>
 
             <div class="step">
@@ -494,7 +642,7 @@
                 <p>プリセットは <code>Assets/x2much4u/VividAvatarFX/Preset/</code> にJSON形式で保存されます。このフォルダ内にサブフォルダを作成しても認識されます。</p>
             </div>
 
-            <h3>プリセットの読み込み</h3>
+            <h3 id="preset-load">プリセットの読み込み</h3>
             <p>マテリアルInspectorの「プリセット」ドロップダウンから保存済みプリセットを選択し、「適用」ボタンをクリックすると設定が反映されます。</p>
 
             <div class="warning">
@@ -502,7 +650,7 @@
                 <p>プリセットを適用しただけではVRChat内では変更されません。</br>適用後、必ずSetup ToolもしくはPreset Makerで保存してください。</p>
             </div>
 
-            <h3>エクスポート機能</h3>
+            <h3 id="preset-export">エクスポート機能</h3>
             <p>マテリアルInspectorの「エクスポート」ボタンで、現在の設定をJSON形式で保存できます。</p>
             
             <div class="info">
