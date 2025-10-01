@@ -19,12 +19,60 @@
             padding: 10px;
         }
         .container {
-            max-width: 900px;
+            max-width: 1400px;
             margin: 0 auto;
             background: white;
             border-radius: 12px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             overflow: hidden;
+            display: flex;
+        }
+        .sidebar {
+            width: 280px;
+            background: #f8f9fa;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 2px solid #e9ecef;
+        }
+        .sidebar h2 {
+            color: #667eea;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            border: none;
+            padding: 0;
+        }
+        .sidebar-nav {
+            list-style: none;
+            margin: 0;
+        }
+        .sidebar-nav li {
+            margin: 0;
+        }
+        .sidebar-nav a {
+            display: block;
+            padding: 8px 12px;
+            color: #495057;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+        .sidebar-nav a:hover {
+            background: #e9ecef;
+            color: #667eea;
+        }
+        .sidebar-nav a.active {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            height: 100vh;
         }
         header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -183,7 +231,20 @@
             border-bottom-color: #e83e8c;
         }
         
-        @media (max-width: 600px) {
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 2px solid #e9ecef;
+            }
+            .main-content {
+                height: auto;
+            }
             header h1 {
                 font-size: 1.5em;
             }
@@ -201,9 +262,57 @@
             }
         }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('h2[id]');
+            const navLinks = document.querySelectorAll('.sidebar-nav a');
+            const mainContent = document.querySelector('.main-content');
+            
+            function setActiveLink() {
+                let currentSection = '';
+                const scrollPosition = mainContent.scrollTop;
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - mainContent.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollPosition >= sectionTop - 100) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + currentSection) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            if (mainContent) {
+                mainContent.addEventListener('scroll', setActiveLink);
+            }
+            
+            setActiveLink();
+        });
+    </script>
 </head>
 <body>
     <div class="container">
+        <aside class="sidebar">
+            <h2>目次</h2>
+            <ul class="sidebar-nav">
+                <li><a href="#quickstart">クイックスタート</a></li>
+                <li><a href="#overview">概要</a></li>
+                <li><a href="#adjustment">エフェクトの調整方法</a></li>
+                <li><a href="#preset">プリセット機能</a></li>
+                <li><a href="#technical">技術仕様</a></li>
+                <li><a href="#faq">よくある質問</a></li>
+                <li><a href="#license">ライセンス情報</a></li>
+                <li><a href="#future">予定されている修正・追加機能</a></li>
+            </ul>
+        </aside>
+        
+        <div class="main-content">
         <header>
             <h1>VividAvatarFX</h1>
             <p>VRChat想定アバターギミック</p>
@@ -214,7 +323,7 @@
             <h3>最新パッケージ : Ver.0.9.4</h3>
             <p>更新は　ここ　からDLできます。※テスターさん用、今だけ</p>
             <p></p>
-            <h2>クイックスタート</h2>
+            <h2 id="quickstart">クイックスタート</h2>
             
             <div class="step">
                 <span class="step-number">1</span>
@@ -609,6 +718,7 @@
             <p>VRChat Avatar Effect System</p>
             <p><a href="https://x2much4u.booth.pm/" target="_blank" style="color: #667eea; text-decoration: none;">https://x2much4u.booth.pm/</a></p>
         </footer>
+        </div>
     </div>
 </body>
 </html>
