@@ -173,6 +173,15 @@
         .toc a:hover {
             text-decoration: underline;
         }
+        .future-section {
+            border-top: 3px solid #e83e8c;
+            margin-top: 40px;
+            padding-top: 30px;
+        }
+        .future-section h2 {
+            color: #e83e8c;
+            border-bottom-color: #e83e8c;
+        }
         
         @media (max-width: 600px) {
             header h1 {
@@ -201,7 +210,7 @@
         </header>
 
         <div class="content">
-            <h3>ドキュメントの最終更新 : 2025/10/02 - 1:05</h3>
+            <h3>ドキュメントの最終更新 : 2025/10/02 - 1:58</h3>
             <h3>最新パッケージ : Ver.0.9.4</h3>
             <p>更新は　ここ　からDLできます。※テスターさん用、今だけ</p>
             <p></p>
@@ -275,6 +284,7 @@
                     <li><a href="#technical">技術仕様</a></li>
                     <li><a href="#faq">よくある質問</a></li>
                     <li><a href="#license">ライセンス情報</a></li>
+                    <li><a href="#future">予定されている修正・追加機能</a></li>
                 </ul>
             </div>
 
@@ -497,6 +507,78 @@ Copyright (c) 2020 AoiKamishiro
 MIT License
             </div>
 
+        </div>
+
+        <div class="content future-section" id="future">
+            <h2>予定されている修正・追加機能</h2>
+            
+            <div class="info">
+                <strong>開発中の機能</strong>
+                <p>以下の機能が実装予定です。実装時期は未定ですが、順次対応していきます。</p>
+            </div>
+
+            <h3>1. プリセット登録時の表示設定選択機能</h3>
+            <div class="step">
+                <strong>機能概要</strong>
+                <p>プリセット登録時に、チェックボックスで各表示モードを強制的にONにできるようになります。</p>
+                <ul>
+                    <li><strong>その他モード強制ON:</strong> EnableOtherを自動的にONにする</li>
+                    <li><strong>デスクトップモード強制ON:</strong> EnableDesktopを自動的にONにする</li>
+                    <li><strong>カメラモード強制ON:</strong> EnableSSを自動的にONにする</li>
+                    <li><strong>VRモード強制ON:</strong> EnableVRを自動的にONにする</li>
+                </ul>
+                <p><strong>メリット：</strong> プリセット適用時に、すぐに「どのプリセットか」が視覚的に分かりやすくなり、視認性が向上します。</p>
+            </div>
+
+            <h3>2. 影響範囲の調整可視化の改善</h3>
+            <div class="step">
+                <strong>機能概要</strong>
+                <p>エフェクトの影響範囲をより視認しやすくします。</p>
+                <ul>
+                    <p>現状半透明の水色のマテリアルにしていますが、少し発光するようにし、暗い場所でも範囲の視認性を向上させます。</p>
+                </ul>
+            </div>
+
+            <h3>3. メニューUI/UXの改善</h3>
+            <div class="step">
+                <strong>機能概要</strong>
+                <p>より分かりやすく、使いやすいメニュー構造への改善を予定しています。</p>
+                <ul>
+                    <li>カテゴリ分けの最適化</li>
+                    <li>よく使う機能へのアクセス性向上</li>
+                    <li>視覚的な情報整理</li>
+                    <li>直感的な操作フロー</li>
+                </ul>
+            </div>
+
+            <h3>4. 日本語/英語Prefabの分離と多言語対応</h3>
+            <div class="step">
+                <strong>機能概要</strong>
+                <p>日本語Prefabと英語Prefabを別々に用意し、ExpressionMenuの言語を選択できるようにします。</p>
+                <ul>
+                    <li><strong>日本語Prefab:</strong> ExpressionMenuが日本語表記</li>
+                    <li><strong>英語Prefab:</strong> ExpressionMenuが英語表記</li>
+                    <li>パッケージ導入時に言語を選択可能</li>
+                    <li>各言語でのメニュー表示を最適化</li>
+                </ul>
+            </div>
+
+            <h3>5. プリセット機能の枠増加</h3>
+            <div class="step">
+                <strong>機能概要</strong>
+                <p>現状Presetは<strong>8個</strong>しか登録する枠がないですが、ExParamの制限がないので無限に登録可能です。</p>
+                <p>正直ユーザー側でどれぐらい登録するのかが不透明なため、8としてβ版をリリースしましたが現実的には<strong>16～24程度</strong>まで増やそうか検討しています。</p>
+            </div>
+
+            <div class="warning">
+                <strong>注意事項</strong>
+                <p>これらの機能は予定であり、実装時期や仕様は変更される可能性があります。また、実装優先度は開発状況やユーザーからのフィードバックによって変動する場合があります。</p>
+            </div>
+
+            <div class="info">
+                <strong>フィードバックについて</strong>
+                <p>これらの機能に関するご意見やご要望がありましたら、ぜひお聞かせください。皆様からのフィードバックは、より良い製品づくりに役立てさせていただきます。</p>
+            </div>
         </div>
 
         <footer>
