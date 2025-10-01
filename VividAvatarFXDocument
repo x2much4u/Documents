@@ -363,12 +363,7 @@
             </ul>
 
             <h3>Q: パラメータが256を超えてしまう</h3>
-            <p><strong>A:</strong> VividAvatarFXは多数のパラメータを使用します。必要に応じて：</p>
-            <ul>
-                <li>使用しないエフェクトのパラメータを削除</li>
-                <li>プリセット機能を活用して切り替え式にする</li>
-                <li>他のギミックとのパラメータ共有を検討</li>
-            </ul>
+            <p><strong>A:</strong> VividAvatarFXのパラメータは<strong>同期設定を取らない（networkSynced: false）</strong>ため、ExpressionParametersの容量を消費しません。実質的な使用ExParamは<strong>0です</strong>。ローカル専用パラメータとして動作するため、他のギミックと容量を競合することなく使用できます。</p>
 
             <h3>Q: プリセットが読み込まれない</h3>
             <p><strong>A:</strong> <code>Assets/x2much4u/VividAvatarFX/Preset/</code> フォルダにJSONファイルが存在するか確認してください。サブフォルダ内でも認識されます。</p>
@@ -382,35 +377,6 @@
 Copyright (c) 2020 AoiKamishiro
 MIT License
             </div>
-
-            <h2>🎯 推奨設定例</h2>
-
-            <h3>サイバーパンク風</h3>
-            <ul>
-                <li>MainColor: 青紫系 (Hue: 0.6-0.7)</li>
-                <li>ChromaticAberration: 0.3-0.5</li>
-                <li>Glitch LineShift: 0.3</li>
-                <li>Bloom: 0.6</li>
-                <li>Vignette: 0.4 (濃い青)</li>
-            </ul>
-
-            <h3>レトロフィルム風</h3>
-            <ul>
-                <li>Saturation: 0.3-0.4 (低彩度)</li>
-                <li>Noise/Grain: 0.05-0.1</li>
-                <li>Vignette: 0.5 (黒)</li>
-                <li>Contrast: 0.6</li>
-                <li>CinematicLines: 0.3 (上下)</li>
-            </ul>
-
-            <h3>ドリームコア/幻想的</h3>
-            <ul>
-                <li>Bloom: 0.7-0.9</li>
-                <li>Saturation: 0.7</li>
-                <li>HueShift: アニメーション</li>
-                <li>LensDistortion: 0.2-0.3</li>
-                <li>MainColor Alpha: 0.7-0.8</li>
-            </ul>
 
         </div>
 
