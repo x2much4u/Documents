@@ -12,11 +12,11 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
+            line-height: 1.7;
             color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
         }
         .container {
             max-width: 900px;
@@ -29,37 +29,43 @@
         header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 40px 30px;
+            padding: 30px 20px;
             text-align: center;
         }
         header h1 {
-            font-size: 2.5em;
+            font-size: 2em;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            word-break: break-word;
         }
         header p {
-            font-size: 1.1em;
+            font-size: 1em;
             opacity: 0.9;
         }
         .content {
-            padding: 40px 30px;
+            padding: 20px;
         }
         h2 {
             color: #667eea;
             margin: 30px 0 15px 0;
             padding-bottom: 10px;
             border-bottom: 3px solid #667eea;
-            font-size: 1.8em;
+            font-size: 1.5em;
         }
         h3 {
             color: #764ba2;
             margin: 25px 0 10px 0;
-            font-size: 1.4em;
+            font-size: 1.2em;
+        }
+        h4 {
+            color: #667eea;
+            margin: 15px 0 10px 0;
+            font-size: 1.1em;
         }
         .step {
             background: #f8f9fa;
             border-left: 4px solid #667eea;
-            padding: 20px;
+            padding: 15px;
             margin: 15px 0;
             border-radius: 5px;
         }
@@ -67,13 +73,14 @@
             display: inline-block;
             background: #667eea;
             color: white;
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             text-align: center;
-            line-height: 30px;
+            line-height: 28px;
             font-weight: bold;
-            margin-right: 10px;
+            margin-right: 8px;
+            font-size: 0.9em;
         }
         .warning {
             background: #fff3cd;
@@ -102,42 +109,40 @@
             border-radius: 3px;
             font-family: 'Courier New', monospace;
             color: #e83e8c;
+            word-break: break-all;
+            font-size: 0.9em;
         }
         .code-block {
             background: #2d2d2d;
             color: #f8f8f2;
-            padding: 20px;
+            padding: 15px;
             border-radius: 5px;
             overflow-x: auto;
             margin: 15px 0;
             font-family: 'Courier New', monospace;
+            font-size: 0.85em;
         }
         ul, ol {
-            margin: 15px 0 15px 30px;
+            margin: 15px 0 15px 20px;
         }
         li {
             margin: 8px 0;
         }
         .feature-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
             margin: 20px 0;
         }
         .feature-card {
             background: #f8f9fa;
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
             border: 2px solid #e9ecef;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         .feature-card h4 {
-            color: #667eea;
-            margin-bottom: 10px;
+            margin-top: 0;
+            margin-bottom: 8px;
         }
         footer {
             background: #2d2d2d;
@@ -145,100 +150,137 @@
             text-align: center;
             padding: 20px;
             margin-top: 40px;
+            font-size: 0.9em;
         }
-        .button {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
+        .toc {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .toc ul {
+            list-style: none;
+            margin-left: 0;
+        }
+        .toc a {
+            color: #667eea;
             text-decoration: none;
-            transition: background 0.3s;
         }
-        .button:hover {
-            background: #5568d3;
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.5em;
+            }
+            h2 {
+                font-size: 1.3em;
+            }
+            h3 {
+                font-size: 1.1em;
+            }
+            .content {
+                padding: 15px;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🎨 VividAvatarFX</h1>
+            <h1>VividAvatarFX</h1>
             <p>VRChatアバター用ビューエフェクトシステム</p>
         </header>
 
         <div class="content">
-            <h2>📋 概要</h2>
-            <p>VividAvatarFXは、VRChatアバターの視界に様々な視覚エフェクトを追加できるシステムです。カラーグレーディング、グリッチエフェクト、レンズ歪み、ビネット、ブルームなど、多彩なエフェクトをリアルタイムで制御できます。</p>
-
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <h4>🎨 カラーグレーディング</h4>
-                    <p>明度・彩度・コントラスト・色相シフト・ガンマ調整</p>
-                </div>
-                <div class="feature-card">
-                    <h4>⚡ グリッチエフェクト</h4>
-                    <p>ラインシフト・カラー分離・ブロックノイズ</p>
-                </div>
-                <div class="feature-card">
-                    <h4>🔍 レンズエフェクト</h4>
-                    <p>レンズ歪み・色収差・ビネット</p>
-                </div>
-                <div class="feature-card">
-                    <h4>✨ ポストプロセス</h4>
-                    <p>ブルーム・ノイズ・ディザリング・ポスタライズ</p>
-                </div>
-            </div>
-
-            <h2>🚀 セットアップ手順</h2>
-
+            <h2>クイックスタート</h2>
+            
             <div class="step">
                 <span class="step-number">1</span>
                 <strong>Prefabの配置</strong>
-                <p><code>Assets/x2much4u/VividAvatarFX/Prefab/VividAvatarFX</code> をアバターの直下（ルート）に配置します。</p>
+                <p><code>Assets/x2much4u/VividAvatarFX/Prefab/VividAvatarFX</code> をアバターの直下に配置</p>
             </div>
 
             <div class="step">
                 <span class="step-number">2</span>
                 <strong>Effectオブジェクトの選択</strong>
-                <p>Prefab内の <code>VividAvatarFX/Effect</code> を選択し、Inspectorを表示します。</p>
+                <p>Prefab内の <code>VividAvatarFX/Effect</code> を選択してInspectorを表示</p>
             </div>
 
             <div class="step">
                 <span class="step-number">3</span>
                 <strong>Setup Toolの起動</strong>
-                <p>以下のいずれかの方法でSetup Toolを開きます：</p>
                 <ul>
-                    <li>Inspector上部の<strong>「設定変更後は必ずベイクしてください。」</strong>ボタンをクリック</li>
-                    <li>メニューバーから <code>Tools → x2much4u → VividAvatarFX → VAFX Setup Tool</code></li>
+                    <li>Inspector上部の「設定変更後は必ずベイクしてください。」ボタン、または</li>
+                    <li><code>Tools → x2much4u → VividAvatarFX → VAFX Setup Tool</code></li>
                 </ul>
             </div>
 
             <div class="step">
                 <span class="step-number">4</span>
                 <strong>アバターの設定</strong>
-                <p>Setup Tool内の「ターゲットアバター」欄に、VRCAvatarDescriptorが付いているアバターのGameObjectをドラッグ&ドロップします。</p>
+                <p>Setup Tool内の「ターゲットアバター」欄にVRCAvatarDescriptorが付いているアバターをドラッグ&ドロップ</p>
             </div>
 
             <div class="step">
                 <span class="step-number">5</span>
                 <strong>ベイク実行</strong>
-                <p>緑色の<strong>「マテリアル値を焼き込み & アバターに統合 (Bake & Merge)」</strong>ボタンをクリックします。</p>
+                <p>緑色の「マテリアル値を焼き込み & アバターに統合 (Bake & Merge)」ボタンをクリック</p>
             </div>
 
             <div class="success">
-                <strong>✅ セットアップ完了！</strong>
-                <p>これでVividAvatarFXがアバターに統合され、VRChat内でエフェクトを使用できます。</p>
+                <strong>セットアップ完了</strong>
+                <p>これでVRChat内でエフェクトを使用できます。</p>
             </div>
 
-            <h2>⚙️ エフェクトの調整方法</h2>
+            <div class="warning">
+                <strong>重要</strong>
+                <p>マテリアルの値を変更したら、必ず再度ベイクしてください。ベイクしないとVRChat内で変更が反映されません。</p>
+            </div>
+
+            <h2>目次</h2>
+            <div class="toc">
+                <ul>
+                    <li><a href="#overview">概要</a></li>
+                    <li><a href="#adjustment">エフェクトの調整方法</a></li>
+                    <li><a href="#preset">プリセット機能</a></li>
+                    <li><a href="#technical">技術仕様</a></li>
+                    <li><a href="#faq">よくある質問</a></li>
+                    <li><a href="#license">ライセンス情報</a></li>
+                </ul>
+            </div>
+
+            <h2 id="overview">概要</h2>
+            <p>VividAvatarFXは、VRChatアバターの視界に様々な視覚エフェクトを追加できるシステムです。カラーグレーディング、グリッチエフェクト、レンズ歪み、ビネット、ブルームなど、多彩なエフェクトをリアルタイムで制御できます。</p>
+
+            <h3>主な機能</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>カラーグレーディング</h4>
+                    <p>明度、彩度、コントラスト、色相シフト、ガンマ調整</p>
+                </div>
+                <div class="feature-card">
+                    <h4>グリッチエフェクト</h4>
+                    <p>ラインシフト、カラー分離、ブロックノイズ</p>
+                </div>
+                <div class="feature-card">
+                    <h4>レンズエフェクト</h4>
+                    <p>レンズ歪み、色収差、ビネット</p>
+                </div>
+                <div class="feature-card">
+                    <h4>ポストプロセス</h4>
+                    <p>ブルーム、ノイズ、ディザリング、ポスタライズ</p>
+                </div>
+            </div>
+
+            <h2 id="adjustment">エフェクトの調整方法</h2>
 
             <h3>マテリアルエディタから調整</h3>
             <p><code>Assets/x2much4u/VividAvatarFX/Material/VividAvatarFX.mat</code> を選択すると、Inspectorにカスタムエディタが表示されます。</p>
-            
-            <div class="info">
-                <strong>📌 重要：</strong> マテリアルの値を変更したら、<strong>必ず再度ベイク</strong>してください。ベイクしないとVRChat内で変更が反映されません。
-            </div>
 
             <h3>主要なパラメータ</h3>
             
@@ -266,11 +308,11 @@
                 <li><strong>ノイズ/グレイン:</strong> フィルムグレイン効果</li>
                 <li><strong>ブルーム:</strong> 明るい部分の発光</li>
                 <li><strong>色収差:</strong> レンズの色ずれ</li>
-                <li><strong>レンズ歪み:</strong> 魚眼効果・バレル/ピンクッション歪み</li>
+                <li><strong>レンズ歪み:</strong> 魚眼効果、バレル/ピンクッション歪み</li>
                 <li><strong>グリッチ:</strong> デジタルノイズ効果</li>
             </ul>
 
-            <h2>📦 プリセット機能</h2>
+            <h2 id="preset">プリセット機能</h2>
 
             <h3>プリセットの登録</h3>
             <p>現在のマテリアル設定をプリセットとして保存できます。</p>
@@ -279,8 +321,8 @@
                 <span class="step-number">1</span>
                 <strong>Preset Makerを開く</strong>
                 <ul>
-                    <li>マテリアルInspectorの<strong>「プリセット登録はこちら」</strong>ボタン</li>
-                    <li>メニューバー <code>Tools → x2much4u → VividAvatarFX → VAFX Preset Maker</code></li>
+                    <li>マテリアルInspectorの「プリセット登録はこちら」ボタン、または</li>
+                    <li><code>Tools → x2much4u → VividAvatarFX → VAFX Preset Maker</code></li>
                 </ul>
             </div>
 
@@ -293,29 +335,30 @@
             <div class="step">
                 <span class="step-number">3</span>
                 <strong>表示名の入力</strong>
-                <p>VRChatメニューに表示される名前を入力します（例：「サイバーパンク」「レトロフィルム」など）。</p>
+                <p>VRChatメニューに表示される名前を入力します。</p>
             </div>
 
             <div class="step">
                 <span class="step-number">4</span>
                 <strong>ベイク実行</strong>
-                <p>緑色の<strong>「プリセット [名前] をベイク (Bake Preset)」</strong>ボタンをクリックします。</p>
+                <p>緑色の「プリセット [名前] をベイク (Bake Preset)」ボタンをクリックします。</p>
             </div>
 
             <div class="info">
-                <strong>📁 プリセットの保存場所</strong>
-                <p>プリセットは <code>Assets/x2much4u/VividAvatarFX/Preset/</code> にJSON形式で保存されます。このフォルダ内にサブフォルダを作成しても認識されるため、整理が可能です。</p>
+                <strong>プリセットの保存場所</strong>
+                <p>プリセットは <code>Assets/x2much4u/VividAvatarFX/Preset/</code> にJSON形式で保存されます。このフォルダ内にサブフォルダを作成しても認識されます。</p>
             </div>
 
             <h3>プリセットの読み込み</h3>
-            <p>マテリアルInspectorの「プリセット」ドロップダウンから保存済みプリセットを選択し、<strong>「適用」</strong>ボタンをクリックすると、マテリアルに設定が反映されます。</p>
+            <p>マテリアルInspectorの「プリセット」ドロップダウンから保存済みプリセットを選択し、「適用」ボタンをクリックすると設定が反映されます。</p>
 
             <div class="warning">
-                <strong>⚠️ 注意：</strong> プリセットを適用しただけではVRChat内では変更されません。適用後、必ず<strong>Setup Toolでベイク</strong>を実行してください。
+                <strong>注意</strong>
+                <p>プリセットを適用しただけではVRChat内では変更されません。適用後、必ずSetup Toolでベイクを実行してください。</p>
             </div>
 
             <h3>エクスポート機能</h3>
-            <p>マテリアルInspectorの<strong>「エクスポート」</strong>ボタンで、現在の設定をJSON形式で保存できます。</p>
+            <p>マテリアルInspectorの「エクスポート」ボタンで、現在の設定をJSON形式で保存できます。</p>
             
             <div class="info">
                 <strong>プリセット登録との違い</strong>
@@ -323,24 +366,24 @@
                     <li><strong>プリセット登録:</strong> AnimatorControllerに設定を書き込み、VRChatメニューから切り替え可能にする</li>
                     <li><strong>エクスポート:</strong> 設定をJSONファイルとして出力するだけ（共有用）</li>
                 </ul>
-                <p>他の人に設定を共有したい場合は、エクスポートが簡単です。</p>
+                <p>他の人に設定を共有したい場合は、エクスポートが便利です。</p>
             </div>
 
-            <h2>🔧 技術仕様</h2>
+            <h2 id="technical">技術仕様</h2>
 
             <h3>パラメータの正規化</h3>
-            <p>VRChatのRadial Puppetで使用するため、全てのパラメータは<strong>0〜1の範囲に正規化</strong>されます。</p>
+            <p>VRChatのRadial Puppetで使用するため、全てのパラメータは0〜1の範囲に正規化されます。</p>
             
             <div class="code-block">
-// 例：ToneCurveRedScale (0-10) → 正規化 (0-1)
+例: ToneCurveRedScale (0-10) → 正規化 (0-1)
 正規化値 = 元の値 / 10.0
 
-// 例：LensDistortionBarrel (-1 to 1) → 正規化 (0-1)
+例: LensDistortionBarrel (-1 to 1) → 正規化 (0-1)
 正規化値 = (元の値 + 1.0) / 2.0
             </div>
 
             <h3>カメラ判定</h3>
-            <p>シェーダー内で以下の判定を行い、適切な場面でエフェクトを表示します：</p>
+            <p>シェーダー内で以下の判定を行い、適切な場面でエフェクトを表示します:</p>
             <ul>
                 <li><strong>VRView:</strong> ステレオレンダリング検出</li>
                 <li><strong>PlayerView:</strong> FOV 60°のデスクトップビュー</li>
@@ -349,28 +392,28 @@
             </ul>
 
             <h3>対応シェーダープロパティ数</h3>
-            <p>合計<strong>80以上</strong>のシェーダープロパティを制御可能です。</p>
+            <p>合計80以上のシェーダープロパティを制御可能です。</p>
 
-            <h2>❓ よくある質問</h2>
+            <h2 id="faq">よくある質問</h2>
 
             <h3>Q: エフェクトが表示されない</h3>
-            <p><strong>A:</strong> 以下を確認してください：</p>
+            <p><strong>A:</strong> 以下を確認してください:</p>
             <ul>
                 <li>Setup Toolでベイクを実行したか</li>
                 <li>表示設定（EnableVR/EnableDesktop等）が有効になっているか</li>
+                <li>マテリアルが正しくシェーダー <code>x2much4u/VividAvatarFX</code> を使用しているか</li>
             </ul>
 
-            <h3>Q: パラメーター数が多すぎる</h3>
-            <p><strong>A:</strong> VividAvatarFXのパラメータは<strong>同期設定を取らない（networkSynced: false）</strong>ため、ExpressionParametersの容量を消費しません。実質的な使用ExParamは<strong>0です</strong>。ローカル専用パラメータとして動作するため、他のギミックと容量を競合することなく使用できます。</p>
+            <h3>Q: パラメータが256を超えてしまう</h3>
+            <p><strong>A:</strong> VividAvatarFXのパラメータは同期設定を取らない（networkSynced: false）ため、ExpressionParametersの容量を消費しません。実質的な使用ExParamは0です。ローカル専用パラメータとして動作するため、他のギミックと容量を競合することなく使用できます。</p>
 
             <h3>Q: プリセットが読み込まれない</h3>
             <p><strong>A:</strong> <code>Assets/x2much4u/VividAvatarFX/Preset/</code> フォルダにJSONファイルが存在するか確認してください。サブフォルダ内でも認識されます。</p>
 
             <h3>Q: 設定を元に戻したい</h3>
-            <p><strong>A:</strong> マテリアルInspector一番右上にある、「…」（実際は縦）を押し、「Reset」を行うとシェーダー側の初期値にリセットできます。</p>
-            <p><strong>A:</strong> Setup Toolの<strong>「VAFXパラメーターを削除 (Remove Parameters)」</strong>ボタンで全パラメータを削除できます。</p>
+            <p><strong>A:</strong> Setup Toolの「VAFXパラメーターを削除 (Remove Parameters)」ボタンで全パラメータを削除できます。</p>
 
-            <h2>📄 ライセンス情報</h2>
+            <h2 id="license">ライセンス情報</h2>
             <p>このシステムの一部（Camera Analyzer Logic、Vertex Shader structure）は、AoiKamishiro氏が作成したコードを改変したものです。</p>
             <div class="code-block">
 Copyright (c) 2020 AoiKamishiro
