@@ -371,33 +371,36 @@
             });
             
             function setActiveLink() {
-                let currentSection = '';
-                let currentMainSection = '';
                 const scrollPosition = mainContent.scrollTop;
                 
-                // 現在のセクションを検出
-                sections.forEach(section => {
+                // すべてのh2とh3を配列に変換
+                const allSections = Array.from(sections);
+                
+                let currentSection = '';
+                let currentMainSection = '';
+                
+                // スクロール位置から現在のセクションを特定
+                for (let i = allSections.length - 1; i >= 0; i--) {
+                    const section = allSections[i];
                     const sectionTop = section.offsetTop - mainContent.offsetTop;
+                    
                     if (scrollPosition >= sectionTop - 100) {
                         currentSection = section.getAttribute('id');
-                        // h2要素の場合はメインセクションとして記録
+                        
+                        // h2の場合はそれがメインセクション
                         if (section.tagName === 'H2') {
                             currentMainSection = currentSection;
+                            break;
                         }
-                    }
-                });
-                
-                // h3がアクティブな場合、その親h2を見つける
-                if (currentSection && !currentMainSection) {
-                    const currentElement = document.getElementById(currentSection);
-                    if (currentElement && currentElement.tagName === 'H3') {
-                        let prevElement = currentElement.previousElementSibling;
-                        while (prevElement) {
-                            if (prevElement.tagName === 'H2' && prevElement.id) {
-                                currentMainSection = prevElement.id;
-                                break;
+                        // h3の場合は、その前にある最後のh2を探す
+                        else if (section.tagName === 'H3') {
+                            for (let j = i - 1; j >= 0; j--) {
+                                if (allSections[j].tagName === 'H2' && allSections[j].id) {
+                                    currentMainSection = allSections[j].id;
+                                    break;
+                                }
                             }
-                            prevElement = prevElement.previousElementSibling;
+                            break;
                         }
                     }
                 }
@@ -418,6 +421,7 @@
                     
                     if (href === currentMainSection) {
                         link.classList.add('active');
+                        
                         // 対応するサブナビを表示
                         const parentLi = link.parentElement;
                         const subnav = parentLi.querySelector('.sidebar-subnav');
@@ -492,6 +496,13 @@
                 </li>
                 <li>
                     <a href="#future">予定されている修正・追加機能</a>
+                    <ul class="sidebar-subnav">
+                        <li><a href="#future-preset">プリセット登録時の表示設定選択機能</a></li>
+                        <li><a href="#future-range">影響範囲の調整可視化の改善</a></li>
+                        <li><a href="#future-menu">メニューUI/UXの改善</a></li>
+                        <li><a href="#future-lang">日本語/英語Prefabの分離</a></li>
+                        <li><a href="#future-count">プリセット機能の枠増加</a></li>
+                    </ul>
                 </li>
             </ul>
         </aside>
@@ -503,7 +514,7 @@
         </header>
 
         <div class="content">
-            <h3>ドキュメントの最終更新 : 2025/10/02 - 2:46</h3>
+            <h3>ドキュメントの最終更新 : 2025/10/02 - 1:58</h3>
             <h3>最新パッケージ : Ver.0.9.4</h3>
             <p>更新は　ここ　からDLできます。※テスターさん用、今だけ</p>
             <p></p>
@@ -726,10 +737,11 @@
             </ul>
             <p><strong>解決方法:</strong></p>
             <ul>
-                <li><strong>推奨：「その他」をONにする</strong>（最も確実で簡単）</li>
+                <li><strong>推奨：「EnableOther」をONにする</strong>（最も確実で簡単）</li>
+                <li>VRChatのカメラ設定をデフォルトに戻す</li>
                 <li>カメラを傾けるギミックやエフェクトを無効化する</li>
             </ul>
-            <p>デスクトップ判定は非常に厳密なため、FOVを変更している場合は「その他」を使用してください。</p>
+            <p>デスクトップ判定は非常に厳密なため、FOVを変更している場合は「EnableOther」を使用してください。</p>
             <div class="info">
                 <strong>技術的な詳細</strong>
                 <p>シェーダー内部では、Y軸のX方向オフセット（カメラの向きの角度）を検出してデスクトップかどうかを判定しています。この判定は±0.0001という極めて小さな許容範囲で行われるため、人間には認識できないレベルのカメラの傾きでも判定に失敗します。</p>
@@ -761,7 +773,7 @@
                 <li>EnableSSがONなので → <strong>エフェクトが表示される</strong></li>
             </ol>
 
-            <p>つまり、FOVを変更している環境では、デスクトップでプレイ中なのに「カメラで撮影中」と誤認識され、EnableSSがONのためエフェクトが表示されてしまいます。</p>
+            <p>つまり、FOVを変更している環境では、プレイヤー視点でプレイ中なのに「カメラで撮影中」と誤認識され、EnableSSがONのためエフェクトが表示されてしまいます。</p>
 
             <p><strong>解決方法：</strong></p>
             <ul>
@@ -781,7 +793,40 @@
                 <li>Setup Toolでベイクを実行したか</li>
                 <li>表示設定（EnableVR/EnableDesktop等）が有効になっているか</li>
                 <li>マテリアルが正しくシェーダー <code>x2much4u/VividAvatarFX</code> を使用しているか</li>
+                <li><strong>影響範囲外までカメラが行っていないか</strong></li>
             </ul>
+            
+            <div class="info">
+                <strong>影響範囲について</strong>
+                <p>VividAvatarFXでは、<strong>Cubeが視界に入っていないとエフェクトが適用されません。</strong></p>
+                <p>これはシェーダーの仕組み上、エフェクトを描画するためのオブジェクトが画面内に存在する必要があるためです。</p>
+            </div>
+
+            <h4>影響範囲の調整方法</h4>
+            <p>Cubeの大きさは以下の手順で調整できます：</p>
+            <div class="step">
+                <strong>ExMenuから調整</strong>
+                <p><code>メインメニュー → 視点設定 → 影響範囲</code> から調整できます。</p>
+            </div>
+
+            <div class="warning">
+                <strong>影響範囲を大きくしすぎないでください</strong>
+                <p>「スケールを9999にすればすべてカバーできるのでは？」と思うかもしれませんが、<strong>フォールバック時に不透過のCubeが出現してしまいます。</strong></p>
+                <p>フォールバックとは、シェーダーが正常に動作しない環境（古いグラフィックボード、モバイルなど）で表示される代替表示のことです。この場合、巨大な不透過のキューブがワールドに出現し、視界を完全に遮ってしまいます。</p>
+                <p><strong>設定値について：</strong></p>
+                <ul>
+                    <li><strong>デフォルト：</strong> スケール 3</li>
+                    <li><strong>最大値：</strong> スケール 20（アニメーション側で制限されています）</li>
+                </ul>
+                <p>デフォルトのスケール3で十分カバーできるかとは思いますが、もう少し影響範囲を広げたい場合は段階的に調整してください。</p>
+            </div>
+
+            <div class="info">
+                <strong>影響範囲の確認方法</strong>
+                <p><code>メインメニュー → 視点設定 → 影響範囲可視化</code> をONにすると、マテリアルが置き換わり、<strong>半透明の水色のキューブ</strong>になります。</p>
+                <p>この状態で影響範囲のスケールを調整すると、実際にどのくらいの範囲がカバーされているかを視覚的に確認できます。</p>
+                <p><strong>⚠️ 調整が終わったら、必ず影響範囲可視化をOFFに戻してください。</strong>ONのままだとエフェクトが表示されず、水色のキューブが見えたままになります。</p>
+            </div>
 
             <h3>Q: パラメーター数が多い為、圧迫が心配</h3>
             <p><strong>A:</strong> VividAvatarFXのパラメータは同期設定を取らない（networkSynced: false）ため、ExpressionParametersの容量を消費しません。</br>つまり実質的な<strong>使用ExpressionParameters数は0</strong>です。<br>このギミックではExpressionParametersの枠を圧迫しないため、他のギミックと容量を競合することなく使用できます。</p>
@@ -835,7 +880,7 @@
                 <p>以下の機能が実装予定です。実装時期は未定ですが、順次対応していきます。</p>
             </div>
 
-            <h3>1. プリセット登録時の表示設定選択機能</h3>
+            <h3 id="future-preset">1. プリセット登録時の表示設定選択機能</h3>
             <div class="step">
                 <strong>機能概要</strong>
                 <p>プリセット登録時に、チェックボックスで各表示モードを強制的にONにできるようになります。</p>
@@ -847,14 +892,14 @@
                 </ul>
             </div>
 
-            <h3>2. 影響範囲の調整可視化の改善</h3>
+            <h3 id="future-range">2. 影響範囲の調整可視化の改善</h3>
             <div class="step">
                 <strong>機能概要</strong>
                 <p>エフェクトの影響範囲をより視認しやすくします。</p>
                 <p>現状半透明の水色のマテリアルにしていますが、少し発光するようにし、暗い場所でも範囲の視認性を向上させます。</p>
             </div>
 
-            <h3>3. メニューUI/UXの改善</h3>
+            <h3 id="future-menu">3. メニューUI/UXの改善</h3>
             <div class="step">
                 <strong>機能概要</strong>
                 <p>より分かりやすく、使いやすいメニュー構造への改善を予定しています。</p>
@@ -866,7 +911,7 @@
                 </ul>
             </div>
 
-            <h3>4. 日本語/英語Prefabの分離と多言語対応</h3>
+            <h3 id="future-lang">4. 日本語/英語Prefabの分離と多言語対応</h3>
             <div class="step">
                 <strong>機能概要</strong>
                 <p>日本語Prefabと英語Prefabを別々に用意し、ExpressionMenuの言語を選択できるようにします。</p>
@@ -878,7 +923,7 @@
                 </ul>
             </div>
 
-            <h3>5. プリセット機能の枠増加</h3>
+            <h3 id="future-count">5. プリセット機能の枠増加</h3>
             <div class="step">
                 <strong>機能概要</strong>
                 <p>現状Presetは<strong>8個</strong>しか登録する枠がないですが、ExParamの制限がないので無限に登録可能です。</p>
