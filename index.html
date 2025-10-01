@@ -26,17 +26,16 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             overflow: hidden;
             display: flex;
+            max-height: calc(100vh - 20px);
         }
         .sidebar {
             width: 280px;
             background: #f8f9fa;
             padding: 20px;
-            position: sticky;
-            top: 0;
-            height: 100vh;
             overflow-y: auto;
             border-right: 2px solid #e9ecef;
             transition: transform 0.3s ease;
+            flex-shrink: 0;
         }
         .sidebar h2 {
             color: #667eea;
@@ -91,9 +90,11 @@
             color: #764ba2;
         }
         .sidebar-subnav a.active {
-            background: transparent;
+            background: #e9d5f5;
             color: #764ba2;
             font-weight: bold;
+            border-left: 3px solid #764ba2;
+            padding-left: 9px;
         }
         .hamburger {
             display: none;
@@ -334,14 +335,16 @@
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const sections = document.querySelectorAll('h2[id]');
+            const sections = document.querySelectorAll('h2[id], h3[id]');
             const navLinks = document.querySelectorAll('.sidebar-nav > li > a');
+            const allNavLinks = document.querySelectorAll('.sidebar-nav a');
             const subNavs = document.querySelectorAll('.sidebar-subnav');
             const mainContent = document.querySelector('.main-content');
             const hamburger = document.querySelector('.hamburger');
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.overlay');
             
+            // ハンバーガーメニューの開閉
             if (hamburger) {
                 hamburger.addEventListener('click', function() {
                     sidebar.classList.toggle('active');
@@ -349,6 +352,7 @@
                 });
             }
             
+            // オーバーレイクリックでメニューを閉じる
             if (overlay) {
                 overlay.addEventListener('click', function() {
                     sidebar.classList.remove('active');
@@ -356,7 +360,8 @@
                 });
             }
             
-            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+            // サイドバーのリンククリック時にメニューを閉じる（モバイルのみ）
+            allNavLinks.forEach(link => {
                 link.addEventListener('click', function() {
                     if (window.innerWidth <= 900) {
                         sidebar.classList.remove('active');
@@ -367,29 +372,66 @@
             
             function setActiveLink() {
                 let currentSection = '';
+                let currentMainSection = '';
                 const scrollPosition = mainContent.scrollTop;
                 
+                // 現在のセクションを検出
                 sections.forEach(section => {
                     const sectionTop = section.offsetTop - mainContent.offsetTop;
                     if (scrollPosition >= sectionTop - 100) {
                         currentSection = section.getAttribute('id');
+                        // h2要素の場合はメインセクションとして記録
+                        if (section.tagName === 'H2') {
+                            currentMainSection = currentSection;
+                        }
                     }
                 });
                 
+                // h3がアクティブな場合、その親h2を見つける
+                if (currentSection && !currentMainSection) {
+                    const currentElement = document.getElementById(currentSection);
+                    if (currentElement && currentElement.tagName === 'H3') {
+                        let prevElement = currentElement.previousElementSibling;
+                        while (prevElement) {
+                            if (prevElement.tagName === 'H2' && prevElement.id) {
+                                currentMainSection = prevElement.id;
+                                break;
+                            }
+                            prevElement = prevElement.previousElementSibling;
+                        }
+                    }
+                }
+                
+                // すべてのサブナビを非表示
                 subNavs.forEach(subnav => {
                     subnav.classList.remove('active');
                 });
                 
-                navLinks.forEach(link => {
+                // すべてのリンクの active を削除
+                allNavLinks.forEach(link => {
                     link.classList.remove('active');
+                });
+                
+                // メインナビのアクティブ状態を更新
+                navLinks.forEach(link => {
                     const href = link.getAttribute('href').substring(1);
                     
-                    if (href === currentSection) {
+                    if (href === currentMainSection) {
                         link.classList.add('active');
+                        // 対応するサブナビを表示
                         const parentLi = link.parentElement;
                         const subnav = parentLi.querySelector('.sidebar-subnav');
                         if (subnav) {
                             subnav.classList.add('active');
+                            
+                            // サブナビ内のアクティブ項目をハイライト
+                            const subLinks = subnav.querySelectorAll('a');
+                            subLinks.forEach(subLink => {
+                                const subHref = subLink.getAttribute('href').substring(1);
+                                if (subHref === currentSection) {
+                                    subLink.classList.add('active');
+                                }
+                            });
                         }
                     }
                 });
@@ -457,11 +499,11 @@
         <div class="main-content">
         <header>
             <h1>VividAvatarFX</h1>
-            <p>VRChat想定アバターギミック #VAFX</p>
+            <p>VRChat想定アバターギミック</p>
         </header>
 
         <div class="content">
-            <h3>ドキュメントの最終更新 : 2025/10/02 - 2:38</h3>
+            <h3>ドキュメントの最終更新 : 2025/10/02 - 2:46</h3>
             <h3>最新パッケージ : Ver.0.9.4</h3>
             <p>更新は　ここ　からDLできます。※テスターさん用、今だけ</p>
             <p></p>
@@ -856,8 +898,8 @@
         </div>
 
         <footer>
-            <p>&copy; 2025 ゴンリー (x2much4u) - VividAvatarFX</p>
-            <p>VRChat想定アバターギミック #VAFX</p>
+            <p>&copy; 2025 x2much4u - VividAvatarFX</p>
+            <p>VRChat Avatar Effect System</p>
             <p><a href="https://x2much4u.booth.pm/" target="_blank" style="color: #667eea; text-decoration: none;">https://x2much4u.booth.pm/</a></p>
         </footer>
         </div>
