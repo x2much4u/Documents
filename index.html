@@ -358,17 +358,16 @@
             <ul>
                 <li>Setup Toolでベイクを実行したか</li>
                 <li>表示設定（EnableVR/EnableDesktop等）が有効になっているか</li>
-                <li>Quality SettingsでAnti-Aliasingが有効か（無効だと正常に動作しません）</li>
-                <li>マテリアルが正しくシェーダー <code>x2much4u/VividAvatarFX</code> を使用しているか</li>
             </ul>
 
-            <h3>Q: パラメータが256を超えてしまう</h3>
+            <h3>Q: パラメーター数が多すぎる</h3>
             <p><strong>A:</strong> VividAvatarFXのパラメータは<strong>同期設定を取らない（networkSynced: false）</strong>ため、ExpressionParametersの容量を消費しません。実質的な使用ExParamは<strong>0です</strong>。ローカル専用パラメータとして動作するため、他のギミックと容量を競合することなく使用できます。</p>
 
             <h3>Q: プリセットが読み込まれない</h3>
             <p><strong>A:</strong> <code>Assets/x2much4u/VividAvatarFX/Preset/</code> フォルダにJSONファイルが存在するか確認してください。サブフォルダ内でも認識されます。</p>
 
             <h3>Q: 設定を元に戻したい</h3>
+            <p><strong>A:</strong> マテリアルInspector一番右上にある、「…」（実際は縦）を押し、「Reset」を行うとシェーダー側の初期値にリセットできます。</p>
             <p><strong>A:</strong> Setup Toolの<strong>「VAFXパラメーターを削除 (Remove Parameters)」</strong>ボタンで全パラメータを削除できます。</p>
 
             <h2>📄 ライセンス情報</h2>
