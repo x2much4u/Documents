@@ -344,7 +344,9 @@
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.overlay');
             
-            // ハンバーガーメニューの開閉
+            console.log('Total sections found:', sections.length);
+            sections.forEach(s => console.log(s.tagName, s.id, s.offsetTop));
+            
             if (hamburger) {
                 hamburger.addEventListener('click', function() {
                     sidebar.classList.toggle('active');
@@ -352,7 +354,6 @@
                 });
             }
             
-            // オーバーレイクリックでメニューを閉じる
             if (overlay) {
                 overlay.addEventListener('click', function() {
                     sidebar.classList.remove('active');
@@ -360,9 +361,8 @@
                 });
             }
             
-            // サイドバーのリンククリック時にメニューを閉じる（モバイルのみ）
             allNavLinks.forEach(link => {
-                link.addEventListener('click', function() {
+                link.addEventListener('click', function(e) {
                     if (window.innerWidth <= 900) {
                         sidebar.classList.remove('active');
                         overlay.classList.remove('active');
@@ -372,28 +372,24 @@
             
             function setActiveLink() {
                 const scrollPosition = mainContent.scrollTop;
-                
-                // すべてのh2とh3を配列に変換
                 const allSections = Array.from(sections);
                 
                 let currentSection = '';
                 let currentMainSection = '';
                 
-                // スクロール位置から現在のセクションを特定
                 for (let i = allSections.length - 1; i >= 0; i--) {
                     const section = allSections[i];
-                    const sectionTop = section.offsetTop - mainContent.offsetTop;
+                    const rect = section.getBoundingClientRect();
+                    const mainRect = mainContent.getBoundingClientRect();
+                    const relativeTop = rect.top - mainRect.top + scrollPosition;
                     
-                    if (scrollPosition >= sectionTop - 100) {
+                    if (scrollPosition >= relativeTop - 100) {
                         currentSection = section.getAttribute('id');
                         
-                        // h2の場合はそれがメインセクション
                         if (section.tagName === 'H2') {
                             currentMainSection = currentSection;
                             break;
-                        }
-                        // h3の場合は、その前にある最後のh2を探す
-                        else if (section.tagName === 'H3') {
+                        } else if (section.tagName === 'H3') {
                             for (let j = i - 1; j >= 0; j--) {
                                 if (allSections[j].tagName === 'H2' && allSections[j].id) {
                                     currentMainSection = allSections[j].id;
@@ -405,35 +401,33 @@
                     }
                 }
                 
-                // すべてのサブナビを非表示
+                console.log('Scroll:', scrollPosition, 'Current:', currentSection, 'Main:', currentMainSection);
+                
                 subNavs.forEach(subnav => {
                     subnav.classList.remove('active');
                 });
                 
-                // すべてのリンクの active を削除
                 allNavLinks.forEach(link => {
                     link.classList.remove('active');
                 });
                 
-                // メインナビのアクティブ状態を更新
                 navLinks.forEach(link => {
                     const href = link.getAttribute('href').substring(1);
                     
                     if (href === currentMainSection) {
                         link.classList.add('active');
                         
-                        // 対応するサブナビを表示
                         const parentLi = link.parentElement;
                         const subnav = parentLi.querySelector('.sidebar-subnav');
                         if (subnav) {
                             subnav.classList.add('active');
                             
-                            // サブナビ内のアクティブ項目をハイライト
                             const subLinks = subnav.querySelectorAll('a');
                             subLinks.forEach(subLink => {
                                 const subHref = subLink.getAttribute('href').substring(1);
                                 if (subHref === currentSection) {
                                     subLink.classList.add('active');
+                                    console.log('Activating sublink:', subHref);
                                 }
                             });
                         }
@@ -510,7 +504,7 @@
         <div class="main-content">
         <header>
             <h1>VividAvatarFX</h1>
-            <p>VRChat想定アバターギミック</p>
+            <p>VRChat想定アバターギミック #VAFX</p>
         </header>
 
         <div class="content">
@@ -773,7 +767,7 @@
                 <li>EnableSSがONなので → <strong>エフェクトが表示される</strong></li>
             </ol>
 
-            <p>つまり、FOVを変更している環境では、プレイヤー視点でプレイ中なのに「カメラで撮影中」と誤認識され、EnableSSがONのためエフェクトが表示されてしまいます。</p>
+            <p>つまり、FOVを変更している環境では、デスクトップでプレイ中なのに「カメラで撮影中」と誤認識され、EnableSSがONのためエフェクトが表示されてしまいます。</p>
 
             <p><strong>解決方法：</strong></p>
             <ul>
@@ -858,9 +852,6 @@
             VividAvatarFX</br>
             Copyright (c) 2025 ゴンリー (x2much4u)</br>
             VN3 License Ver.2.0.1</br>
-            
-            権利者：ゴンリー</br>
-            ウェブサイト：https://x2much4u.booth.pm/
             </div>
 
             <h3>使用している第三者コード</h3>
@@ -872,8 +863,8 @@
 
         </div>
 
-        <div class="content future-section" id="future">
-            <h2>予定されている修正・追加機能</h2>
+        <div class="content future-section">
+            <h2 id="future">予定されている修正・追加機能</h2>
             
             <div class="info">
                 <strong>開発中の機能</strong>
@@ -942,8 +933,8 @@
         </div>
 
         <footer>
-            <p>&copy; 2025 x2much4u - VividAvatarFX</p>
-            <p>VRChat Avatar Effect System</p>
+            <p>&copy; 2025 ゴンリー (x2much4u) - VividAvatarFX</p>
+            <p>VRChat想定アバターギミック #VAFX</p>
             <p><a href="https://x2much4u.booth.pm/" target="_blank" style="color: #667eea; text-decoration: none;">https://x2much4u.booth.pm/</a></p>
         </footer>
         </div>
