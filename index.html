@@ -243,6 +243,19 @@
                 <p>これでVividAvatarFXの導入は完了です。。</p>
             </div>
 
+            <div class="info">
+                <strong>なぜベイクが必要なのか？</strong>
+                <p>VividAvatarFXは、MA（Modular Avatar）Parametersを使用していません。そのため、<strong>現在のマテリアルに設定されている値を直接アバターのExpressionParametersに焼き込む</strong>必要があります。</p>
+                <p>ベイク処理で行われること：</p>
+                <ul>
+                    <li>マテリアルの全プロパティ値をRadial Puppet用に0-1の範囲に正規化</li>
+                    <li>正規化された値をExpressionParametersのDefault値として設定</li>
+                    <li>VRCAvatarParameterDriverに初期値を記録</li>
+                    <li>アバターのExpressionParametersにVAFXパラメーターをマージ</li>
+                </ul>
+                <p>この仕組みにより、VRC内で値を変更可能になっています。</p>
+            </div>
+
             <div class="warning">
                 <strong>重要</strong>
                 <p><strong>VAFXマテリアルの値</strong>を変更したら、必ず再度ベイクしてください。ベイクしないとVRChat内で変更が反映されません。</p>
