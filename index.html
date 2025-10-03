@@ -1,3 +1,4 @@
+<artifact identifier="vafx-doc-v0-10-0" type="text/html" title="VividAvatarFX ドキュメント Ver.0.10.0">
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -291,157 +292,156 @@
             color: #e83e8c;
             border-bottom-color: #e83e8c;
         }
-        
-        @media (max-width: 900px) {
-            .hamburger {
-                display: block;
-            }
-            .sidebar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100vh;
-                transform: translateX(-100%);
-                z-index: 1000;
-                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            }
-            .sidebar.active {
-                transform: translateX(0);
-            }
-            .container {
-                flex-direction: column;
-            }
-            .main-content {
-                height: auto;
-                width: 100%;
-            }
-            header h1 {
-                font-size: 1.5em;
-            }
-            h2 {
-                font-size: 1.3em;
-            }
-            h3 {
-                font-size: 1.1em;
-            }
-            .content {
-                padding: 15px;
-                padding-top: 60px;
-            }
-            .feature-grid {
-                grid-template-columns: 1fr;
-            }
+    @media (max-width: 900px) {
+        .hamburger {
+            display: block;
         }
-    </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const sections = document.querySelectorAll('h2[id], h3[id]');
-            const navLinks = document.querySelectorAll('.sidebar-nav > li > a');
-            const allNavLinks = document.querySelectorAll('.sidebar-nav a');
-            const subNavs = document.querySelectorAll('.sidebar-subnav');
-            const mainContent = document.querySelector('.main-content');
-            const hamburger = document.querySelector('.hamburger');
-            const sidebar = document.querySelector('.sidebar');
-            const overlay = document.querySelector('.overlay');
-            
-            console.log('Total sections found:', sections.length);
-            sections.forEach(s => console.log(s.tagName, s.id, s.offsetTop));
-            
-            if (hamburger) {
-                hamburger.addEventListener('click', function() {
-                    sidebar.classList.toggle('active');
-                    overlay.classList.toggle('active');
-                });
-            }
-            
-            if (overlay) {
-                overlay.addEventListener('click', function() {
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            transform: translateX(-100%);
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar.active {
+            transform: translateX(0);
+        }
+        .container {
+            flex-direction: column;
+        }
+        .main-content {
+            height: auto;
+            width: 100%;
+        }
+        header h1 {
+            font-size: 1.5em;
+        }
+        h2 {
+            font-size: 1.3em;
+        }
+        h3 {
+            font-size: 1.1em;
+        }
+        .content {
+            padding: 15px;
+            padding-top: 60px;
+        }
+        .feature-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sections = document.querySelectorAll('h2[id], h3[id]');
+        const navLinks = document.querySelectorAll('.sidebar-nav > li > a');
+        const allNavLinks = document.querySelectorAll('.sidebar-nav a');
+        const subNavs = document.querySelectorAll('.sidebar-subnav');
+        const mainContent = document.querySelector('.main-content');
+        const hamburger = document.querySelector('.hamburger');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.querySelector('.overlay');
+        
+        console.log('Total sections found:', sections.length);
+        sections.forEach(s => console.log(s.tagName, s.id, s.offsetTop));
+        
+        if (hamburger) {
+            hamburger.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+            });
+        }
+        
+        if (overlay) {
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+        }
+        
+        allNavLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (window.innerWidth <= 900) {
                     sidebar.classList.remove('active');
                     overlay.classList.remove('active');
-                });
-            }
-            
-            allNavLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    if (window.innerWidth <= 900) {
-                        sidebar.classList.remove('active');
-                        overlay.classList.remove('active');
-                    }
-                });
+                }
             });
+        });
+        
+        function setActiveLink() {
+            const scrollPosition = mainContent.scrollTop;
+            const allSections = Array.from(sections);
             
-            function setActiveLink() {
-                const scrollPosition = mainContent.scrollTop;
-                const allSections = Array.from(sections);
+            let currentSection = '';
+            let currentMainSection = '';
+            
+            for (let i = allSections.length - 1; i >= 0; i--) {
+                const section = allSections[i];
+                const rect = section.getBoundingClientRect();
+                const mainRect = mainContent.getBoundingClientRect();
+                const relativeTop = rect.top - mainRect.top + scrollPosition;
                 
-                let currentSection = '';
-                let currentMainSection = '';
-                
-                for (let i = allSections.length - 1; i >= 0; i--) {
-                    const section = allSections[i];
-                    const rect = section.getBoundingClientRect();
-                    const mainRect = mainContent.getBoundingClientRect();
-                    const relativeTop = rect.top - mainRect.top + scrollPosition;
+                if (scrollPosition >= relativeTop - 100) {
+                    currentSection = section.getAttribute('id');
                     
-                    if (scrollPosition >= relativeTop - 100) {
-                        currentSection = section.getAttribute('id');
-                        
-                        if (section.tagName === 'H2') {
-                            currentMainSection = currentSection;
-                            break;
-                        } else if (section.tagName === 'H3') {
-                            for (let j = i - 1; j >= 0; j--) {
-                                if (allSections[j].tagName === 'H2' && allSections[j].id) {
-                                    currentMainSection = allSections[j].id;
-                                    break;
-                                }
+                    if (section.tagName === 'H2') {
+                        currentMainSection = currentSection;
+                        break;
+                    } else if (section.tagName === 'H3') {
+                        for (let j = i - 1; j >= 0; j--) {
+                            if (allSections[j].tagName === 'H2' && allSections[j].id) {
+                                currentMainSection = allSections[j].id;
+                                break;
                             }
-                            break;
                         }
+                        break;
                     }
                 }
+            }
+            
+            console.log('Scroll:', scrollPosition, 'Current:', currentSection, 'Main:', currentMainSection);
+            
+            subNavs.forEach(subnav => {
+                subnav.classList.remove('active');
+            });
+            
+            allNavLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href').substring(1);
                 
-                console.log('Scroll:', scrollPosition, 'Current:', currentSection, 'Main:', currentMainSection);
-                
-                subNavs.forEach(subnav => {
-                    subnav.classList.remove('active');
-                });
-                
-                allNavLinks.forEach(link => {
-                    link.classList.remove('active');
-                });
-                
-                navLinks.forEach(link => {
-                    const href = link.getAttribute('href').substring(1);
+                if (href === currentMainSection) {
+                    link.classList.add('active');
                     
-                    if (href === currentMainSection) {
-                        link.classList.add('active');
+                    const parentLi = link.parentElement;
+                    const subnav = parentLi.querySelector('.sidebar-subnav');
+                    if (subnav) {
+                        subnav.classList.add('active');
                         
-                        const parentLi = link.parentElement;
-                        const subnav = parentLi.querySelector('.sidebar-subnav');
-                        if (subnav) {
-                            subnav.classList.add('active');
-                            
-                            const subLinks = subnav.querySelectorAll('a');
-                            subLinks.forEach(subLink => {
-                                const subHref = subLink.getAttribute('href').substring(1);
-                                if (subHref === currentSection) {
-                                    subLink.classList.add('active');
-                                    console.log('Activating sublink:', subHref);
-                                }
-                            });
-                        }
+                        const subLinks = subnav.querySelectorAll('a');
+                        subLinks.forEach(subLink => {
+                            const subHref = subLink.getAttribute('href').substring(1);
+                            if (subHref === currentSection) {
+                                subLink.classList.add('active');
+                                console.log('Activating sublink:', subHref);
+                            }
+                        });
                     }
-                });
-            }
-            
-            if (mainContent) {
-                mainContent.addEventListener('scroll', setActiveLink);
-            }
-            
-            setActiveLink();
-        });
-    </script>
+                }
+            });
+        }
+        
+        if (mainContent) {
+            mainContent.addEventListener('scroll', setActiveLink);
+        }
+        
+        setActiveLink();
+    });
+</script>
 </head>
 <body>
     <button class="hamburger" aria-label="メニューを開く">
@@ -450,255 +450,256 @@
         <span></span>
     </button>
     <div class="overlay"></div>
+<div class="container">
+    <aside class="sidebar">
+        <h2>目次</h2>
+        <ul class="sidebar-nav">
+            <li>
+                <a href="#quickstart">クイックスタート</a>
+            </li>
+            <li>
+                <a href="#overview">概要</a>
+                <ul class="sidebar-subnav">
+                    <li><a href="#overview-features">主な機能</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#adjustment">エフェクトの調整方法</a>
+                <ul class="sidebar-subnav">
+                    <li><a href="#adjustment-editor">マテリアルエディタから調整</a></li>
+                    <li><a href="#adjustment-params">主要なパラメータ</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#preset">プリセット機能</a>
+                <ul class="sidebar-subnav">
+                    <li><a href="#preset-register">プリセットの登録</a></li>
+                    <li><a href="#preset-load">プリセットの読み込み</a></li>
+                    <li><a href="#preset-export">エクスポート機能</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#technical">技術仕様</a>
+            </li>
+            <li>
+                <a href="#faq">よくある質問</a>
+            </li>
+            <li>
+                <a href="#license">ライセンス情報</a>
+            </li>
+            <li>
+                <a href="#future">予定されている修正・追加機能</a>
+                <ul class="sidebar-subnav">
+                    <li><a href="#future-range">影響範囲の調整可視化の改善</a></li>
+                    <li><a href="#future-menu">メニューUI/UXの改善</a></li>
+                    <li><a href="#future-lang">日本語/英語Prefabの分離</a></li>
+                </ul>
+            </li>
+        </ul>
+    </aside>
     
-    <div class="container">
-        <aside class="sidebar">
-            <h2>目次</h2>
-            <ul class="sidebar-nav">
-                <li>
-                    <a href="#quickstart">クイックスタート</a>
-                </li>
-                <li>
-                    <a href="#overview">概要</a>
-                    <ul class="sidebar-subnav">
-                        <li><a href="#overview-features">主な機能</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#adjustment">エフェクトの調整方法</a>
-                    <ul class="sidebar-subnav">
-                        <li><a href="#adjustment-editor">マテリアルエディタから調整</a></li>
-                        <li><a href="#adjustment-params">主要なパラメータ</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#preset">プリセット機能</a>
-                    <ul class="sidebar-subnav">
-                        <li><a href="#preset-register">プリセットの登録</a></li>
-                        <li><a href="#preset-load">プリセットの読み込み</a></li>
-                        <li><a href="#preset-export">エクスポート機能</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#technical">技術仕様</a>
-                </li>
-                <li>
-                    <a href="#faq">よくある質問</a>
-                </li>
-                <li>
-                    <a href="#license">ライセンス情報</a>
-                </li>
-                <li>
-                    <a href="#future">予定されている修正・追加機能</a>
-                    <ul class="sidebar-subnav">
-                        <li><a href="#future-preset">プリセット登録時の表示設定選択機能</a></li>
-                        <li><a href="#future-range">影響範囲の調整可視化の改善</a></li>
-                        <li><a href="#future-menu">メニューUI/UXの改善</a></li>
-                        <li><a href="#future-lang">日本語/英語Prefabの分離</a></li>
-                        <li><a href="#future-count">プリセット機能の枠増加</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </aside>
+    <div class="main-content">
+    <header>
+        <h1>VividAvatarFX</h1>
+        <p>VRChat想定アバターギミック #VAFX</p>
+    </header>
+
+    <div class="content">
+        <h3>ドキュメントの最終更新 : 2025/10/03 - 6:23</h3>
+        <h3>最新パッケージ : Ver.0.10.0</h3>
+        <p>更新は　<a href="https://drive.google.com/drive/folders/1N19suPlQQrEgIFD3m6_2mE1zWXPTNfZb?usp=sharing" target="_blank" style="color: #667eea; text-decoration: none;">ここ</a>　からDLできます。※テスターさん用、今だけ</p>
+        <p></p>
+
+        <h2 id="changelog">Changelog - Ver.0.10.0</h2>
         
-        <div class="main-content">
-        <header>
-            <h1>VividAvatarFX</h1>
-            <p>VRChat想定アバターギミック #VAFX</p>
-        </header>
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>VR,Desktop,Camera,Otherが正常に動作するように（FOV、解像度の依存がなくなった）</strong>
+            <p>VRChatが提供するグローバル変数を使用することで、より正確な判定が可能になりました。</p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>プリセット登録時にVR,Desktop,Camera,Otherを選択可能、マテリアルの値よりこちらを優先するように</strong>
+            <p>プリセットごとに表示設定を個別に指定できるようになりました。例えば「VR専用プリセット」「カメラ専用プリセット」などが作成できます。</p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Presetの保存スロットを8 -> 22に拡張</strong>
+            <p>より多くのプリセットを登録できるようになりました。メニューも3つに分割され、整理されています。</p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>GUI調整</strong>
+            <p>Setup ToolとPreset Makerのインターフェースが改善されました。</p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">5</span>
+            <strong>影響範囲確認用マテリアルの調整</strong>
+            <p>影響範囲の可視化がより見やすくなりました。</p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">6</span>
+            <strong>内部処理の整備性向上</strong>
+            <p>内部的な処理なのでユーザーの方には特に変更ないはずですが、プリセットやセットアップで不具合が出たら遠慮なく教えてください。</p>
+        </div>
+        
+        <h2 id="quickstart">クイックスタート</h2>
+        
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Prefabの配置</strong>
+            <p><code>Assets/x2much4u/VividAvatarFX/Prefab/VividAvatarFX</code> をアバターの直下に配置</p>
+        </div>
 
-        <div class="content">
-            <h3>ドキュメントの最終更新 : 2025/10/03 - 6:23</h3>
-            <h3>最新パッケージ : Ver.0.10.0</h3>
-            <p>更新は　<a href="https://drive.google.com/drive/folders/1N19suPlQQrEgIFD3m6_2mE1zWXPTNfZb?usp=sharing" target="_blank" style="color: #667eea; text-decoration: none;">ここ</a>　からDLできます。※テスターさん用、今だけ</p>
-            <p></p>
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Effectオブジェクトの選択</strong>
+            <p>Prefab内の <code>VividAvatarFX/Effect</code> を選択してInspectorを表示</p>
+        </div>
 
-            <h2 id="changelog">Changelog - Ver.0.10.0</h2>
-            
-            <div class="step">
-                <span class="step-number">1</span>
-                <strong>VR,Desktop,Camera,Otherが正常に動作するように（FOV、解像度の依存がなくなった）</strong>
-            </div>
-            
-            <div class="step">
-                <span class="step-number">2</span>
-                <strong>プリセット登録時にVR,Desktop,Camera,Otherを選択可能、マテリアルの値よりこちらを優先するように</strong>
-            </div>
-            
-            <div class="step">
-                <span class="step-number">3</span>
-                <strong>Presetの保存スロットを8 -> 22に拡張</strong>
-                <p>無限に増やせますが一旦これで様子見、意見ください。</p>
-            </div>
-            
-            <div class="step">
-                <span class="step-number">4</span>
-                <strong>GUI調整</strong>
-            </div>
-            
-            <div class="step">
-                <span class="step-number">5</span>
-                <strong>影響範囲確認用マテリアルの調整</strong>
-            </div>
-            
-            <div class="step">
-                <span class="step-number">6</span>
-                <strong>他各ファイルの参照先の作成、整備性向上</strong>
-                <p>内部的な処理なのでユーザーの方には特に変更ないはずですが、プリセットやセットアップで不具合でたら遠慮なく教えてください。。</p>
-            </div>
-            
-            <h2 id="quickstart">クイックスタート</h2>
-            
-            <div class="step">
-                <span class="step-number">1</span>
-                <strong>Prefabの配置</strong>
-                <p><code>Assets/x2much4u/VividAvatarFX/Prefab/VividAvatarFX</code> をアバターの直下に配置</p>
-            </div>
-
-            <div class="step">
-                <span class="step-number">2</span>
-                <strong>Effectオブジェクトの選択</strong>
-                <p>Prefab内の <code>VividAvatarFX/Effect</code> を選択してInspectorを表示</p>
-            </div>
-
-            <div class="step">
-                <span class="step-number">3</span>
-                <strong>Setup Toolの起動</strong>
-                <p>以下のいずれかの方法でSetup Toolを開きます：</p>
-                <ul>
-                    <li><strong>方法1:</strong> Inspector上部にある緑色の「設定変更後は必ずベイクしてください。」ボタンをクリック</li>
-                    <li><strong>方法2:</strong> Unityメニューバーから<br><code>Tools → x2much4u → VividAvatarFX → VAFX Setup Tool</code> を選択</li>
-                </ul>
-                <p>Setup Toolウィンドウが開きます。</p>
-            </div>
-
-            <div class="step">
-                <span class="step-number">4</span>
-                <strong>アバターの設定</strong>
-                <p>Setup Tool内の「ターゲットアバター」欄にHierarchyから導入したいアバターをドラッグ&ドロップ</p>
-            </div>
-
-            <div class="step">
-                <span class="step-number">5</span>
-                <strong>ベイク実行</strong>
-                <p>緑色の「マテリアル値を焼き込み & アバターに統合 (Bake & Merge)」ボタンをクリック</p>
-            </div>
-
-            <div class="success">
-                <strong>セットアップ完了</strong>
-                <p>これでVividAvatarFXの導入は完了です。。</p>
-            </div>
-
-            <div class="info">
-                <strong>なぜベイクが必要なのか？</strong>
-                <p>VividAvatarFXは、MA（Modular Avatar）Parametersを使用していません。そのため、<strong>現在のマテリアルに設定されている値を直接アバターのExpressionParametersに焼き込む</strong>必要があります。</p>
-                <p>ベイク処理で行われること：</p>
-                <ul>
-                    <li>マテリアルの全プロパティ値をRadial Puppet用に0-1の範囲に正規化</li>
-                    <li>正規化された値をExpressionParametersのDefault値として設定</li>
-                    <li>VRCAvatarParameterDriverに初期値を記録</li>
-                    <li>アバターのExpressionParametersにVAFXパラメーターをマージ</li>
-                </ul>
-                <p>この仕組みにより、VRC内で値を変更可能になっています。</p>
-            </div>
-
-            <div class="warning">
-                <strong>重要</strong>
-                <p><strong>VAFXマテリアルの値</strong>を変更したら、必ず再度ベイクを行ってください。VRChat内で変更が反映されません。</p>
-                <p><strong>※服や髪のマテリアルなど、VAFX以外のマテリアルの値を変更した場合は再度ベイクする必要はありません。</strong></p>
-            </div>
-
-            <h2>目次</h2>
-            <div class="toc">
-                <ul>
-                    <li><a href="#overview">概要</a></li>
-                    <li><a href="#adjustment">エフェクトの調整方法</a></li>
-                    <li><a href="#preset">プリセット機能</a></li>
-                    <li><a href="#technical">技術仕様</a></li>
-                    <li><a href="#faq">よくある質問</a></li>
-                    <li><a href="#license">ライセンス情報</a></li>
-                    <li><a href="#future">予定されている修正・追加機能</a></li>
-                </ul>
-            </div>
-
-            <h2 id="overview">概要</h2>
-            <p>VividAvatarFXは、VRChatアバターの視界に様々な視覚エフェクトを追加できるアバターギミックです。カラーグレーディング、グリッチエフェクト、レンズ歪み、ビネット、ブルームなど、多彩なエフェクトをVRC内で制御できます。</p>
-
-            <h3>主な機能</h3>
-            <div class="feature-grid" id="overview-features">
-                <div class="feature-card">
-                    <h4>カラーグレーディング</h4>
-                    <p>明度、彩度、コントラスト、色相シフト、ガンマ調整</p>
-                </div>
-                <div class="feature-card">
-                    <h4>グリッチエフェクト</h4>
-                    <p>ラインシフト、カラー分離、ブロックノイズ</p>
-                </div>
-                <div class="feature-card">
-                    <h4>レンズエフェクト</h4>
-                    <p>レンズ歪み、色収差、ビネット</p>
-                </div>
-                <div class="feature-card">
-                    <h4>ポストプロセス</h4>
-                    <p>ブルーム、ノイズ、ディザリング、ポスタライズ</p>
-                </div>
-            </div>
-
-            <h2 id="adjustment">エフェクトの調整方法</h2>
-
-            <h3 id="adjustment-editor">マテリアルエディタから調整</h3>
-            <p><code>Assets/x2much4u/VividAvatarFX/Material/VividAvatarFX.mat</code> を選択すると、Inspectorにカスタムエディタが表示されます。</p>
-
-            <h3 id="adjustment-params">主要なパラメータ</h3>
-            
-            <h4>基本設定</h4>
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Setup Toolの起動</strong>
+            <p>以下のいずれかの方法でSetup Toolを開きます：</p>
             <ul>
-                <li><strong>メインカラー (HSV+Alpha):</strong> エフェクト全体の基本色</li>
-                <li><strong>全体の透明度:</strong> エフェクトの不透明度</li>
-                <li><strong>表示設定:</strong> VR/デスクトップ/カメラでの表示切り替え</li>
+                <li><strong>方法1:</strong> Inspector上部にある緑色の「設定変更後は必ずベイクしてください。」ボタンをクリック</li>
+                <li><strong>方法2:</strong> Unityメニューバーから<br><code>Tools → x2much4u → VividAvatarFX → VAFX Setup Tool</code> を選択</li>
             </ul>
+            <p>Setup Toolウィンドウが開きます。</p>
+        </div>
 
-            <h4>カラーグレーディング</h4>
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>アバターの設定</strong>
+            <p>Setup Tool内の「ターゲットアバター」欄にHierarchyから導入したいアバターをドラッグ&ドロップ</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">5</span>
+            <strong>ベイク実行</strong>
+            <p>緑色の「マテリアル値を焼き込み & アバターに統合 (Bake & Merge)」ボタンをクリック</p>
+        </div>
+
+        <div class="success">
+            <strong>セットアップ完了</strong>
+            <p>これでVividAvatarFXの導入は完了です。</p>
+        </div>
+
+        <div class="info">
+            <strong>なぜベイクが必要なのか？</strong>
+            <p>VividAvatarFXは、MA（Modular Avatar）Parametersを使用していません。そのため、<strong>現在のマテリアルに設定されている値を直接アバターのExpressionParametersに焼き込む</strong>必要があります。</p>
+            <p>ベイク処理で行われること：</p>
             <ul>
-                <li><strong>明るさ/コントラスト/彩度:</strong> 基本的な色調整</li>
-                <li><strong>色相シフト:</strong> 色の回転</li>
-                <li><strong>ガンマ:</strong> 中間調の調整</li>
-                <li><strong>トーンカーブ:</strong> RGB各チャンネルの詳細調整</li>
-                <li><strong>Lift/Gamma/Gain:</strong> 映画のような色補正（シャドウ/ミッドトーン/ハイライト）</li>
+                <li>マテリアルの全プロパティ値をRadial Puppet用に0-1の範囲に正規化</li>
+                <li>正規化された値をExpressionParametersのDefault値として設定</li>
+                <li>VRCAvatarParameterDriverに初期値を記録</li>
+                <li>アバターのExpressionParametersにVAFXパラメーターをマージ</li>
             </ul>
+            <p>この仕組みにより、VRC内で値を変更可能になっています。</p>
+        </div>
 
-            <h4>エフェクト</h4>
+        <div class="warning">
+            <strong>重要</strong>
+            <p><strong>VAFXマテリアルの値</strong>を変更したら、必ず再度ベイクを行ってください。VRChat内で変更が反映されません。</p>
+            <p><strong>※服や髪のマテリアルなど、VAFX以外のマテリアルの値を変更した場合は再度ベイクする必要はありません。</strong></p>
+        </div>
+
+        <h2>目次</h2>
+        <div class="toc">
             <ul>
-                <li><strong>ビネット:</strong> 画面端の暗化効果</li>
-                <li><strong>シネマティックライン:</strong> 映画のような画面端の黒帯</li>
-                <li><strong>ネオンエッジ:</strong> エッジ検出による発光</li>
-                <li><strong>ノイズ/グレイン:</strong> フィルムグレイン効果</li>
-                <li><strong>ブルーム:</strong> 明るい部分の発光</li>
-                <li><strong>色収差:</strong> レンズの色ずれ</li>
-                <li><strong>レンズ歪み:</strong> 魚眼効果、バレル/ピンクッション歪み</li>
-                <li><strong>グリッチ:</strong> デジタルノイズ効果</li>
+                <li><a href="#overview">概要</a></li>
+                <li><a href="#adjustment">エフェクトの調整方法</a></li>
+                <li><a href="#preset">プリセット機能</a></li>
+                <li><a href="#technical">技術仕様</a></li>
+                <li><a href="#faq">よくある質問</a></li>
+                <li><a href="#license">ライセンス情報</a></li>
+                <li><a href="#future">予定されている修正・追加機能</a></li>
             </ul>
+        </div>
 
-            <h2 id="preset">プリセット機能</h2>
+        <h2 id="overview">概要</h2>
+        <p>VividAvatarFXは、VRChatアバターの視界に様々な視覚エフェクトを追加できるアバターギミックです。カラーグレーディング、グリッチエフェクト、レンズ歪み、ビネット、ブルームなど、多彩なエフェクトをVRC内で制御できます。</p>
 
-            <h3 id="preset-register">プリセットの登録</h3>
-            <p>現在のマテリアル設定をプリセットとして保存できます。</p>
+        <h3 id="overview-features">主な機能</h3>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h4>カラーグレーディング</h4>
+                <p>明度、彩度、コントラスト、色相シフト、ガンマ調整</p>
+            </div>
+            <div class="feature-card">
+                <h4>グリッチエフェクト</h4>
+                <p>ラインシフト、カラー分離、ブロックノイズ</p>
+            </div>
+            <div class="feature-card">
+                <h4>レンズエフェクト</h4>
+                <p>レンズ歪み、色収差、ビネット</p>
+            </div>
+            <div class="feature-card">
+                <h4>ポストプロセス</h4>
+                <p>ブルーム、ノイズ、ディザリング、ポスタライズ</p>
+            </div>
+        </div>
 
-            <div class="step">
-                <span class="step-number">1</span>
-                <strong>Preset Makerを起動</strong>
-                <p>以下のいずれかの方法でPreset Makerを開きます：</p>
-                <ul>
-                    <li><strong>方法1:</strong> マテリアルInspectorの「プリセット登録はこちら」ボタンをクリック</li>
-                    <li><strong>方法2:</strong> Unityメニューバーから<br><code>Tools → x2much4u → VividAvatarFX → VAFX Preset Maker</code> を選択</li>
-                </ul>
-                <p>Preset Makerウィンドウが開きます。</p>
+        <h2 id="adjustment">エフェクトの調整方法</h2>
+
+        <h3 id="adjustment-editor">マテリアルエディタから調整</h3>
+        <p><code>Assets/x2much4u/VividAvatarFX/Material/VividAvatarFX.mat</code> を選択すると、Inspectorにカスタムエディタが表示されます。</p>
+
+        <h3 id="adjustment-params">主要なパラメータ</h3>
+        
+        <h4>基本設定</h4>
+        <ul>
+            <li><strong>メインカラー (HSV+Alpha):</strong> エフェクト全体の基本色</li>
+            <li><strong>全体の透明度:</strong> エフェクトの不透明度</li>
+            <li><strong>表示設定:</strong> VR/デスクトップ/カメラ/その他での表示切り替え</li>
+        </ul>
+
+        <h4>カラーグレーディング</h4>
+        <ul>
+            <li><strong>明るさ/コントラスト/彩度:</strong> 基本的な色調整</li>
+            <li><strong>色相シフト:</strong> 色の回転</li>
+            <li><strong>ガンマ:</strong> 中間調の調整</li>
+            <li><strong>トーンカーブ:</strong> RGB各チャンネルの詳細調整</li>
+            <li><strong>Lift/Gamma/Gain:</strong> 映画のような色補正（シャドウ/ミッドトーン/ハイライト）</li>
+        </ul>
+
+        <h4>エフェクト</h4>
+        <ul>
+            <li><strong>ビネット:</strong> 画面端の暗化効果</li>
+            <li><strong>シネマティックライン:</strong> 映画のような画面端の黒帯</li>
+            <li><strong>ネオンエッジ:</strong> エッジ検出による発光</li>
+            <li><strong>ノイズ/グレイン:</strong> フィルムグレイン効果</li>
+            <li><strong>ブルーム:</strong> 明るい部分の発光</li>
+            <li><strong>色収差:</strong> レンズの色ずれ</li>
+            <li><strong>レンズ歪み:</strong> 魚眼効果、バレル/ピンクッション歪み</li>
+            <li><strong>グリッチ:</strong> デジタルノイズ効果</li>
+        </ul>
+
+        <h2 id="preset">プリセット機能</h2>
+
+        <h3 id="preset-register">プリセットの登録</h3>
+        <p>現在のマテリアル設定をプリセットとして保存できます。</p>
+
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Preset Makerを起動</strong>
+            <p>以下のいずれかの方法でPreset Makerを開きます：</p>
+            <ul>
+                <li><strong>方法1:</strong> マテリアルInspectorの「プリセット登録はこちら」ボタンをクリック</li>
+                <li><strong>方法2:</strong> Unityメニューバーから<br><code>Tools → x2much4u → VividAvatarFX → VAFX Preset Maker</code> を選択</li>
+            </ul>
+            <p>PresetMakerウィンドウが開きます。</p>
             </div>
 
             <div class="step">
                 <span class="step-number">2</span>
                 <strong>プリセットスロット選択</strong>
-                <p>Preset01〜Preset08のいずれかを選択します。</p>
+                <p>Preset01〜Preset22のいずれかを選択します。</p>
             </div>
 
             <div class="step">
@@ -709,6 +710,19 @@
 
             <div class="step">
                 <span class="step-number">4</span>
+                <strong>表示設定の選択（Ver.0.10.0の新機能）</strong>
+                <p>プリセットごとに表示設定を個別に指定できます：</p>
+                <ul>
+                    <li><strong>Enable VR:</strong> VR視点で表示</li>
+                    <li><strong>Enable Desktop:</strong> デスクトップ視点で表示</li>
+                    <li><strong>Enable SS:</strong> カメラ撮影時に表示</li>
+                    <li><strong>Enable Other:</strong> その他の場合に表示</li>
+                </ul>
+                <p>これらのチェックボックスで選択した設定は、マテリアルの値よりも優先されます。例えば「VR専用プリセット」や「カメラ専用プリセット」を作成できます。</p>
+            </div>
+
+            <div class="step">
+                <span class="step-number">5</span>
                 <strong>ベイク実行</strong>
                 <p>緑色の「プリセット [名前] をベイク (Bake Preset)」ボタンをクリックします。</p>
             </div>
@@ -723,7 +737,7 @@
 
             <div class="warning">
                 <strong>注意</strong>
-                <p>プリセットを適用しただけではVRChat内では変更されません。</br>適用後、必ずSetup ToolもしくはPreset Makerで保存してください。</p>
+                <p>プリセットを適用しただけではVRChat内では変更されません。<br>適用後、必ずSetup ToolもしくはPreset Makerで保存してください。</p>
             </div>
 
             <h3 id="preset-export">エクスポート機能</h3>
@@ -744,77 +758,82 @@
             <p>VRChatのRadial Puppetで使用するため、全てのパラメーターは0〜1の範囲に正規化されます。</p>
             
             <div class="code-block">
-                例: ToneCurveRedScale (0-10) → 正規化 (0-1)</br>
-                正規化値 = 元の値 / 10.0</br>
-                例: LensDistortionBarrel (-1 to 1) → 正規化 (0-1)</br>
+                例: ToneCurveRedScale (0-10) → 正規化 (0-1)<br>
+                正規化値 = 元の値 / 10.0<br>
+                例: LensDistortionBarrel (-1 to 1) → 正規化 (0-1)<br>
                 正規化値 = (元の値 + 1.0) / 2.0
             </div>
 
             <h2 id="faq">よくある質問</h2>
 
-            <h3>Q: デスクトップなのに「その他」でしか表示されない / デスクトップでONにならない</h3>
-            <p><strong>A:</strong> VividAvatarFXのデスクトップ判定は非常に厳密な条件で行われます:</p>
+            <h3>Q: Ver.0.10.0で何が変わったの？表示設定の動作について</h3>
+            <p><strong>A:</strong> Ver.0.10.0では、EnableDesktop、EnableVR、EnableSS、EnableOtherの判定ロジックが大幅に改善されました。</p>
+
+            <h4>【Ver.0.9.4以前の問題点】</h4>
             <ul>
-                <li>視野角（FOV）が60°付近（±0.01°以内）</li>
-                <li>カメラがほぼ水平（わずかな傾きも検出）</li>
+                <li><strong>デスクトップ判定:</strong> FOV（視野角）が60°かどうかを厳密にチェックしていたため、FOVを少しでも変更していると判定に失敗していました</li>
+                <li><strong>カメラ判定:</strong> 解像度（1920x1080、1280x720、3840x2160）だけで判定していたため、デスクトップのフルスクリーンでも誤ってカメラと判定されることがありました</li>
+                <li><strong>その他の判定:</strong> 上記のどれにも該当しない場合に「その他」として扱われていました</li>
             </ul>
-            <p>以下の場合、判定が失敗し「その他」として扱われます:</p>
+
+            <h4>【Ver.0.10.0での改善点】</h4>
+            <p>VRChatが提供する<strong>グローバル変数</strong>を使用することで、より正確な判定が可能になりました：</p>
             <ul>
-                <li>VRChatやUnityの設定でFOVが少しでも変更されている</li>
+                <li><strong>_VRChatCameraMode:</strong> VRChatのカメラモードを直接取得できるようになりました</li>
+                <li><strong>_VRChatMirrorMode:</strong> ミラー内かどうかを正確に判定できるようになりました</li>
+                <li><strong>FOV依存の解消:</strong> FOVを変更していてもデスクトップ判定が正しく動作するようになりました</li>
+                <li><strong>解像度依存の解消:</strong> フルスクリーンでも誤ってカメラと判定されることがなくなりました</li>
+            </ul>
+
+            <div class="info">
+                <strong>判定の優先順位（Ver.0.10.0）</strong>
+                <ol>
+                    <li><strong>EnableOtherがON:</strong> すべての状況で表示（Unity Editorテスト用）</li>
+                    <li><strong>オルソグラフィックカメラ or ミラー内:</strong> 表示しない</li>
+                    <li><strong>パノラマモード:</strong> 表示しない</li>
+                    <li><strong>VRChatカメラモード:</strong> EnableSSの設定に従う</li>
+                    <li><strong>VR視点:</strong> EnableVRの設定に従う</li>
+                    <li><strong>デスクトップ視点:</strong> EnableDesktopの設定に従う</li>
+                </ol>
+            </div>
+
+            <h3>Q: デスクトップなのに「その他」でしか表示されない / デスクトップでONにならない</h3>
+            <p><strong>A:</strong> Ver.0.10.0でカメラ判定ロジックが改善されましたが、それでも判定が失敗する場合があります：</p>
+            <ul>
                 <li>カメラを傾けるギミックや他の視界エフェクトを使用している</li>
-                <li>わずかでもカメラが傾いている（数値的にほぼ検出不可能なレベル）</li>
+                <li>他のシェーダーとの競合</li>
+                <li>特殊なカメラ設定を使用している</li>
             </ul>
             <p><strong>解決方法:</strong></p>
             <ul>
                 <li><strong>推奨：「EnableOther」をONにする</strong>（最も確実で簡単）</li>
-                <li>VRChatのカメラ設定をデフォルトに戻す</li>
                 <li>カメラを傾けるギミックやエフェクトを無効化する</li>
+                <li>他の視界エフェクトとの併用を見直す</li>
             </ul>
-            <p>デスクトップ判定は非常に厳密なため、FOVを変更している場合は「EnableOther」を使用してください。</p>
-            <div class="info">
-                <strong>技術的な詳細</strong>
-                <p>シェーダー内部では、Y軸のX方向オフセット（カメラの向きの角度）を検出してデスクトップかどうかを判定しています。この判定は±0.0001という極めて小さな許容範囲で行われるため、人間には認識できないレベルのカメラの傾きでも判定に失敗します。</p>
-            </div>
 
             <h3>Q: 「VRCのカメラに表示」のみONにしているのに、画面全体にエフェクトがかかる</h3>
-            <p><strong>A:</strong> これはシェーダーの判定の仕組み上、プレイヤー視点のFOVが60°以外の場合に発生する問題です。</p>
-            
-            <p><strong>発生する条件：</strong></p>
+            <p><strong>A:</strong> Ver.0.10.0でカメラ判定が改善され、この問題は大幅に解消されました。</p>
+
+            <h4>【Ver.0.9.4以前の動作】</h4>
+            <p>デスクトップでプレイ中、以下の条件で誤ってカメラと判定されていました：</p>
             <ul>
-                <li><strong>プレイヤー視点のFOVが60°以外に設定されている</strong></li>
-                <li>デスクトップで1920x1080、1280x720、または3840x2160の解像度でプレイ</li>
+                <li>FOVが60°以外に設定されている</li>
+                <li>かつ、解像度が1920x1080、1280x720、または3840x2160</li>
+            </ul>
+            <p>この場合、デスクトップ判定が失敗 → 解像度でカメラと誤認識 → EnableSSがONのためエフェクトが表示されていました。</p>
+
+            <h4>【Ver.0.10.0での改善】</h4>
+            <p>VRChatのグローバル変数<code>_VRChatCameraMode</code>を使用することで、カメラモードを直接判定できるようになりました。これにより：</p>
+            <ul>
+                <li>解像度やFOVに依存しない正確な判定が可能</li>
+                <li>デスクトップでプレイ中にカメラと誤認識されることがほぼなくなりました</li>
             </ul>
 
-            <p><strong>なぜ起こるのか：</strong></p>
-            <p>FOVが60°の場合とそれ以外で、判定が異なります：</p>
-            
-            <p><strong>FOVが60°の場合（正常動作）：</strong></p>
-            <ol>
-                <li>デスクトップ判定が成功 → EnableDesktopの設定に従う</li>
-                <li>EnableDesktopがOFFなので → エフェクトは表示されない</li>
-            </ol>
-
-            <p><strong>FOVが60°以外の場合（問題発生）：</strong></p>
-            <ol>
-                <li>デスクトップ判定が失敗（FOVが60°でないため）</li>
-                <li>次のカメラ判定（解像度チェック）に進む</li>
-                <li>解像度が1920x1080などに該当 → カメラと誤認識</li>
-                <li>EnableSSがONなので → <strong>エフェクトが表示される</strong></li>
-            </ol>
-
-            <p>つまり、FOVを変更している環境では、デスクトップでプレイ中なのに「カメラで撮影中」と誤認識され、EnableSSがONのためエフェクトが表示されてしまいます。</p>
-
-            <p><strong>解決方法：</strong></p>
+            <p>それでも問題が発生する場合は：</p>
             <ul>
                 <li><strong>推奨：ウィンドウモードにする</strong>（VRCをアクティブにした状態でAlt+Enter）</li>
-                <li>プレイヤー視点のFOVを60°に戻す</li>
+                <li>表示設定を個別に調整する</li>
             </ul>
-
-            <div class="info">
-                <strong>なぜ60°なのか？</strong>
-                <p>VRCのカメラの視野角は<strong>60°から変更することができません。</strong></p>
-                <p>この特性を用いてカメラの判定を拾っているため、60°以外に設定していると意図せぬ挙動になってしまいます。</p>
-            </div>
 
             <h3>Q: エフェクトが表示されない</h3>
             <p><strong>A:</strong> 以下を確認してください:</p>
@@ -847,7 +866,7 @@
                     <li><strong>デフォルト：</strong> スケール 3</li>
                     <li><strong>最大値：</strong> スケール 20（アニメーション側で制限されています）</li>
                 </ul>
-                <p>デフォルトのスケール3で十分カバーできるかとは思いますが、もう少し影響範囲を広げたい場合は段階的に調整してください。</p>
+                <p>デフォルトのスケール3で十分カバーできるかと思いますが、もう少し影響範囲を広げたい場合は段階的に調整してください。</p>
             </div>
 
             <div class="info">
@@ -858,7 +877,7 @@
             </div>
 
             <h3>Q: パラメーター数が多い為、圧迫が心配</h3>
-            <p><strong>A:</strong> VividAvatarFXのパラメータは同期設定を取らない（networkSynced: false）ため、ExpressionParametersの容量を消費しません。</br>つまり実質的な<strong>使用ExpressionParameters数は0</strong>です。<br>このギミックではExpressionParametersの枠を圧迫しないため、他のギミックと容量を競合することなく使用できます。</p>
+            <p><strong>A:</strong> VividAvatarFXのパラメータは同期設定を取らない（networkSynced: false）ため、ExpressionParametersの容量を消費しません。<br>つまり実質的な<strong>使用ExpressionParameters数は0</strong>です。<br>このギミックではExpressionParametersの枠を圧迫しないため、他のギミックと容量を競合することなく使用できます。</p>
 
             <h3>Q: プリセットが読み込まれない</h3>
             <p><strong>A:</strong> <code>Assets/x2much4u/VividAvatarFX/Preset/</code> フォルダにJSONファイルが存在するか確認してください。サブフォルダ内でも認識されます。</p>
@@ -884,15 +903,15 @@
             </div>
 
             <div class="code-block">
-            VividAvatarFX</br>
-            Copyright (c) 2025 ゴンリー (x2much4u)</br>
-            VN3 License Ver.2.0.1</br>
+            VividAvatarFX<br>
+            Copyright (c) 2025 ゴンリー (x2much4u)<br>
+            VN3 License Ver.2.0.1<br>
             </div>
 
             <h3>使用している第三者コード</h3>
             <p>このシステムの一部（Camera Analyzer Logic、Vertex Shader structure）は、AoiKamishiro氏が作成したコードを改変したものです。</p>
             <div class="code-block">
-            Copyright (c) 2020 AoiKamishiro</br>
+            Copyright (c) 2020 AoiKamishiro<br>
             MIT License
             </div>
 
@@ -906,26 +925,14 @@
                 <p>以下の機能が実装予定です。実装時期は未定ですが、順次対応していきます。</p>
             </div>
 
-            <h3 id="future-preset">1. プリセット登録時の表示設定選択機能</h3>
-            <div class="step">
-                <strong>機能概要</strong>
-                <p>プリセット登録時に、チェックボックスで各表示モードを強制的にONにできるようになります。</p>
-                <ul>
-                    <li><strong>その他モード強制ON:</strong> EnableOtherを自動的にONにする</li>
-                    <li><strong>デスクトップモード強制ON:</strong> EnableDesktopを自動的にONにする</li>
-                    <li><strong>カメラモード強制ON:</strong> EnableSSを自動的にONにする</li>
-                    <li><strong>VRモード強制ON:</strong> EnableVRを自動的にONにする</li>
-                </ul>
-            </div>
-
-            <h3 id="future-range">2. 影響範囲の調整可視化の改善</h3>
+            <h3 id="future-range">1. 影響範囲の調整可視化の改善</h3>
             <div class="step">
                 <strong>機能概要</strong>
                 <p>エフェクトの影響範囲をより視認しやすくします。</p>
                 <p>現状半透明の水色のマテリアルにしていますが、少し発光するようにし、暗い場所でも範囲の視認性を向上させます。</p>
             </div>
 
-            <h3 id="future-menu">3. メニューUI/UXの改善</h3>
+            <h3 id="future-menu">2. メニューUI/UXの改善</h3>
             <div class="step">
                 <strong>機能概要</strong>
                 <p>より分かりやすく、使いやすいメニュー構造への改善を予定しています。</p>
@@ -937,7 +944,7 @@
                 </ul>
             </div>
 
-            <h3 id="future-lang">4. 日本語/英語Prefabの分離と多言語対応</h3>
+            <h3 id="future-lang">3. 日本語/英語Prefabの分離と多言語対応</h3>
             <div class="step">
                 <strong>機能概要</strong>
                 <p>日本語Prefabと英語Prefabを別々に用意し、ExpressionMenuの言語を選択できるようにします。</p>
@@ -947,13 +954,6 @@
                     <li>パッケージ導入時に言語を選択可能</li>
                     <li>各言語でのメニュー表示を最適化</li>
                 </ul>
-            </div>
-
-            <h3 id="future-count">5. プリセット機能の枠増加</h3>
-            <div class="step">
-                <strong>機能概要</strong>
-                <p>現状Presetは<strong>8個</strong>しか登録する枠がないですが、ExParamの制限がないので無限に登録可能です。</p>
-                <p>正直ユーザー側でどれぐらい登録するのかが不透明なため、8としてβ版をリリースしましたが現実的には<strong>16～24程度</strong>まで増やそうか検討しています。</p>
             </div>
 
             <div class="warning">
