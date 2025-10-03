@@ -521,7 +521,7 @@
         <div class="step">
             <span class="step-number">2</span>
             <strong>プリセット登録時にVR,Desktop,Camera,Otherを選択可能、マテリアルの値よりこちらを優先するように</strong>
-            <p>プリセットごとに表示設定を個別に指定できるようになりました。例えば「VR専用プリセット」「カメラ専用プリセット」などが作成できます。</p>
+            <p>プリセット登録時に初期でONになる項目を変更できるようになりました。</p>
         </div>
         
         <div class="step">
@@ -533,7 +533,6 @@
         <div class="step">
             <span class="step-number">4</span>
             <strong>GUI調整</strong>
-            <p>Setup ToolとPreset Makerのインターフェースが改善されました。</p>
         </div>
         
         <div class="step">
@@ -886,7 +885,7 @@
             <p><strong>A:</strong> マテリアルInspector右上の <strong>⁝</strong>から、<strong>Reset</strong>を押すと、マテリアルInspectorがシェーダーの初期値になります。</p>
 
             <h2 id="license">ライセンス情報</h2>
-            
+
             <h3>VividAvatarFX本体</h3>
             <p>VividAvatarFX本体は<strong>VN3 License Ver.2.0.1</strong>のもとで配布されています。</p>
             
@@ -901,18 +900,40 @@
                 <p><strong>詳細な利用規約は製品に同梱されているVN3ライセンス全文を必ずご確認ください。</strong></p>
                 <p><a href="https://drive.google.com/drive/folders/1iJT_2lE_kOlim-YSXlYpvrK9QJp19qWB" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">→ VN3ライセンス全文をここからも確認できます。</a></p>
             </div>
-
+            
             <div class="code-block">
             VividAvatarFX<br>
             Copyright (c) 2025 ゴンリー (x2much4u)<br>
-            VN3 License Ver.2.0.1<br>
+            VN3 License Ver.2.0.1
             </div>
-
+            
             <h3>使用している第三者コード</h3>
-            <p>このシステムの一部（Camera Analyzer Logic、Vertex Shader structure）は、AoiKamishiro氏が作成したコードを改変したものです。</p>
+            
+            <h4>1. AoiKamishiro</h4>
+            <p>Camera Analyzer base structure および Vertex Shader structure</p>
             <div class="code-block">
             Copyright (c) 2020 AoiKamishiro<br>
-            MIT License
+            Licensed under the MIT License<br>
+            https://gist.github.com/bdunderscore/d77bab9e8b63dc430cdd47c8ca0f8135
+            </div>
+            
+            <h4>2. CNLohr</h4>
+            <p>VRChat camera detection methods</p>
+            <div class="code-block">
+            https://github.com/cnlohr/shadertrixx
+            </div>
+            
+            <h4>3. scruffyruffles</h4>
+            <p>VRChat hand camera detection method</p>
+            <div class="code-block">
+            Referenced via CNLohr's shadertrixx repository
+            </div>
+            
+            <div class="info">
+                <strong>MIT License (AoiKamishiro's original code)</strong>
+                <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+                <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+                <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.</p>
             </div>
 
         </div>
@@ -925,14 +946,7 @@
                 <p>以下の機能が実装予定です。実装時期は未定ですが、順次対応していきます。</p>
             </div>
 
-            <h3 id="future-range">1. 影響範囲の調整可視化の改善</h3>
-            <div class="step">
-                <strong>機能概要</strong>
-                <p>エフェクトの影響範囲をより視認しやすくします。</p>
-                <p>現状半透明の水色のマテリアルにしていますが、少し発光するようにし、暗い場所でも範囲の視認性を向上させます。</p>
-            </div>
-
-            <h3 id="future-menu">2. メニューUI/UXの改善</h3>
+            <h3 id="future-menu">1. メニューUI/UXの改善</h3>
             <div class="step">
                 <strong>機能概要</strong>
                 <p>より分かりやすく、使いやすいメニュー構造への改善を予定しています。</p>
@@ -944,7 +958,7 @@
                 </ul>
             </div>
 
-            <h3 id="future-lang">3. 日本語/英語Prefabの分離と多言語対応</h3>
+            <h3 id="future-lang">2. 日本語/英語Prefabの分離と多言語対応</h3>
             <div class="step">
                 <strong>機能概要</strong>
                 <p>日本語Prefabと英語Prefabを別々に用意し、ExpressionMenuの言語を選択できるようにします。</p>
