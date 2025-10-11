@@ -1,4 +1,3 @@
-<artifact identifier="vafx-doc-v0-10-0" type="text/html" title="VividAvatarFX ドキュメント Ver.0.16.2">
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -283,15 +282,6 @@
         .toc a:hover {
             text-decoration: underline;
         }
-        .future-section {
-            border-top: 3px solid #e83e8c;
-            margin-top: 40px;
-            padding-top: 30px;
-        }
-        .future-section h2 {
-            color: #e83e8c;
-            border-bottom-color: #e83e8c;
-        }
     @media (max-width: 900px) {
         .hamburger {
             display: block;
@@ -343,9 +333,6 @@
         const hamburger = document.querySelector('.hamburger');
         const sidebar = document.querySelector('.sidebar');
         const overlay = document.querySelector('.overlay');
-        
-        console.log('Total sections found:', sections.length);
-        sections.forEach(s => console.log(s.tagName, s.id, s.offsetTop));
         
         if (hamburger) {
             hamburger.addEventListener('click', function() {
@@ -401,8 +388,6 @@
                 }
             }
             
-            console.log('Scroll:', scrollPosition, 'Current:', currentSection, 'Main:', currentMainSection);
-            
             subNavs.forEach(subnav => {
                 subnav.classList.remove('active');
             });
@@ -427,7 +412,6 @@
                             const subHref = subLink.getAttribute('href').substring(1);
                             if (subHref === currentSection) {
                                 subLink.classList.add('active');
-                                console.log('Activating sublink:', subHref);
                             }
                         });
                     }
@@ -464,36 +448,33 @@
                 </ul>
             </li>
             <li>
-                <a href="#adjustment">エフェクトの調整方法</a>
+                <a href="#setup">セットアップ詳細</a>
                 <ul class="sidebar-subnav">
-                    <li><a href="#adjustment-editor">マテリアルエディタから調整</a></li>
-                    <li><a href="#adjustment-params">主要なパラメータ</a></li>
+                    <li><a href="#setup-bake">ベイク処理について</a></li>
+                    <li><a href="#setup-reset">リセット機能</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#adjustment">エフェクトの調整</a>
+                <ul class="sidebar-subnav">
+                    <li><a href="#adjustment-basic">基本設定</a></li>
+                    <li><a href="#adjustment-color">カラーグレーディング</a></li>
+                    <li><a href="#adjustment-effects">エフェクト設定</a></li>
                 </ul>
             </li>
             <li>
                 <a href="#preset">プリセット機能</a>
                 <ul class="sidebar-subnav">
-                    <li><a href="#preset-register">プリセットの登録</a></li>
-                    <li><a href="#preset-load">プリセットの読み込み</a></li>
-                    <li><a href="#preset-export">エクスポート機能</a></li>
+                    <li><a href="#preset-register">プリセット登録</a></li>
+                    <li><a href="#preset-use">プリセットの使用</a></li>
+                    <li><a href="#preset-share">共有機能</a></li>
                 </ul>
-            </li>
-            <li>
-                <a href="#technical">技術仕様</a>
             </li>
             <li>
                 <a href="#faq">よくある質問</a>
             </li>
             <li>
-                <a href="#license">ライセンス情報</a>
-            </li>
-            <li>
-                <a href="#future">予定されている修正・追加機能</a>
-                <ul class="sidebar-subnav">
-                    <li><a href="#future-range">影響範囲の調整可視化の改善</a></li>
-                    <li><a href="#future-menu">メニューUI/UXの改善</a></li>
-                    <li><a href="#future-lang">日本語/英語Prefabの分離</a></li>
-                </ul>
+                <a href="#license">ライセンス</a>
             </li>
         </ul>
     </aside>
@@ -505,561 +486,472 @@
     </header>
 
     <div class="content">
-        <h3>ドキュメントの最終更新 : 2025/10/08 - 4:49</h3>
-        <h3>最新パッケージ : Ver.0.16.2</h3>
-        <p></p>
-
-        <h2 id="changelog">Changelog - Ver.0.16.2</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>Lift,GammaのAnimationが違う値を参照していた問題を修正</strong>
-            <p>Hue（色相）のみ正常に動作していたのが、Saturation（彩度）、Value（明度）も正常に動作するように正しいPathを指定しました。</p>
-            <span class="step-number">2</span>
-            <strong>Gamma調整の方のプレビューと出力される色が異なっていた問題を修正</strong>
-            <p>Gamma調整のプレビューと出力されていた色が完全に逆相だった問題を修正しました。</p>
-            <span class="step-number">2</span>
-            <strong>ベイクした値にリセットが正常に動作していなかった問題を修正</strong>
-            <p>VRCAvatarParameterDeiverに正常に焼きこみができていなかった問題を修正しました。</bt>これにより、セットアップ&ベイクを行った値にリセットができるようになります。</p>
-        </div>
-        
-        <h2 id="changelog">Changelog - Ver.0.16.1</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>AnimtionClipで、1フレーム目以外にクリップされていたものをすべて削除</strong>
-            <p>Editor拡張を作成して、すべてのAnimationClipを読み込ませての確認なので、今回のバージョンでアハ体験はすべてなくなります。</p>
-            <span class="step-number">2</span>
-            <strong>プリセット登録の際にキャンセル機能の追加</strong>
-            <p>Json上書き、Json上書きしないに加えてなにもしないキャンセルの追加</p>
-        </div>
-        
-        <h2 id="changelog">Changelog - Ver.0.16.0</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>色味が完全にUnityと同じに！！！！！！！！！</strong>
-            <p>トーンカーブのAnimationClipの設定がおかしかった部分を修正しました。</p>
-            <span class="step-number">2</span>
-            <strong>プリセット登録にメニューのプレビューが追加</strong>
-            <p>現在既に登録されているメニュー（未登録/Unregistered）が何ページ目のどこにあるかが確認できるようになりました。</p>
-            <span class="step-number">3</span>
-            <strong>バージョン管理の削除</strong></strong>
-            <p>https処理してたらややこしそうなので消しました。</p>
-            <span class="step-number">4</span>
-            <strong>コードのリファクタリング</strong></strong>
-            <p>諸々同じ定義や処理を繰り返してたところをメソッド化し、最適化を行いました。</p>
-        </div>
-        
-        <h2 id="changelog">Changelog - Ver.0.15.0</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>全てのプロパティのレンジを0-1へ正規化</strong>
-            <p>一部のプロパティの正規化処理が正常にできなかった為、インスペクター側を正規化し、シェーダー側の処理で 受け取った値 * x とすることで今までと同じ表現力を保っています。</p>
-            <span class="step-number">2</span>
-            <strong>プリセット登録の処理変更</strong>
-            <p>上記に伴い処理を一部変更しました。</p>
-            <span class="step-number">3</span>
-            <strong>プリセット登録の際QOLを向上</strong>
-            <p>プリセットを選択時にJsonの中身を読み取り、既に設定済の場合はEnable xxxのチェックを読み取り、自動で設定するようになりました。</br>また、プリセット作成時にJsonファイルが作成されていましたが、ファイル名の後ろの配列が削除されました。同名のファイルが既に存在している場合は上書きするか確認、上書きしないと選択した場合は処理のみ実行、Jsonの出力はされないようになりました。</p>
-        </div>
-        
-        <h2 id="changelog">Changelog - Ver.0.14.0</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>Ver.0.13.0で起こっていた致命的なバグの修正</strong>
-            <p>修正を行いましたが、危険なので過去Verのログからも0.13.0は削除済です。</p>
-            <span class="step-number">2</span>
-            <strong>グリッチ / ラインシフトに縦バージョン追加</strong>
-            <p>ラインシフトのバリエーションとして縦も追加しました。</p>
-        </div>
-        
-        <h2 id="changelog">Changelog - Ver.0.13.0</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>レンダーキューの設定追加</strong>
-            <p>レンダーキューが今まで固定だったのが変更できるようになりました。</p>
-            <span class="step-number">2</span>
-            <strong>バージョン管理ができるようになりました。</strong>
-            <p>インスペクター上部のバージョンが最新バージョンよりも古かった場合、赤でハイライトされるようになりました。</p>
-            <span class="step-number">3</span>
-            <strong>インポートボタンの追加</strong>
-            <p>プリセットの読み込みフォルダがドキュメントを参照しないとわかりづらいとの声を受け、インポートボタンを追加しました。</br>動作内容としてはプリセットの適用と同様に、エフェクトを適用&選択したJSONファイルをPresetフォルダにコピーを生成するようになります。</p>
-            <span class="step-number">4</span>
-            <strong>ExParameter、保存するのチェックが外れていたのを修正</strong>
-            <p>ExParameterの保存するというチェックが外れてしまっていたのを修正しました。</br>これにより、インスタンスを移動やアバターを変更しても値が保持されるようになります。</p>
-            <span class="step-number">5</span>
-            <strong>プリセットの欄でJSONファイルの中身を参照ではなく、ファイル名を参照するように</strong>
-            <p>プリセットのコンボボックスで、Jsonの中身に名前を設定してたものをファイル名で見れるようになりました。</br>これにより、プリセットのファイル名を変更するだけでプリセット欄の名前も変わるので管理がしやすくなります。</p>
-            <span class="step-number">6</span>
-            <strong>UIの調整</strong>
-            <p>自分が気になっていた部分をすべて修正しました。</br><strong>これでUI部分は完成です。</strong>気になる点やわかりにくい箇所があれば対応しますのでお気軽にお願いします！</p>
-        </div>
-        
-        <h2 id="changelog">Changelog - Ver.0.12.0</h2>
-        
-        <div class="step">
-            <span class="step-number">※</span>
-            <strong>ある機能を追加しようと奮闘していましたが追加できませんでした。</strong>
-            <p>バックアップを取っての作業をしていたため、こちらには影響ないかとは思いますが、かなり長時間やっていて、どこか破綻している可能性も0ではないため、今回のパッチでは特に注意深く見ていただけると幸いです。</p>
-            <span class="step-number">1</span>
-            <strong>ノイズ関連の不具合修正</strong>
-            <p>ノイズ/グレインの種類がVRC内で変更できなかった不具合修正を修正しました。</p>
-            <span class="step-number">2</span>
-            <strong>色収差のカラバリ追加</strong>
-            <p>色収差のずれ方に複数パターン追加しました。</p>
-            <span class="step-number">3</span>
-            <strong>JPPrefab / ENPrefabの分離</strong>
-            <p>日本語Prefabと英語Prefabを用意しました。。</p>
-        </div>
-        
-        <h2 id="changelog">Changelog - Ver.0.11.1</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>ExMenuアイコン抜け補完</strong>
-            <p>色反転がアイコン設定抜けていたため補完しました。</p>
-        </div>
-        
-        <h2 id="changelog">Changelog - Ver.0.11.0</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>ExMenuのアイコン追加</strong>
-            <p>初期アイコンからちょっとだけかっこよくなりました。</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>ビネット関係修正</strong>
-            <li>ビネット強度が0でOFFにならなくなりました。</li>
-            <li>ビネットの透明度が全体に影響を与えていたのを修正しました。</li>
-        </div>
-
-        <h2 id="changelog">Changelog - Ver.0.10.0</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>VR,Desktop,Camera,Otherが正常に動作するように（FOV、解像度の依存がなくなった）</strong>
-            <p>VRChatが提供するグローバル変数を使用することで、より正確な判定が可能になりました。</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>プリセット登録時にVR,Desktop,Camera,Otherを選択可能、マテリアルの値よりこちらを優先するように</strong>
-            <p>プリセット登録時に初期でONになる項目を変更できるようになりました。</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">3</span>
-            <strong>Presetの保存スロットを8 -> 22に拡張</strong>
-            <p>より多くのプリセットを登録できるようになりました。メニューも3つに分割され、整理されています。</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">4</span>
-            <strong>GUI調整</strong>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">5</span>
-            <strong>影響範囲確認用マテリアルの調整</strong>
-            <p>影響範囲の可視化がより見やすくなりました。</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">6</span>
-            <strong>内部処理の整備性向上</strong>
-            <p>内部的な処理なのでユーザーの方には特に変更ないはずですが、プリセットやセットアップで不具合が出たら遠慮なく教えてください。</p>
-        </div>
+        <h3>ドキュメント最終更新 : 2025/10/11</h3>
+        <h3>最新バージョン : Ver.0.17.1</h3>
         
         <h2 id="quickstart">クイックスタート</h2>
         
         <div class="step">
             <span class="step-number">1</span>
-            <strong>Prefabの配置</strong>
-            <p><code>Assets/x2much4u/VividAvatarFX/Prefab/VividAvatarFX</code> をアバターの直下に配置</p>
+            <strong>Prefabを配置</strong>
+            <p><code>Assets/x2much4u/VividAvatarFX/Prefab/VividAvatarFX</code> をアバターの直下に配置します。</p>
         </div>
 
         <div class="step">
             <span class="step-number">2</span>
-            <strong>Effectオブジェクトの選択</strong>
-            <p>Prefab内の <code>VividAvatarFX/Effect</code> を選択してInspectorを表示</p>
+            <strong>Setup Toolを開く</strong>
+            <p>以下のいずれかの方法でSetup Toolを起動：</p>
+            <ul>
+                <li>Prefab内の<code>Effect</code>オブジェクトを選択 → Inspector上部の緑色ボタン「セットアップ & ベイク」をクリック</li>
+                <li>Unityメニュー → <code>Tools → x2much4u → VividAvatarFX → VAFX Setup Tool</code></li>
+            </ul>
         </div>
 
         <div class="step">
             <span class="step-number">3</span>
-            <strong>Setup Toolの起動</strong>
-            <p>以下のいずれかの方法でSetup Toolを開きます：</p>
-            <ul>
-                <li><strong>方法1:</strong> Inspector上部にある緑色の「セットアップ & ベイク」ボタンをクリック</li>
-                <li><strong>方法2:</strong> Unityメニューバーから<br><code>Tools → x2much4u → VividAvatarFX → VAFX Setup Tool</code> を選択</li>
-            </ul>
-            <p>Setup Toolウィンドウが開きます。</p>
+            <strong>アバターを設定</strong>
+            <p>Setup Toolの「ターゲットアバター」欄に、アバターのルートオブジェクトをドラッグ&ドロップします。</p>
         </div>
 
         <div class="step">
             <span class="step-number">4</span>
-            <strong>アバターの設定</strong>
-            <p>Setup Tool内の「ターゲットアバター」欄にHierarchyから導入したいアバターをドラッグ&ドロップ</p>
-        </div>
-
-        <div class="step">
-            <span class="step-number">5</span>
-            <strong>ベイク実行</strong>
-            <p>緑色の「マテリアル値を焼き込み & アバターに統合 (Bake & Merge)」ボタンをクリック</p>
+            <strong>ベイクを実行</strong>
+            <p>緑色のボタン「マテリアル値を焼き込み & アバターに統合 (Bake & Merge)」をクリックします。</p>
         </div>
 
         <div class="success">
-            <strong>セットアップ完了</strong>
-            <p>これでVividAvatarFXの導入は完了です。</p>
-        </div>
-
-        <div class="info">
-            <strong>なぜベイクが必要なのか？</strong>
-            <p>VividAvatarFXは、MA（Modular Avatar）Parametersを使用していません。そのため、<strong>現在のマテリアルに設定されている値を直接アバターのExpressionParametersに焼き込む</strong>必要があります。</p>
-            <p>ベイク処理で行われること：</p>
-            <ul>
-                <li>マテリアルの全プロパティ値をRadial Puppet用に0-1の範囲に正規化</li>
-                <li>正規化された値をExpressionParametersのDefault値として設定</li>
-                <li>VRCAvatarParameterDriverに初期値を記録</li>
-                <li>アバターのExpressionParametersにVAFXパラメーターをマージ</li>
-            </ul>
-            <p>この仕組みにより、VRC内で値を変更可能になっています。</p>
+            <strong>✓ セットアップ完了</strong>
+            <p>これでVividAvatarFXの基本的な導入は完了です。VRChatにアップロードして動作を確認してください。</p>
         </div>
 
         <div class="warning">
-            <strong>重要</strong>
-            <p><strong>VAFXマテリアルの値</strong>を変更したら、必ず再度ベイクを行ってください。VRChat内で変更が反映されません。</p>
-            <p><strong>※服や髪のマテリアルなど、VAFX以外のマテリアルの値を変更した場合は再度ベイクする必要はありません。</strong></p>
-        </div>
-
-        <h2>目次</h2>
-        <div class="toc">
-            <ul>
-                <li><a href="#overview">概要</a></li>
-                <li><a href="#adjustment">エフェクトの調整方法</a></li>
-                <li><a href="#preset">プリセット機能</a></li>
-                <li><a href="#technical">技術仕様</a></li>
-                <li><a href="#faq">よくある質問</a></li>
-                <li><a href="#license">ライセンス情報</a></li>
-                <li><a href="#future">予定されている修正・追加機能</a></li>
-            </ul>
+            <strong>重要：マテリアル値を変更したら必ず再ベイク</strong>
+            <p>VAFXマテリアルのパラメーターを変更した場合、必ず再度ベイクを実行してください。ベイクしないとVRChat内で変更が反映されません。</p>
         </div>
 
         <h2 id="overview">概要</h2>
-        <p>VividAvatarFXは、VRChatアバターの視界に様々な視覚エフェクトを追加できるアバターギミックです。カラーグレーディング、グリッチエフェクト、レンズ歪み、ビネット、ブルームなど、多彩なエフェクトをVRC内で制御できます。</p>
+        <p>VividAvatarFXは、VRChatアバター向けの視界エフェクトシステムです。カラーグレーディング、グリッチ、レンズ歪みなど、映画やゲームで使われるような高度なポストプロセスエフェクトをVRChat内でリアルタイムに制御できます。</p>
 
         <h3 id="overview-features">主な機能</h3>
         <div class="feature-grid">
             <div class="feature-card">
                 <h4>カラーグレーディング</h4>
-                <p>明度、彩度、コントラスト、色相シフト、ガンマ調整</p>
+                <p>明度・彩度・コントラスト・色相シフト・ガンマ調整</p>
+            </div>
+            <div class="feature-card">
+                <h4>トーンカーブ</h4>
+                <p>RGB各チャンネルの詳細調整</p>
+            </div>
+            <div class="feature-card">
+                <h4>Lift/Gamma/Gain</h4>
+                <p>シャドウ・ミッドトーン・ハイライトの個別調整</p>
+            </div>
+            <div class="feature-card">
+                <h4>ビネット</h4>
+                <p>画面端の暗化・カスタムカラー対応</p>
+            </div>
+            <div class="feature-card">
+                <h4>シネマティックライン</h4>
+                <p>映画のような画面端の黒帯</p>
             </div>
             <div class="feature-card">
                 <h4>グリッチエフェクト</h4>
-                <p>ラインシフト、カラー分離、ブロックノイズ</p>
+                <p>ラインシフト（横/縦）・カラー分離・ブロックノイズ</p>
             </div>
             <div class="feature-card">
-                <h4>レンズエフェクト</h4>
-                <p>レンズ歪み、色収差、ビネット</p>
+                <h4>ブルーム</h4>
+                <p>明るい部分の発光効果</p>
             </div>
             <div class="feature-card">
-                <h4>ポストプロセス</h4>
-                <p>ブルーム、ノイズ、ディザリング、ポスタライズ</p>
+                <h4>色収差</h4>
+                <p>8種類のプリセットパターン</p>
+            </div>
+            <div class="feature-card">
+                <h4>レンズ歪み</h4>
+                <p>バレル・ピンクッション歪み、拡縮</p>
+            </div>
+            <div class="feature-card">
+                <h4>その他エフェクト</h4>
+                <p>ノイズ/グレイン・ポスタライズ・ディザリング・モザイク・ネオンエッジ・色反転</p>
             </div>
         </div>
 
-        <h2 id="adjustment">エフェクトの調整方法</h2>
+        <h2 id="setup">セットアップ詳細</h2>
 
-        <h3 id="adjustment-editor">マテリアルエディタから調整</h3>
-        <p><code>Assets/x2much4u/VividAvatarFX/Material/VividAvatarFX.mat</code> を選択すると、Inspectorにカスタムエディタが表示されます。</p>
+        <h3 id="setup-bake">ベイク処理について</h3>
+        <p>VividAvatarFXは、Modular Avatar Parametersを使用していません。そのため、マテリアルの設定値を直接アバターのExpressionParametersに書き込む「ベイク処理」が必要です。</p>
 
-        <h3 id="adjustment-params">主要なパラメータ</h3>
+        <div class="info">
+            <strong>ベイク処理で行われること</strong>
+            <ul>
+                <li>マテリアルの全プロパティ値（0-1の範囲）をExpressionParametersのDefault値に設定</li>
+                <li>VAFX_ResetAllアニメーションクリップに初期値を記録</li>
+                <li>VRCAvatarParameterDriverに初期値を設定</li>
+                <li>アバターのExpressionParametersにVAFXパラメーターをマージ</li>
+            </ul>
+        </div>
+
+        <h3 id="setup-reset">リセット機能</h3>
+        <p>VRChat内で「VAFX_ResetAll」パラメーターをONにすると、ベイク時に設定した初期値にすべてのエフェクトをリセットできます。この機能により、複雑な設定を簡単に元に戻すことができます。</p>
+
+        <h2 id="adjustment">エフェクトの調整</h2>
+        <p>マテリアル<code>Assets/x2much4u/VividAvatarFX/Material/VividAvatarFX.mat</code>を選択すると、カスタムInspectorが表示されます。</p>
+
+        <div class="info">
+            <strong>言語設定</strong>
+            <p>Inspector上部の「Language」から日本語/英語を切り替えられます。この設定はUnityのEditorPrefsに保存され、すべてのVAFXツールで共有されます。</p>
+        </div>
+
+        <h3 id="adjustment-basic">基本設定</h3>
         
-        <h4>基本設定</h4>
+        <h4>メインカラー</h4>
         <ul>
-            <li><strong>メインカラー (HSV+Alpha):</strong> エフェクト全体の基本色</li>
-            <li><strong>全体の透明度:</strong> エフェクトの不透明度</li>
-            <li><strong>表示設定:</strong> VR/デスクトップ/カメラ/その他での表示切り替え</li>
+            <li><strong>色相 (Hue):</strong> エフェクト全体の色相（0-1）</li>
+            <li><strong>彩度 (Saturation):</strong> 色の鮮やかさ（0-1）</li>
+            <li><strong>明度 (Value):</strong> 明るさ（0-1）</li>
+            <li><strong>透明度 (Alpha):</strong> 不透明度（0-1）</li>
+            <li><strong>全体の透明度 (Opacity):</strong> エフェクト全体の不透明度</li>
         </ul>
 
-        <h4>カラーグレーディング</h4>
+        <h4>表示設定</h4>
         <ul>
-            <li><strong>明るさ/コントラスト/彩度:</strong> 基本的な色調整</li>
-            <li><strong>色相シフト:</strong> 色の回転</li>
-            <li><strong>ガンマ:</strong> 中間調の調整</li>
-            <li><strong>トーンカーブ:</strong> RGB各チャンネルの詳細調整</li>
-            <li><strong>Lift/Gamma/Gain:</strong> 映画のような色補正（シャドウ/ミッドトーン/ハイライト）</li>
+            <li><strong>Enable VR:</strong> VR視点で表示するかどうか</li>
+            <li><strong>Enable Desktop:</strong> デスクトップ視点で表示するかどうか</li>
+            <li><strong>Enable SS:</strong> VRChatカメラ（スクリーンショット/動画撮影）で表示するかどうか</li>
+            <li><strong>Enable Other:</strong> その他の環境（Unity Editorなど）で表示するかどうか</li>
         </ul>
 
-        <h4>エフェクト</h4>
+        <div class="info">
+            <strong>表示判定の仕組み</strong>
+            <p>VividAvatarFXは、VRChatのグローバル変数（<code>_VRChatCameraMode</code>、<code>_VRChatMirrorMode</code>など）を使用して、現在の視点を判定しています。ミラー内やパノラマモードでは自動的に非表示になります。</p>
+        </div>
+
+        <h4>設定</h4>
         <ul>
-            <li><strong>ビネット:</strong> 画面端の暗化効果</li>
-            <li><strong>シネマティックライン:</strong> 映画のような画面端の黒帯</li>
-            <li><strong>ネオンエッジ:</strong> エッジ検出による発光</li>
-            <li><strong>ノイズ/グレイン:</strong> フィルムグレイン効果</li>
-            <li><strong>ブルーム:</strong> 明るい部分の発光</li>
-            <li><strong>色収差:</strong> レンズの色ずれ</li>
-            <li><strong>レンズ歪み:</strong> 魚眼効果、バレル/ピンクッション歪み</li>
-            <li><strong>グリッチ:</strong> デジタルノイズ効果</li>
+            <li><strong>レンダーキュー (Render Queue):</strong> 描画順序（デフォルト: 4100）。他のエフェクトとの描画順を調整する場合に変更します。</li>
+        </ul>
+
+        <h3 id="adjustment-color">カラーグレーディング</h3>
+
+        <h4>基本調整</h4>
+        <ul>
+            <li><strong>明るさ (Brightness):</strong> 画像全体の明るさ（0-1、0.5が中間）</li>
+            <li><strong>コントラスト (Contrast):</strong> 明暗の差（0-1、0.5が中間）</li>
+            <li><strong>彩度 (Saturation):</strong> 色の鮮やかさ（0-1、0.5が中間）</li>
+            <li><strong>色相シフト (Hue Shift):</strong> 色相環の回転（0-1、0.5が中間）</li>
+            <li><strong>ガンマ (Gamma):</strong> 中間調の明るさ（0-1、0.33がデフォルト）</li>
+            <li><strong>色反転 (Color Invert):</strong> 色を反転するかどうか（Bool）</li>
+        </ul>
+
+        <p>各調整には「〜Enabled」トグルがあり、個別にON/OFFできます。</p>
+
+        <h4>トーンカーブ</h4>
+        <p>RGB各チャンネルごとに、スケールとパワーを調整できます：</p>
+        <ul>
+            <li><strong>赤/緑/青トーンカーブ スケール:</strong> 各色チャンネルの倍率</li>
+            <li><strong>赤/緑/青トーンカーブ パワー:</strong> 各色チャンネルの非線形変換</li>
+            <li><strong>トーンカーブ強度 (Intensity):</strong> 効果の適用度（0-1）</li>
+        </ul>
+
+        <h4>Lift/Gamma/Gain</h4>
+        <p>映画の色補正で使われる手法で、明度レンジごとに色調整ができます：</p>
+        <ul>
+            <li><strong>Lift (リフト):</strong> シャドウ（暗部）の色調整（HSV）</li>
+            <li><strong>Gamma (ガンマ調整):</strong> ミッドトーン（中間調）の色調整（HSV）</li>
+            <li><strong>Gain (ゲイン):</strong> ハイライト（明部）の色調整（HSV）</li>
+        </ul>
+
+        <h3 id="adjustment-effects">エフェクト設定</h3>
+
+        <h4>ビネット</h4>
+        <ul>
+            <li><strong>強度 (Vignette):</strong> 効果の強さ（0-1）</li>
+            <li><strong>滑らかさ (Smoothness):</strong> エッジのぼかし具合（0-1）</li>
+            <li><strong>透明度 (Alpha):</strong> ビネット効果の不透明度（0-1）</li>
+            <li><strong>色 (Color):</strong> ビネットの色（HSV）</li>
+        </ul>
+
+        <h4>シネマティックライン</h4>
+        <ul>
+            <li><strong>全体の強度 (Intensity):</strong> 効果全体の強さ（0-1）</li>
+            <li><strong>横線強度 (Horizontal):</strong> 画面上下の黒帯（0-1）</li>
+            <li><strong>縦線強度 (Vertical):</strong> 画面左右の黒帯（0-1）</li>
+            <li><strong>色 (Color):</strong> ラインの色（HSV）</li>
+            <li><strong>透明度 (Alpha):</strong> ラインの不透明度（0-1）</li>
+        </ul>
+
+        <h4>ネオンエッジ</h4>
+        <ul>
+            <li><strong>強度 (Neon Edge):</strong> エッジ検出による発光効果の強さ（0-1）</li>
+        </ul>
+
+        <h4>ノイズ/グレイン</h4>
+        <ul>
+            <li><strong>種類 (Type):</strong> 0でブロックノイズ、1でフィルムグレイン（0-1）</li>
+            <li><strong>強度 (Intensity):</strong> ノイズの強さ（0-1）</li>
+            <li><strong>サイズ (Size):</strong> ノイズ粒子のサイズ（0-1）</li>
+        </ul>
+
+        <h4>モザイク</h4>
+        <ul>
+            <li><strong>ブロックサイズ (Mosaic Block Size):</strong> ピクセレーション効果の強さ（0-1）</li>
+        </ul>
+
+        <h4>ポスタライズ</h4>
+        <ul>
+            <li><strong>レベル (Posterize Levels):</strong> 色階調の段階数（0-1、値が小さいほど階調が少なくなる）</li>
+        </ul>
+
+        <h4>ディザリング</h4>
+        <ul>
+            <li><strong>強度 (Dither Strength):</strong> ディザーパターンの強さ（0-1）</li>
+        </ul>
+
+        <h4>ブルーム</h4>
+        <ul>
+            <li><strong>強度 (Intensity):</strong> 発光効果の強さ（0-1）</li>
+            <li><strong>閾値 (Threshold):</strong> 発光が始まる明るさの基準（0-1）</li>
+            <li><strong>半径 (Radius):</strong> 発光の広がり（0-1）</li>
+        </ul>
+
+        <h4>色収差</h4>
+        <ul>
+            <li><strong>強度 (Chromatic Aberration):</strong> 色ずれの強さ（0-1）</li>
+            <li><strong>色変更 (Preset):</strong> 8種類の色収差パターン（0-1で8段階、0/8, 1/8, 2/8...7/8）
+                <ul>
+                    <li>0: R+, G中, B- （標準的な色収差）</li>
+                    <li>1: R-, G+, B中</li>
+                    <li>2: R-, G+, B+</li>
+                    <li>3: R+, G+, B-</li>
+                    <li>4: R+, G-, B-</li>
+                    <li>5: R-, G+, B-</li>
+                    <li>6: R-, G-, B+</li>
+                    <li>7: R+, G-, B+</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h4>レンズ歪み</h4>
+        <ul>
+            <li><strong>強度 (Intensity):</strong> 歪みの強さ（0-1）</li>
+            <li><strong>スケール (Scale):</strong> レンズのズーム倍率（0-1）</li>
+            <li><strong>歪み形状 (Power):</strong> 歪みの形状カーブ（0-1）</li>
+            <li><strong>バレル係数 (Barrel):</strong> バレル/ピンクッション歪みの度合い（0-1）</li>
+            <li><strong>横引き延ばし (Horizontal Stretch):</strong> 横方向の拡大（0-1）</li>
+            <li><strong>横に潰す (Horizontal Squash):</strong> 横方向の縮小（0-1）</li>
+            <li><strong>縦引き延ばし (Vertical Stretch):</strong> 縦方向の拡大（0-1）</li>
+            <li><strong>縦に潰す (Vertical Squash):</strong> 縦方向の縮小（0-1）</li>
+        </ul>
+
+        <h4>グリッチエフェクト</h4>
+        <ul>
+            <li><strong>全体の強度 (Overall Intensity):</strong> グリッチ効果全体の強さ（0-1）</li>
+        </ul>
+        <p><strong>横方向ラインシフト：</strong></p>
+        <ul>
+            <li><strong>強度 (Intensity):</strong> ずれの強さ（0-1）</li>
+            <li><strong>頻度 (Frequency):</strong> 発生頻度（0-1）</li>
+            <li><strong>ブレンド (Blend):</strong> 元画像との混合率（0-1）</li>
+        </ul>
+        <p><strong>縦方向ラインシフト：</strong></p>
+        <ul>
+            <li><strong>強度 (Intensity):</strong> ずれの強さ（0-1）</li>
+            <li><strong>頻度 (Frequency):</strong> 発生頻度（0-1）</li>
+            <li><strong>ブレンド (Blend):</strong> 元画像との混合率（0-1）</li>
+        </ul>
+        <p><strong>カラー分離：</strong></p>
+        <ul>
+            <li><strong>強度 (Intensity):</strong> 色分離の強さ（0-1）</li>
+            <li><strong>ブレンド (Blend):</strong> 元画像との混合率（0-1）</li>
+        </ul>
+        <p><strong>ブロックノイズ：</strong></p>
+        <ul>
+            <li><strong>サイズ (Size):</strong> ブロックの大きさ（0-1）</li>
+            <li><strong>頻度 (Frequency):</strong> 発生頻度（0-1）</li>
+            <li><strong>強度 (Intensity):</strong> ノイズの強さ（0-1）</li>
+            <li><strong>ブレンド (Blend):</strong> 元画像との混合率（0-1）</li>
         </ul>
 
         <h2 id="preset">プリセット機能</h2>
 
-        <h3 id="preset-register">プリセットの登録</h3>
-        <p>現在のマテリアル設定をプリセットとして保存できます。</p>
+        <h3 id="preset-register">プリセット登録</h3>
+        <p>現在のマテリアル設定をプリセットとして登録し、VRChat内のメニューから呼び出せるようにします。</p>
 
         <div class="step">
             <span class="step-number">1</span>
-            <strong>Preset Makerを起動</strong>
-            <p>以下のいずれかの方法でPreset Makerを開きます：</p>
+            <strong>Preset Makerを開く</strong>
+            <p>以下のいずれかの方法で起動：</p>
             <ul>
-                <li><strong>方法1:</strong> マテリアルInspectorの「プリセット登録」ボタンをクリック</li>
-                <li><strong>方法2:</strong> Unityメニューバーから<br><code>Tools → x2much4u → VividAvatarFX → VAFX Preset Maker</code> を選択</li>
+                <li>マテリアルInspectorの「プリセット登録」ボタンをクリック</li>
+                <li>Unityメニュー → <code>Tools → x2much4u → VividAvatarFX → VAFX Preset Maker</code></li>
             </ul>
-            <p>PresetMakerウィンドウが開きます。</p>
-            </div>
-
-            <div class="step">
-                <span class="step-number">2</span>
-                <strong>プリセットスロット選択</strong>
-                <p>Preset01〜Preset22のいずれかを選択します。</p>
-            </div>
-
-            <div class="step">
-                <span class="step-number">3</span>
-                <strong>表示名の入力</strong>
-                <p>VRChatメニューに表示される名前を入力します。</p>
-            </div>
-
-            <div class="step">
-                <span class="step-number">4</span>
-                <strong>表示設定の選択（Ver.0.10.0の新機能）</strong>
-                <p>プリセットごとに表示設定を個別に指定できます：</p>
-                <ul>
-                    <li><strong>Enable VR:</strong> VR視点で表示</li>
-                    <li><strong>Enable Desktop:</strong> デスクトップ視点で表示</li>
-                    <li><strong>Enable SS:</strong> カメラ撮影時に表示</li>
-                    <li><strong>Enable Other:</strong> その他の場合に表示</li>
-                </ul>
-                <p>これらのチェックボックスで選択した設定は、マテリアルの値よりも優先されます。</p>
-            </div>
-
-            <div class="step">
-                <span class="step-number">5</span>
-                <strong>ベイク実行</strong>
-                <p>緑色の「プリセット [名前] をベイク (Bake Preset)」ボタンをクリックします。</p>
-            </div>
-
-            <div class="info">
-                <strong>プリセットの保存場所</strong>
-                <p>プリセットは <code>Assets/x2much4u/VividAvatarFX/Preset/</code> にJSON形式で保存されます。このフォルダ内にサブフォルダを作成しても認識されます。</p>
-            </div>
-
-            <h3 id="preset-load">プリセットの読み込み</h3>
-            <p>マテリアルInspectorの「プリセット」ドロップダウンから保存済みプリセットを選択し、「適用」ボタンをクリックすると設定が反映されます。</p>
-
-            <div class="warning">
-                <strong>注意</strong>
-                <p>プリセットを適用しただけではVRChat内では変更されません。<br>適用後、必ずSetup ToolもしくはPreset Makerで保存してください。</p>
-            </div>
-
-            <h3 id="preset-export">エクスポート機能</h3>
-            <p>マテリアルInspectorの「エクスポート」ボタンで、現在の設定をJSON形式で保存できます。</p>
-            
-            <div class="info">
-                <strong>プリセット登録との違い</strong>
-                <ul>
-                    <li><strong>プリセット登録:</strong> AnimatorControllerに設定を書き込み、VRChatメニューから切り替え可能にする</li>
-                    <li><strong>エクスポート:</strong> 設定をJSONファイルとして出力するだけ（共有用）</li>
-                </ul>
-                <p>他の人に設定を共有したい場合は、エクスポートが便利です。</p>
-            </div>
-
-            <h2 id="technical">技術仕様</h2>
-
-            <h3>パラメーターの正規化</h3>
-            <p>VRChatのRadial Puppetで使用するため、全てのパラメーターは0〜1の範囲に正規化されます。</p>
-            
-            <div class="code-block">
-                例: ToneCurveRedScale (0-10) → 正規化 (0-1)<br>
-                正規化値 = 元の値 / 10.0<br>
-                例: LensDistortionBarrel (-1 to 1) → 正規化 (0-1)<br>
-                正規化値 = (元の値 + 1.0) / 2.0
-            </div>
-
-            <h2 id="faq">よくある質問</h2>
-
-            <h3>Q: Ver.0.10.0で何が変わったの？表示設定の動作について</h3>
-            <p><strong>A:</strong> Ver.0.10.0では、EnableDesktop、EnableVR、EnableSS、EnableOtherの判定ロジックが大幅に改善されました。</p>
-
-            <h4>【Ver.0.9.4以前の問題点】</h4>
-            <ul>
-                <li><strong>デスクトップ判定:</strong> FOV（視野角）が60°かどうかを厳密にチェックしていたため、FOVを少しでも変更していると判定に失敗していました</li>
-                <li><strong>カメラ判定:</strong> 解像度（1920x1080、1280x720、3840x2160）だけで判定していたため、デスクトップのフルスクリーンでも誤ってカメラと判定されることがありました</li>
-                <li><strong>その他の判定:</strong> 上記のどれにも該当しない場合に「その他」として扱われていました</li>
-            </ul>
-
-            <h4>【Ver.0.10.0での改善点】</h4>
-            <p>VRChatが提供する<strong>グローバル変数</strong>を使用することで、より正確な判定が可能になりました：</p>
-            <ul>
-                <li><strong>_VRChatCameraMode:</strong> VRChatのカメラモードを直接取得できるようになりました</li>
-                <li><strong>_VRChatMirrorMode:</strong> ミラー内かどうかを正確に判定できるようになりました</li>
-                <li><strong>FOV依存の解消:</strong> FOVを変更していてもデスクトップ判定が正しく動作するようになりました</li>
-                <li><strong>解像度依存の解消:</strong> フルスクリーンでも誤ってカメラと判定されることがなくなりました</li>
-            </ul>
-
-            <div class="info">
-                <strong>判定の優先順位（Ver.0.10.0）</strong>
-                <ol>
-                    <li><strong>EnableOtherがON:</strong> すべての状況で表示（Unity Editorテスト用）</li>
-                    <li><strong>オルソグラフィックカメラ or ミラー内:</strong> 表示しない</li>
-                    <li><strong>パノラマモード:</strong> 表示しない</li>
-                    <li><strong>VRChatカメラモード:</strong> EnableSSの設定に従う</li>
-                    <li><strong>VR視点:</strong> EnableVRの設定に従う</li>
-                    <li><strong>デスクトップ視点:</strong> EnableDesktopの設定に従う</li>
-                </ol>
-            </div>
-
-            <h3>Q: デスクトップなのに「その他」でしか表示されない / デスクトップでONにならない</h3>
-            <p><strong>A:</strong> Ver.0.10.0でカメラ判定ロジックが改善されましたが、それでも判定が失敗する場合があります：</p>
-            <ul>
-                <li>カメラを傾けるギミックや他の視界エフェクトを使用している</li>
-                <li>他のシェーダーとの競合</li>
-                <li>特殊なカメラ設定を使用している</li>
-            </ul>
-            <p><strong>解決方法:</strong></p>
-            <ul>
-                <li><strong>推奨：「EnableOther」をONにする</strong>（最も確実で簡単）</li>
-                <li>カメラを傾けるギミックやエフェクトを無効化する</li>
-                <li>他の視界エフェクトとの併用を見直す</li>
-            </ul>
-
-            <h3>Q: 「VRCのカメラに表示」のみONにしているのに、画面全体にエフェクトがかかる</h3>
-            <p><strong>A:</strong> Ver.0.10.0でカメラ判定が改善され、この問題は大幅に解消されました。</p>
-
-            <h4>【Ver.0.9.4以前の動作】</h4>
-            <p>デスクトップでプレイ中、以下の条件で誤ってカメラと判定されていました：</p>
-            <ul>
-                <li>FOVが60°以外に設定されている</li>
-                <li>かつ、解像度が1920x1080、1280x720、または3840x2160</li>
-            </ul>
-            <p>この場合、デスクトップ判定が失敗 → 解像度でカメラと誤認識 → EnableSSがONのためエフェクトが表示されていました。</p>
-
-            <h4>【Ver.0.10.0での改善】</h4>
-            <p>VRChatのグローバル変数<code>_VRChatCameraMode</code>を使用することで、カメラモードを直接判定できるようになりました。これにより：</p>
-            <ul>
-                <li>解像度やFOVに依存しない正確な判定が可能</li>
-                <li>デスクトップでプレイ中にカメラと誤認識されることがほぼなくなりました</li>
-            </ul>
-
-            <p>それでも問題が発生する場合は：</p>
-            <ul>
-                <li><strong>推奨：ウィンドウモードにする</strong>（VRCをアクティブにした状態でAlt+Enter）</li>
-                <li>表示設定を個別に調整する</li>
-            </ul>
-
-            <h3>Q: エフェクトが表示されない</h3>
-            <p><strong>A:</strong> 以下を確認してください:</p>
-            <ul>
-                <li>Setup Toolでベイクを実行したか</li>
-                <li>表示設定（EnableVR/EnableDesktop等）が有効になっているか</li>
-                <li>マテリアルが正しくシェーダー <code>x2much4u/VividAvatarFX</code> を使用しているか</li>
-                <li><strong>影響範囲外までカメラが行っていないか</strong></li>
-            </ul>
-            
-            <div class="info">
-                <strong>影響範囲について</strong>
-                <p>VividAvatarFXでは、<strong>Cubeが視界に入っていないとエフェクトが適用されません。</strong></p>
-                <p>これはシェーダーの仕組み上、エフェクトを描画するためのオブジェクトが画面内に存在する必要があるためです。</p>
-            </div>
-
-            <h4>影響範囲の調整方法</h4>
-            <p>Cubeの大きさは以下の手順で調整できます：</p>
-            <div class="step">
-                <strong>ExMenuから調整</strong>
-                <p><code>メインメニュー → 視点設定 → 影響範囲</code> から調整できます。</p>
-            </div>
-
-            <div class="warning">
-                <strong>影響範囲を大きくしすぎないでください</strong>
-                <p>「スケールを9999にすればすべてカバーできるのでは？」と思うかもしれませんが、<strong>フォールバック時に不透過のCubeが出現してしまいます。</strong></p>
-                <p>フォールバックとは、シェーダーが正常に動作しない環境（古いグラフィックボード、モバイルなど）で表示される代替表示のことです。この場合、巨大な不透過のキューブがワールドに出現し、視界を完全に遮ってしまいます。</p>
-                <p><strong>設定値について：</strong></p>
-                <ul>
-                    <li><strong>デフォルト：</strong> スケール 3</li>
-                    <li><strong>最大値：</strong> スケール 20（アニメーション側で制限されています）</li>
-                </ul>
-                <p>デフォルトのスケール3で十分カバーできるかと思いますが、もう少し影響範囲を広げたい場合は段階的に調整してください。</p>
-            </div>
-
-            <div class="info">
-                <strong>影響範囲の確認方法</strong>
-                <p><code>メインメニュー → 視点設定 → 影響範囲可視化</code> をONにすると、マテリアルが置き換わり、<strong>半透明の水色のキューブ</strong>になります。</p>
-                <p>この状態で影響範囲のスケールを調整すると、実際にどのくらいの範囲がカバーされているかを視覚的に確認できます。</p>
-                <p><strong>⚠️ 調整が終わったら、必ず影響範囲可視化をOFFに戻してください。</strong>ONのままだとエフェクトが表示されず、水色のキューブが見えたままになります。</p>
-            </div>
-
-            <h3>Q: パラメーター数が多い為、圧迫が心配</h3>
-            <p><strong>A:</strong> VividAvatarFXのパラメータは同期設定を取らない（networkSynced: false）ため、ExpressionParametersの容量を消費しません。<br>つまり実質的な<strong>使用ExpressionParameters数は0</strong>です。<br>このギミックではExpressionParametersの枠を圧迫しないため、他のギミックと容量を競合することなく使用できます。</p>
-
-            <h3>Q: プリセットが読み込まれない</h3>
-            <p><strong>A:</strong> <code>Assets/x2much4u/VividAvatarFX/Preset/</code> フォルダにJSONファイルが存在するか確認してください。サブフォルダ内でも認識されます。</p>
-
-            <h3>Q: いろいろ触ってたら分からなくなった、設定を元に戻したい</h3>
-            <p><strong>A:</strong> マテリアルInspector右上の <strong>⁝</strong>から、<strong>Reset</strong>を押すと、マテリアルInspectorがシェーダーの初期値になります。</p>
-
-            <h2 id="license">ライセンス情報</h2>
-
-            <h3>VividAvatarFX本体</h3>
-            <p>VividAvatarFX本体は<strong>VN3 License Ver.2.0.1</strong>のもとで配布されています。</p>
-            
-            <div class="info">
-                <strong>主要な利用条件</strong>
-                <ul>
-                    <li><strong>営利目的での利用：</strong>可能</li>
-                    <li><strong>商用利用：</strong>可能</li>
-                    <li><strong>再配布：</strong>禁止</li>
-                    <li><strong>JSONファイル（プリセット設定）の配布：</strong>許可（特記事項により）</li>
-                </ul>
-                <p><strong>詳細な利用規約は製品に同梱されているVN3ライセンス全文を必ずご確認ください。</strong></p>
-                <p><a href="https://drive.google.com/drive/folders/1iJT_2lE_kOlim-YSXlYpvrK9QJp19qWB" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">→ VN3ライセンス全文をここからも確認できます。</a></p>
-            </div>
-            
-            <div class="code-block">
-            VividAvatarFX<br>
-            Copyright (c) 2025 ゴンリー (x2much4u)<br>
-            VN3 License Ver.2.0.1
-            </div>
         </div>
 
-        <div class="content future-section">
-            <h2 id="future">予定されている修正・追加機能</h2>
-            
-            <div class="info">
-                <strong>開発中の機能</strong>
-                <p>以下の機能が実装予定です。実装時期は未定ですが、順次対応していきます。</p>
-            </div>
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>保存スロットを選択</strong>
+            <p>Preset01〜Preset22の中から保存先を選択します。</p>
+        </div>
 
-            <h3 id="future-lang">1. 一旦終了</h3>
-            <div class="step">
-                <strong>予定されていた開発が全て完了しました。</br>テスターの皆様ありがとうございました！</br>後はインスペクターの表示を少し調整するぐらいかと思われます。</strong>
-                <ul><p>もし不具合があれば優先しますのでお気軽にお願いします！</p></ul>
-            </div>
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>メニュー表示名を入力</strong>
+            <p>VRChat内のExPression Menuに表示される名前を入力します。日本語も使用可能です。</p>
+        </div>
 
-            <div class="warning">
-                <strong>注意事項</strong>
-                <p>これらの機能は予定であり、実装時期や仕様は変更される可能性があります。また、実装優先度は開発状況やユーザーからのフィードバックによって変動する場合があります。</p>
-            </div>
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>表示設定を選択</strong>
+            <p>このプリセットでの表示設定を選択します：</p>
+            <ul>
+                <li><strong>Enable VR:</strong> VR視点で表示するか</li>
+                <li><strong>Enable Desktop:</strong> デスクトップ視点で表示するか</li>
+                <li><strong>Enable SS:</strong> カメラ撮影時に表示するか</li>
+                <li><strong>Enable Other:</strong> その他の環境で表示するか</li>
+            </ul>
+            <p>これらの設定は、マテリアルの値よりも優先されます。</p>
+        </div>
 
-            <div class="info">
-                <strong>フィードバックについて</strong>
-                <p>これらの機能に関するご意見やご要望がありましたら、ぜひお聞かせください。皆様からのフィードバックは、より良い製品づくりに役立てさせていただきます。</p>
-            </div>
+        <div class="step">
+            <span class="step-number">5</span>
+            <strong>ベイクを実行</strong>
+            <p>緑色のボタン「プリセット [名前] を [スロット] にベイク」をクリックします。</p>
+        </div>
+
+        <div class="info">
+            <strong>既存プリセットの上書き</strong>
+            <p>既に同名のJSONファイルが存在する場合、上書き確認ダイアログが表示されます。選択肢は3つ：</p>
+            <ul>
+                <li><strong>上書きする:</strong> JSONファイルを更新し、ベイクも実行</li>
+                <li><strong>上書きしない（焼き込みのみ実行）:</strong> JSONファイルは更新せず、AnimatorControllerへのベイクのみ実行</li>
+                <li><strong>キャンセル:</strong> 何もしない</li>
+            </ul>
+        </div>
+
+        <div class="info">
+            <strong>プリセット表示名プレビュー</strong>
+            <p>Preset Makerの下部には、現在登録されているプリセットの一覧が表示されます。色分けは以下の通り：</p>
+            <ul>
+                <li><strong>青色:</strong> 選択中のプリセット</li>
+                <li><strong>緑色:</strong> JSONファイルが存在するプリセット</li>
+                <li><strong>灰色:</strong> 未登録のプリセット</li>
+            </ul>
+        </div>
+
+        <h3 id="preset-use">プリセットの使用</h3>
+
+        <h4>Unity内での適用</h4>
+        <p>マテリアルInspectorの「プリセット」ドロップダウンから保存済みプリセットを選択し、「適用」ボタンをクリックすると、マテリアルにプリセットの値が反映されます。</p>
+
+        <div class="warning">
+            <strong>適用後は必ずベイク</strong>
+            <p>プリセットを適用しただけではVRChat内で変更されません。適用後、Setup ToolまたはPreset Makerで再度ベイクを実行してください。</p>
+        </div>
+
+        <h4>VRChat内での切り替え</h4>
+        <p>VRChat内では、Expression Menuから登録したプリセットを選択することで、瞬時にエフェクトを切り替えられます。プリセットメニューは3ページに分かれています。</p>
+
+        <h3 id="preset-share">共有機能</h3>
+
+        <h4>エクスポート</h4>
+        <p>マテリアルInspectorの「エクスポート」ボタンで、現在の設定をJSONファイルとして保存できます。保存先を指定するダイアログが表示されます。</p>
+
+        <div class="warning">
+            <strong>Presetフォルダ外への保存</strong>
+            <p><code>Assets/x2much4u/VividAvatarFX/Preset/</code>以外に保存すると、プリセットメニューで認識されません。共有用にエクスポートする場合はこの動作で問題ありませんが、自分で使用する場合はPresetフォルダ内に保存してください。</p>
+        </div>
+
+        <h4>インポート</h4>
+        <p>マテリアルInspectorの「インポート」ボタンで、外部のJSONファイルを読み込めます。インポート時には以下の処理が行われます：</p>
+        <ol>
+            <li>JSONファイルの内容をマテリアルに適用</li>
+            <li>JSONファイルを<code>Preset/</code>フォルダにコピー</li>
+            <li>プリセットメニューに追加</li>
+        </ol>
+
+        <div class="info">
+            <strong>エクスポート と プリセット登録 の違いは何？</strong>
+            <ul>
+                <li><strong>エクスポート:</strong> 設定をJSONファイルとして保存するだけ（他の人と共有する場合に使用）</li>
+                <li><strong>プリセット登録:</strong> AnimatorControllerに設定を書き込み、VRChat内のメニューから切り替え可能にする</li>
+            </ul>
+        </div>
+
+        <h2 id="faq">よくある質問</h2>
+
+        <h3>Q: エフェクトが表示されない</h3>
+        <p><strong>A:</strong> 以下を確認してください：</p>
+        <ul>
+            <li>Setup Toolでベイクを実行したか</li>
+            <li>表示設定（EnableVR/EnableDesktopなど）が有効になっているか</li>
+            <li>マテリアルが正しく<code>x2much4u/VividAvatarFX</code>シェーダーを使用しているか</li>
+            <li>影響範囲の設定が適切か（後述）</li>
+        </ul>
+
+        <h3>Q: 影響範囲とは？</h3>
+        <p><strong>A:</strong> VividAvatarFXは、Cubeオブジェクトが視界に入っている範囲でのみエフェクトが適用されます。これはシェーダーの仕組み上、描画オブジェクトが必要なためです。</p>
+
+        <div class="info">
+            <strong>影響範囲の調整方法</strong>
+            <p>VRChat内のメニュー → 視点設定 → 影響範囲から、Cubeのスケールを調整できます（デフォルト: 3、最大: 20）。</p>
+        </div>
+
+        <div class="warning">
+            <strong>影響範囲を大きくしすぎない</strong>
+            <p>スケールを大きくしすぎると、フォールバック時（シェーダーが動作しない環境）に巨大な不透過Cubeが出現し、視界を完全に遮ってしまいます。段階的に調整してください。</p>
+        </div>
+
+        <div class="info">
+            <strong>影響範囲の可視化</strong>
+            <p>VRChat内のメニュー → 視点設定 → 影響範囲可視化をONにすると、半透明の水色キューブとして影響範囲を確認できます。調整後は必ずOFFに戻してください。</p>
+        </div>
+
+        <h3>Q: デスクトップで表示されない / 「その他」でしか表示されない</h3>
+        <p><strong>A:</strong> 以下の場合に表示判定が失敗することがあります：</p>
+        <ul>
+            <li>カメラを傾けるギミックを使用している</li>
+            <li>他の視界エフェクトと併用している</li>
+            <li>特殊なカメラ設定を使用している</li>
+        </ul>
+        <p><strong>解決方法:</strong> 「Enable Other」をONにする（最も確実）、または競合するギミックを無効化する</p>
+
+        <h3>Q: カメラのみで表示したいのに、デスクトップでも表示される</h3>
+        <p><strong>A:</strong> VRChatのウィンドウモードに切り替えてください（Alt+Enter）。フルスクリーンモードでは判定が不正確になる場合があります。</p>
+
+        <h3>Q: パラメーター数が多くて圧迫が心配</h3>
+        <p><strong>A:</strong> VividAvatarFXのパラメーターは<code>networkSynced: false</code>に設定されているため、ExpressionParametersの容量を一切消費しません。実質的な使用メモリは0です。</p>
+
+        <h3>Q: プリセットが読み込まれない</h3>
+        <p><strong>A:</strong> <code>Assets/x2much4u/VividAvatarFX/Preset/</code>フォルダにJSONファイルが存在するか確認してください。サブフォルダ内のファイルも認識されます。</p>
+
+        <h3>Q: 設定を初期値に戻したい</h3>
+        <p><strong>A:</strong> マテリアルInspector右上の<strong>⁝</strong>メニューから<strong>Reset</strong>を選択すると、シェーダーのデフォルト値に戻ります。</p>
+
+        <h3>Q: VRChat内で設定をリセットしたい</h3>
+        <p><strong>A:</strong> Expression Menuから「ベイクした値にリセット」ボタンを押すと、最後にベイクした値にすべてのパラメーターがリセットされます。</p>
+
+        <h2 id="license">ライセンス</h2>
+
+        <h3>VividAvatarFX本体</h3>
+        <p>VividAvatarFX本体は<strong>VN3 License</strong>のもとで配布されています。</p>
+
+        <div class="info">
+            <strong>主要な利用条件</strong>
+            <ul>
+                <li><strong>個人利用:</strong> 自由に使用可能</li>
+                <li><strong>商用利用:</strong> 可能</li>
+                <li><strong>改変:</strong> 可能</li>
+                <li><strong>再配布:</strong> 禁止</li>
+                <li><strong>JSONファイルの配布:</strong> 許可（プリセット設定の共有）</li>
+            </ul>
+            <p>詳細な利用規約は、製品に同梱されているVN3ライセンス全文を必ずご確認ください。</p>
+            <p><a href="https://drive.google.com/drive/folders/1iJT_2lE_kOlim-YSXlYpvrK9QJp19qWB" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">→ VN3ライセンス全文</a></p>
+        </div>
+
+        <div class="code-block">
+VividAvatarFX<br>
+Copyright (c) 2025 ゴンリー (x2much4u)<br>
+VN3 License
         </div>
 
         <footer>
@@ -1067,7 +959,8 @@
             <p>VRChat想定アバターギミック #VAFX</p>
             <p><a href="https://x2much4u.booth.pm/" target="_blank" style="color: #667eea; text-decoration: none;">https://x2much4u.booth.pm/</a></p>
         </footer>
-        </div>
     </div>
+    </div>
+</div>
 </body>
 </html>
