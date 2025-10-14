@@ -78,7 +78,7 @@
             transition: max-height 0.3s ease;
         }
         .sidebar-subnav.active {
-            max-height: 500px;
+            max-height: 800px;
         }
         .sidebar-subnav a {
             padding: 6px 12px;
@@ -151,6 +151,38 @@
             font-size: 1em;
             opacity: 0.9;
         }
+        .lang-switcher {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .lang-switcher-buttons {
+            display: inline-flex;
+            gap: 10px;
+        }
+        .lang-btn {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 10px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+        }
+        .lang-btn:hover {
+            background: #f0f0ff;
+        }
+        .lang-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        [lang="en"] .ja-only,
+        [lang="ja"] .en-only {
+            display: none;
+        }
         .content {
             padding: 20px;
         }
@@ -221,16 +253,6 @@
             word-break: break-all;
             font-size: 0.9em;
         }
-        .code-block {
-            background: #2d2d2d;
-            color: #f8f8f2;
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-            margin: 15px 0;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85em;
-        }
         ul, ol {
             margin: 15px 0 15px 20px;
         }
@@ -239,7 +261,7 @@
         }
         .feature-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 15px;
             margin: 20px 0;
         }
@@ -247,15 +269,23 @@
             background: #f8f9fa;
             padding: 15px;
             border-radius: 8px;
-            border: 2px solid #e9ecef;
+            border: 1px solid #dee2e6;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         .feature-card h4 {
             margin-top: 0;
             margin-bottom: 8px;
             font-size: 1em;
+            color: #495057;
         }
         .feature-card p {
-            font-size: 0.9em;
+            font-size: 0.85em;
+            color: #6c757d;
+            margin: 0;
         }
         footer {
             background: #2d2d2d;
@@ -265,167 +295,204 @@
             margin-top: 40px;
             font-size: 0.9em;
         }
-        .toc {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-        .toc ul {
-            list-style: none;
-            margin-left: 0;
-        }
-        .toc a {
+        footer a {
             color: #667eea;
             text-decoration: none;
         }
-        .toc a:hover {
+        footer a:hover {
             text-decoration: underline;
         }
-    @media (max-width: 900px) {
-        .hamburger {
-            display: block;
-        }
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            transform: translateX(-100%);
-            z-index: 1000;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .sidebar.active {
-            transform: translateX(0);
-        }
-        .container {
-            flex-direction: column;
-        }
-        .main-content {
-            height: auto;
+        table {
             width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        header h1 {
-            font-size: 1.5em;
+        table th {
+            background: #f8f9fa;
+            color: #495057;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #dee2e6;
         }
-        h2 {
-            font-size: 1.3em;
+        table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
         }
-        h3 {
-            font-size: 1.1em;
+        table tr:hover {
+            background: #f5f5f5;
         }
-        .content {
-            padding: 15px;
-            padding-top: 60px;
+        @media (max-width: 900px) {
+            .hamburger {
+                display: block;
+            }
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                transform: translateX(-100%);
+                z-index: 1000;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .container {
+                flex-direction: column;
+            }
+            .main-content {
+                height: auto;
+                width: 100%;
+            }
+            header h1 {
+                font-size: 1.5em;
+            }
+            h2 {
+                font-size: 1.3em;
+            }
+            h3 {
+                font-size: 1.1em;
+            }
+            .content {
+                padding: 15px;
+                padding-top: 60px;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
         }
-        .feature-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const sections = document.querySelectorAll('h2[id], h3[id]');
-        const navLinks = document.querySelectorAll('.sidebar-nav > li > a');
-        const allNavLinks = document.querySelectorAll('.sidebar-nav a');
-        const subNavs = document.querySelectorAll('.sidebar-subnav');
-        const mainContent = document.querySelector('.main-content');
-        const hamburger = document.querySelector('.hamburger');
-        const sidebar = document.querySelector('.sidebar');
-        const overlay = document.querySelector('.overlay');
-        
-        if (hamburger) {
-            hamburger.addEventListener('click', function() {
-                sidebar.classList.toggle('active');
-                overlay.classList.toggle('active');
-            });
-        }
-        
-        if (overlay) {
-            overlay.addEventListener('click', function() {
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
-            });
-        }
-        
-        allNavLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                if (window.innerWidth <= 900) {
-                    sidebar.classList.remove('active');
-                    overlay.classList.remove('active');
-                }
-            });
-        });
-        
-        function setActiveLink() {
-            const scrollPosition = mainContent.scrollTop;
-            const allSections = Array.from(sections);
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('h2[id], h3[id]');
+            const navLinks = document.querySelectorAll('.sidebar-nav > li > a');
+            const allNavLinks = document.querySelectorAll('.sidebar-nav a');
+            const subNavs = document.querySelectorAll('.sidebar-subnav');
+            const mainContent = document.querySelector('.main-content');
+            const hamburger = document.querySelector('.hamburger');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.overlay');
+            const htmlElement = document.documentElement;
+            const langBtns = document.querySelectorAll('.lang-btn');
             
-            let currentSection = '';
-            let currentMainSection = '';
+            // 言語切り替え
+            const savedLang = localStorage.getItem('vafx-lang') || 'ja';
+            htmlElement.setAttribute('lang', savedLang);
+            updateLangButtons(savedLang);
             
-            for (let i = allSections.length - 1; i >= 0; i--) {
-                const section = allSections[i];
-                const rect = section.getBoundingClientRect();
-                const mainRect = mainContent.getBoundingClientRect();
-                const relativeTop = rect.top - mainRect.top + scrollPosition;
-                
-                if (scrollPosition >= relativeTop - 100) {
-                    currentSection = section.getAttribute('id');
-                    
-                    if (section.tagName === 'H2') {
-                        currentMainSection = currentSection;
-                        break;
-                    } else if (section.tagName === 'H3') {
-                        for (let j = i - 1; j >= 0; j--) {
-                            if (allSections[j].tagName === 'H2' && allSections[j].id) {
-                                currentMainSection = allSections[j].id;
-                                break;
-                            }
-                        }
-                        break;
+            langBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.dataset.lang;
+                    htmlElement.setAttribute('lang', lang);
+                    localStorage.setItem('vafx-lang', lang);
+                    updateLangButtons(lang);
+                });
+            });
+            
+            function updateLangButtons(activeLang) {
+                langBtns.forEach(btn => {
+                    if (btn.dataset.lang === activeLang) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
                     }
-                }
+                });
             }
             
-            subNavs.forEach(subnav => {
-                subnav.classList.remove('active');
-            });
+            if (hamburger) {
+                hamburger.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    overlay.classList.toggle('active');
+                });
+            }
+            
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                });
+            }
             
             allNavLinks.forEach(link => {
-                link.classList.remove('active');
+                link.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 900) {
+                        sidebar.classList.remove('active');
+                        overlay.classList.remove('active');
+                    }
+                });
             });
             
-            navLinks.forEach(link => {
-                const href = link.getAttribute('href').substring(1);
+            function setActiveLink() {
+                const scrollPosition = mainContent.scrollTop;
+                const allSections = Array.from(sections);
                 
-                if (href === currentMainSection) {
-                    link.classList.add('active');
+                let currentSection = '';
+                let currentMainSection = '';
+                
+                for (let i = allSections.length - 1; i >= 0; i--) {
+                    const section = allSections[i];
+                    const rect = section.getBoundingClientRect();
+                    const mainRect = mainContent.getBoundingClientRect();
+                    const relativeTop = rect.top - mainRect.top + scrollPosition;
                     
-                    const parentLi = link.parentElement;
-                    const subnav = parentLi.querySelector('.sidebar-subnav');
-                    if (subnav) {
-                        subnav.classList.add('active');
+                    if (scrollPosition >= relativeTop - 100) {
+                        currentSection = section.getAttribute('id');
                         
-                        const subLinks = subnav.querySelectorAll('a');
-                        subLinks.forEach(subLink => {
-                            const subHref = subLink.getAttribute('href').substring(1);
-                            if (subHref === currentSection) {
-                                subLink.classList.add('active');
+                        if (section.tagName === 'H2') {
+                            currentMainSection = currentSection;
+                            break;
+                        } else if (section.tagName === 'H3') {
+                            for (let j = i - 1; j >= 0; j--) {
+                                if (allSections[j].tagName === 'H2' && allSections[j].id) {
+                                    currentMainSection = allSections[j].id;
+                                    break;
+                                }
                             }
-                        });
+                            break;
+                        }
                     }
                 }
-            });
-        }
-        
-        if (mainContent) {
-            mainContent.addEventListener('scroll', setActiveLink);
-        }
-        
-        setActiveLink();
-    });
-</script>
+                
+                subNavs.forEach(subnav => {
+                    subnav.classList.remove('active');
+                });
+                
+                allNavLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                navLinks.forEach(link => {
+                    const href = link.getAttribute('href').substring(1);
+                    
+                    if (href === currentMainSection) {
+                        link.classList.add('active');
+                        
+                        const parentLi = link.parentElement;
+                        const subnav = parentLi.querySelector('.sidebar-subnav');
+                        if (subnav) {
+                            subnav.classList.add('active');
+                            
+                            const subLinks = subnav.querySelectorAll('a');
+                            subLinks.forEach(subLink => {
+                                const subHref = subLink.getAttribute('href').substring(1);
+                                if (subHref === currentSection) {
+                                    subLink.classList.add('active');
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+            
+            if (mainContent) {
+                mainContent.addEventListener('scroll', setActiveLink);
+            }
+            
+            setActiveLink();
+        });
+    </script>
 </head>
 <body>
     <button class="hamburger" aria-label="メニューを開く">
@@ -434,533 +501,1013 @@
         <span></span>
     </button>
     <div class="overlay"></div>
-<div class="container">
-    <aside class="sidebar">
-        <h2>目次</h2>
-        <ul class="sidebar-nav">
-            <li>
-                <a href="#quickstart">クイックスタート</a>
-            </li>
-            <li>
-                <a href="#overview">概要</a>
-                <ul class="sidebar-subnav">
-                    <li><a href="#overview-features">主な機能</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#setup">セットアップ詳細</a>
-                <ul class="sidebar-subnav">
-                    <li><a href="#setup-bake">ベイク処理について</a></li>
-                    <li><a href="#setup-reset">リセット機能</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#adjustment">エフェクトの調整</a>
-                <ul class="sidebar-subnav">
-                    <li><a href="#adjustment-basic">基本設定</a></li>
-                    <li><a href="#adjustment-color">カラーグレーディング</a></li>
-                    <li><a href="#adjustment-effects">エフェクト設定</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#preset">プリセット機能</a>
-                <ul class="sidebar-subnav">
-                    <li><a href="#preset-register">プリセット登録</a></li>
-                    <li><a href="#preset-use">プリセットの使用</a></li>
-                    <li><a href="#preset-share">共有機能</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#faq">よくある質問</a>
-            </li>
-            <li>
-                <a href="#license">ライセンス</a>
-            </li>
-        </ul>
-    </aside>
-    
-    <div class="main-content">
-    <header>
-        <h1>VividAvatarFX</h1>
-        <p>VRChat想定アバターギミック #VAFX</p>
-    </header>
-
-    <div class="content">
-        <h3>ドキュメント最終更新 : 2025/10/11</h3>
-        <h3>最新バージョン : Ver.0.17.1</h3>
-        
-        <h2 id="quickstart">クイックスタート</h2>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>Prefabを配置</strong>
-            <p><code>Assets/x2much4u/VividAvatarFX/Prefab/VividAvatarFX</code> をアバターの直下に配置します。</p>
-        </div>
-
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>Setup Toolを開く</strong>
-            <p>以下のいずれかの方法でSetup Toolを起動：</p>
-            <ul>
-                <li>Prefab内の<code>Effect</code>オブジェクトを選択 → Inspector上部の緑色ボタン「セットアップ & ベイク」をクリック</li>
-                <li>Unityメニュー → <code>Tools → x2much4u → VividAvatarFX → VAFX Setup Tool</code></li>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>目次</h2>
+                            <ul class="sidebar-nav">
+                <li>
+                    <a href="#quickstart">クイックスタート</a>
+                    <ul class="sidebar-subnav">
+                        <li><a href="#quickstart-install">インストール</a></li>
+                        <li><a href="#quickstart-setup">初期セットアップ</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#overview">概要</a>
+                    <ul class="sidebar-subnav">
+                        <li><a href="#overview-features">主要機能</a></li>
+                        <li><a href="#overview-requirements">動作環境</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#effects">エフェクト詳細</a>
+                    <ul class="sidebar-subnav">
+                        <li><a href="#effects-color">カラー設定</a></li>
+                        <li><a href="#effects-post">ポストエフェクト</a></li>
+                        <li><a href="#effects-lens">レンズエフェクト</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#preset">プリセット機能</a>
+                    <ul class="sidebar-subnav">
+                        <li><a href="#preset-create">プリセット作成</a></li>
+                        <li><a href="#preset-apply">プリセット適用</a></li>
+                        <li><a href="#preset-share">プリセット共有</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#eyecontrol">視線制御</a>
+                    <ul class="sidebar-subnav">
+                        <li><a href="#eyecontrol-setup">セットアップ</a></li>
+                        <li><a href="#eyecontrol-manual">手動設定</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#light">ライト機能</a>
+                    <ul class="sidebar-subnav">
+                        <li><a href="#light-types">ライトの種類</a></li>
+                        <li><a href="#light-usage">使い方</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#technical">技術仕様</a>
+                </li>
+                <li>
+                    <a href="#troubleshooting">トラブルシューティング</a>
+                </li>
+                <li>
+                    <a href="#faq">よくある質問</a>
+                </li>
+                <li>
+                    <a href="#license">ライセンス</a>
+                </li>
+                <li>
+                    <a href="#changelog">更新履歴</a>
+                </li>
             </ul>
-        </div>
-
-        <div class="step">
-            <span class="step-number">3</span>
-            <strong>アバターを設定</strong>
-            <p>Setup Toolの「ターゲットアバター」欄に、アバターのルートオブジェクトをドラッグ&ドロップします。</p>
-        </div>
-
-        <div class="step">
-            <span class="step-number">4</span>
-            <strong>ベイクを実行</strong>
-            <p>緑色のボタン「マテリアル値を焼き込み & アバターに統合 (Bake & Merge)」をクリックします。</p>
-        </div>
-
-        <div class="success">
-            <strong>✓ セットアップ完了</strong>
-            <p>これでVividAvatarFXの基本的な導入は完了です。VRChatにアップロードして動作を確認してください。</p>
-        </div>
-
-        <div class="warning">
-            <strong>重要：マテリアル値を変更したら必ず再ベイク</strong>
-            <p>VAFXマテリアルのパラメーターを変更した場合、必ず再度ベイクを実行してください。ベイクしないとVRChat内で変更が反映されません。</p>
-        </div>
-
-        <h2 id="overview">概要</h2>
-        <p>VividAvatarFXは、VRChatアバター向けの視界エフェクトシステムです。カラーグレーディング、グリッチ、レンズ歪みなど、映画やゲームで使われるような高度なポストプロセスエフェクトをVRChat内でリアルタイムに制御できます。</p>
-
-        <h3 id="overview-features">主な機能</h3>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <h4>カラーグレーディング</h4>
-                <p>明度・彩度・コントラスト・色相シフト・ガンマ調整</p>
-            </div>
-            <div class="feature-card">
-                <h4>トーンカーブ</h4>
-                <p>RGB各チャンネルの詳細調整</p>
-            </div>
-            <div class="feature-card">
-                <h4>Lift/Gamma/Gain</h4>
-                <p>シャドウ・ミッドトーン・ハイライトの個別調整</p>
-            </div>
-            <div class="feature-card">
-                <h4>ビネット</h4>
-                <p>画面端の暗化・カスタムカラー対応</p>
-            </div>
-            <div class="feature-card">
-                <h4>シネマティックライン</h4>
-                <p>映画のような画面端の黒帯</p>
-            </div>
-            <div class="feature-card">
-                <h4>グリッチエフェクト</h4>
-                <p>ラインシフト（横/縦）・カラー分離・ブロックノイズ</p>
-            </div>
-            <div class="feature-card">
-                <h4>ブルーム</h4>
-                <p>明るい部分の発光効果</p>
-            </div>
-            <div class="feature-card">
-                <h4>色収差</h4>
-                <p>8種類のプリセットパターン</p>
-            </div>
-            <div class="feature-card">
-                <h4>レンズ歪み</h4>
-                <p>バレル・ピンクッション歪み、拡縮</p>
-            </div>
-            <div class="feature-card">
-                <h4>その他エフェクト</h4>
-                <p>ノイズ/グレイン・ポスタライズ・ディザリング・モザイク・ネオンエッジ・色反転</p>
-            </div>
-        </div>
-
-        <h2 id="setup">セットアップ詳細</h2>
-
-        <h3 id="setup-bake">ベイク処理について</h3>
-        <p>VividAvatarFXは、Modular Avatar Parametersを使用していません。そのため、マテリアルの設定値を直接アバターのExpressionParametersに書き込む「ベイク処理」が必要です。</p>
-
-        <div class="info">
-            <strong>ベイク処理で行われること</strong>
-            <ul>
-                <li>マテリアルの全プロパティ値（0-1の範囲）をExpressionParametersのDefault値に設定</li>
-                <li>VAFX_ResetAllアニメーションクリップに初期値を記録</li>
-                <li>VRCAvatarParameterDriverに初期値を設定</li>
-                <li>アバターのExpressionParametersにVAFXパラメーターをマージ</li>
-            </ul>
-        </div>
-
-        <h3 id="setup-reset">リセット機能</h3>
-        <p>VRChat内で「VAFX_ResetAll」パラメーターをONにすると、ベイク時に設定した初期値にすべてのエフェクトをリセットできます。この機能により、複雑な設定を簡単に元に戻すことができます。</p>
-
-        <h2 id="adjustment">エフェクトの調整</h2>
-        <p>マテリアル<code>Assets/x2much4u/VividAvatarFX/Material/VividAvatarFX.mat</code>を選択すると、カスタムInspectorが表示されます。</p>
-
-        <div class="info">
-            <strong>言語設定</strong>
-            <p>Inspector上部の「Language」から日本語/英語を切り替えられます。この設定はUnityのEditorPrefsに保存され、すべてのVAFXツールで共有されます。</p>
-        </div>
-
-        <h3 id="adjustment-basic">基本設定</h3>
+        </aside>
         
-        <h4>メインカラー</h4>
-        <ul>
-            <li><strong>色相 (Hue):</strong> エフェクト全体の色相（0-1）</li>
-            <li><strong>彩度 (Saturation):</strong> 色の鮮やかさ（0-1）</li>
-            <li><strong>明度 (Value):</strong> 明るさ（0-1）</li>
-            <li><strong>透明度 (Alpha):</strong> 不透明度（0-1）</li>
-            <li><strong>全体の透明度 (Opacity):</strong> エフェクト全体の不透明度</li>
-        </ul>
+        <div class="main-content">
+            <header>
+                <h1>VividAvatarFX</h1>
+                <p>Version 1.0.0</p>
+                <p class="ja-only" style="font-size: 0.9em; margin-top: 5px;">VRChat想定アバターギミック #VAFX</p>
+                <p class="en-only" style="font-size: 0.9em; margin-top: 5px;">VRChat Avatar Gimmick #VAFX</p>
+            </header>
 
-        <h4>表示設定</h4>
-        <ul>
-            <li><strong>Enable VR:</strong> VR視点で表示するかどうか</li>
-            <li><strong>Enable Desktop:</strong> デスクトップ視点で表示するかどうか</li>
-            <li><strong>Enable SS:</strong> VRChatカメラ（スクリーンショット/動画撮影）で表示するかどうか</li>
-            <li><strong>Enable Other:</strong> その他の環境（Unity Editorなど）で表示するかどうか</li>
-        </ul>
+            <div class="lang-switcher">
+                <div class="lang-switcher-buttons">
+                    <button class="lang-btn active" data-lang="ja">日本語</button>
+                    <button class="lang-btn" data-lang="en">English</button>
+                </div>
+            </div>
 
-        <div class="info">
-            <strong>表示判定の仕組み</strong>
-            <p>VividAvatarFXは、VRChatのグローバル変数（<code>_VRChatCameraMode</code>、<code>_VRChatMirrorMode</code>など）を使用して、現在の視点を判定しています。ミラー内やパノラマモードでは自動的に非表示になります。</p>
-        </div>
+            <div class="content">
+                <h2 id="quickstart">
+                    <span class="ja-only">クイックスタート</span>
+                    <span class="en-only">Quick Start</span>
+                </h2>
+                <p class="ja-only">VividAvatarFXを最速で導入する手順です。</p>
+                <p class="en-only">The fastest way to set up VividAvatarFX.</p>
 
-        <h4>設定</h4>
-        <ul>
-            <li><strong>レンダーキュー (Render Queue):</strong> 描画順序（デフォルト: 4100）。他のエフェクトとの描画順を調整する場合に変更します。</li>
-        </ul>
+                <h3 id="quickstart-install">
+                    <span class="ja-only">インストール</span>
+                    <span class="en-only">Installation</span>
+                </h3>
+                
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong class="ja-only">Prefabの配置</strong>
+                    <strong class="en-only">Place Prefab</strong>
+                    <p class="ja-only">言語に応じたPrefabをアバターのルート直下に配置：</p>
+                    <p class="en-only">Place the appropriate language prefab directly under your avatar root:</p>
+                    <ul>
+                        <li class="ja-only">日本語版：<code>Assets/x2much4u/VividAvatarFX/Prefab/VividAvatarFX_JP.prefab</code></li>
+                        <li class="ja-only">英語版：<code>Assets/x2much4u/VividAvatarFX/Prefab/VividAvatarFX_EN.prefab</code></li>
+                        <li class="en-only">Japanese: <code>Assets/x2much4u/VividAvatarFX/Prefab/VividAvatarFX_JP.prefab</code></li>
+                        <li class="en-only">English: <code>Assets/x2much4u/VividAvatarFX/Prefab/VividAvatarFX_EN.prefab</code></li>
+                    </ul>
+                </div>
 
-        <h3 id="adjustment-color">カラーグレーディング</h3>
+                <div class="warning">
+                    <strong class="ja-only">⚠️ 重要：</strong>
+                    <strong class="en-only">⚠️ Important:</strong>
+                    <span class="ja-only">Prefabは必ずアバターのルート直下に配置してください。他の場所に配置すると正常に動作しません。</span>
+                    <span class="en-only">The Prefab must be placed directly under the avatar root. It will not work properly if placed elsewhere.</span>
+                </div>
 
-        <h4>基本調整</h4>
-        <ul>
-            <li><strong>明るさ (Brightness):</strong> 画像全体の明るさ（0-1、0.5が中間）</li>
-            <li><strong>コントラスト (Contrast):</strong> 明暗の差（0-1、0.5が中間）</li>
-            <li><strong>彩度 (Saturation):</strong> 色の鮮やかさ（0-1、0.5が中間）</li>
-            <li><strong>色相シフト (Hue Shift):</strong> 色相環の回転（0-1、0.5が中間）</li>
-            <li><strong>ガンマ (Gamma):</strong> 中間調の明るさ（0-1、0.33がデフォルト）</li>
-            <li><strong>色反転 (Color Invert):</strong> 色を反転するかどうか（Bool）</li>
-        </ul>
+                <h3 id="quickstart-setup">
+                    <span class="ja-only">初期セットアップ</span>
+                    <span class="en-only">Initial Setup</span>
+                </h3>
 
-        <p>各調整には「〜Enabled」トグルがあり、個別にON/OFFできます。</p>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong class="ja-only">Setup Toolを開く</strong>
+                    <strong class="en-only">Open Setup Tool</strong>
+                    <p class="ja-only">以下のいずれかの方法で開きます：</p>
+                    <p class="en-only">Open using one of the following methods:</p>
+                    <ul>
+                        <li class="ja-only">マテリアルInspectorの「セットアップ & ベイク」ボタン</li>
+                        <li class="ja-only">メニューバー：<code>Tools → x2much4u → VividAvatarFX → VAFX Setup Tool</code></li>
+                        <li class="en-only">Material Inspector: "Setup & Bake" button</li>
+                        <li class="en-only">Menu bar: <code>Tools → x2much4u → VividAvatarFX → VAFX Setup Tool</code></li>
+                    </ul>
+                </div>
 
-        <h4>トーンカーブ</h4>
-        <p>RGB各チャンネルごとに、スケールとパワーを調整できます：</p>
-        <ul>
-            <li><strong>赤/緑/青トーンカーブ スケール:</strong> 各色チャンネルの倍率</li>
-            <li><strong>赤/緑/青トーンカーブ パワー:</strong> 各色チャンネルの非線形変換</li>
-            <li><strong>トーンカーブ強度 (Intensity):</strong> 効果の適用度（0-1）</li>
-        </ul>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong class="ja-only">アバターを設定</strong>
+                    <strong class="en-only">Set Avatar</strong>
+                    <p class="ja-only">Setup Toolの「ターゲットアバター」欄にアバターをドラッグ&ドロップ</p>
+                    <p class="en-only">Drag and drop your avatar into the "Target Avatar" field in Setup Tool</p>
+                </div>
 
-        <h4>Lift/Gamma/Gain</h4>
-        <p>映画の色補正で使われる手法で、明度レンジごとに色調整ができます：</p>
-        <ul>
-            <li><strong>Lift (リフト):</strong> シャドウ（暗部）の色調整（HSV）</li>
-            <li><strong>Gamma (ガンマ調整):</strong> ミッドトーン（中間調）の色調整（HSV）</li>
-            <li><strong>Gain (ゲイン):</strong> ハイライト（明部）の色調整（HSV）</li>
-        </ul>
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <strong class="ja-only">視線制御の設定（オプション）</strong>
+                    <strong class="en-only">Eye Control Setup (Optional)</strong>
+                    <ul>
+                        <li class="ja-only">目のボーンは自動検出されます</li>
+                        <li class="ja-only">「ベイク時に視線制御も設定する」にチェックを入れると視線制御も同時セットアップ</li>
+                        <li class="ja-only">他の視線制御ギミックを使用している場合はチェックを外してください</li>
+                        <li class="en-only">Eye bones are automatically detected</li>
+                        <li class="en-only">Check "Setup Eye Control on Bake" to set up eye control simultaneously</li>
+                        <li class="en-only">Uncheck if you're using another eye control system</li>
+                    </ul>
+                </div>
 
-        <h3 id="adjustment-effects">エフェクト設定</h3>
+                <div class="step">
+                    <span class="step-number">5</span>
+                    <strong class="ja-only">ベイク実行</strong>
+                    <strong class="en-only">Execute Bake</strong>
+                    <p class="ja-only">「マテリアル値を焼き込み & アバターに統合」ボタンをクリック</p>
+                    <p class="en-only">Click "Bake Material Values & Merge to Avatar" button</p>
+                </div>
 
-        <h4>ビネット</h4>
-        <ul>
-            <li><strong>強度 (Vignette):</strong> 効果の強さ（0-1）</li>
-            <li><strong>滑らかさ (Smoothness):</strong> エッジのぼかし具合（0-1）</li>
-            <li><strong>透明度 (Alpha):</strong> ビネット効果の不透明度（0-1）</li>
-            <li><strong>色 (Color):</strong> ビネットの色（HSV）</li>
-        </ul>
+                <div class="success">
+                    <strong class="ja-only">✅ セットアップ完了！</strong>
+                    <strong class="en-only">✅ Setup Complete!</strong>
+                    <p class="ja-only">これでVividAvatarFXの導入は完了です。アバターをアップロードして使用できます。</p>
+                    <p class="en-only">VividAvatarFX setup is now complete. You can upload your avatar and use it.</p>
+                </div>
 
-        <h4>シネマティックライン</h4>
-        <ul>
-            <li><strong>全体の強度 (Intensity):</strong> 効果全体の強さ（0-1）</li>
-            <li><strong>横線強度 (Horizontal):</strong> 画面上下の黒帯（0-1）</li>
-            <li><strong>縦線強度 (Vertical):</strong> 画面左右の黒帯（0-1）</li>
-            <li><strong>色 (Color):</strong> ラインの色（HSV）</li>
-            <li><strong>透明度 (Alpha):</strong> ラインの不透明度（0-1）</li>
-        </ul>
+                <div class="info">
+                    <strong class="ja-only">💡 なぜベイクが必要？</strong>
+                    <strong class="en-only">💡 Why is Baking Necessary?</strong>
+                    <p class="ja-only">VividAvatarFXは、現在のマテリアル値を直接ExpressionParametersに焼き込むことで動作します。これにより、VRC内でエフェクトをリアルタイムに調整できます。</p>
+                    <p class="en-only">VividAvatarFX works by baking current material values directly into Expression Parameters. This allows you to adjust effects in real-time within VRChat.</p>
+                    <p class="ja-only"><strong>マテリアルの値を変更したら、必ず再度ベイクを実行してください。</strong></p>
+                    <p class="en-only"><strong>Always re-bake after changing material values.</strong></p>
+                </div>
 
-        <h4>ネオンエッジ</h4>
-        <ul>
-            <li><strong>強度 (Neon Edge):</strong> エッジ検出による発光効果の強さ（0-1）</li>
-        </ul>
+                <h2 id="overview">
+                    <span class="ja-only">概要</span>
+                    <span class="en-only">Overview</span>
+                </h2>
+                <p class="ja-only">VividAvatarFXは、VRChatアバター用の高機能ポストプロセスエフェクトシステムです。視界ジャック機能により、あなたの視界だけでなく、他のユーザーのカメラにも美しいエフェクトを表示できます。</p>
+                <p class="en-only">VividAvatarFX is a high-performance post-process effect system for VRChat avatars. With view-jacking functionality, you can display beautiful effects not only in your own view but also in other users' cameras.</p>
 
-        <h4>ノイズ/グレイン</h4>
-        <ul>
-            <li><strong>種類 (Type):</strong> 0でブロックノイズ、1でフィルムグレイン（0-1）</li>
-            <li><strong>強度 (Intensity):</strong> ノイズの強さ（0-1）</li>
-            <li><strong>サイズ (Size):</strong> ノイズ粒子のサイズ（0-1）</li>
-        </ul>
+                <h3 id="overview-features">
+                    <span class="ja-only">主要機能</span>
+                    <span class="en-only">Main Features</span>
+                </h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4 class="ja-only">カラーグレーディング</h4>
+                        <h4 class="en-only">Color Grading</h4>
+                        <p class="ja-only">明るさ、コントラスト、彩度、色相シフト、ガンマ調整</p>
+                        <p class="en-only">Brightness, Contrast, Saturation, Hue Shift, Gamma</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 class="ja-only">ブルームエフェクト</h4>
+                        <h4 class="en-only">Bloom Effect</h4>
+                        <p class="ja-only">強度、閾値、半径、滑らかさ、拡散、ぼやけ</p>
+                        <p class="en-only">Intensity, Threshold, Radius, Softness, Diffusion, Blur</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 class="ja-only">色収差</h4>
+                        <h4 class="en-only">Chromatic Aberration</h4>
+                        <p class="ja-only">8種類のプリセット</p>
+                        <p class="en-only">8 Presets</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 class="ja-only">レンズ歪み</h4>
+                        <h4 class="en-only">Lens Distortion</h4>
+                        <p class="ja-only">魚眼レンズ、バレル歪み（VR視点では非表示）</p>
+                        <p class="en-only">Fisheye, Barrel Distortion (Hidden in VR view)</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 class="ja-only">グリッチエフェクト</h4>
+                        <h4 class="en-only">Glitch Effect</h4>
+                        <p class="ja-only">横・縦ラインシフト、カラー分離、ブロックノイズ</p>
+                        <p class="en-only">H/V Line Shift, Color Split, Block Noise</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 class="ja-only">ビネット</h4>
+                        <h4 class="en-only">Vignette</h4>
+                        <p class="ja-only">強度、滑らかさ、透明度、色調整</p>
+                        <p class="en-only">Intensity, Smoothness, Alpha, Color</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 class="ja-only">補助機能</h4>
+                        <h4 class="en-only">Additional Features</h4>
+                        <p class="ja-only">視線制御<br>ライト（PointLight×3、SpotLight×4）</p>
+                        <p class="en-only">Eye Control<br>Lights (PointLight×3, SpotLight×4)</p>
+                    </div>
+                </div>
 
-        <h4>モザイク</h4>
-        <ul>
-            <li><strong>ブロックサイズ (Mosaic Block Size):</strong> ピクセレーション効果の強さ（0-1）</li>
-        </ul>
+                <h3 id="overview-requirements">
+                    <span class="ja-only">動作環境</span>
+                    <span class="en-only">Requirements</span>
+                </h3>
+                <table>
+                    <tr>
+                        <th style="width: 30%;" class="ja-only">項目</th>
+                        <th style="width: 30%;" class="en-only">Item</th>
+                        <th class="ja-only">要件</th>
+                        <th class="en-only">Requirement</th>
+                    </tr>
+                    <tr>
+                        <td>Unity</td>
+                        <td class="ja-only">2022.3.6f1 以上</td>
+                        <td class="en-only">2022.3.6f1 or higher</td>
+                    </tr>
+                    <tr>
+                        <td>VRChat SDK</td>
+                        <td class="ja-only">VRCSDK3-AVATAR（最新版推奨）</td>
+                        <td class="en-only">VRCSDK3-AVATAR (Latest recommended)</td>
+                    </tr>
+                    <tr>
+                        <td class="ja-only">プラットフォーム</td>
+                        <td class="en-only">Platform</td>
+                        <td class="ja-only">PC専用（Quest非対応）</td>
+                        <td class="en-only">PC Only (Quest not supported)</td>
+                    </tr>
+                    <tr>
+                        <td class="ja-only">その他</td>
+                        <td class="en-only">Other</td>
+                        <td class="ja-only">VRCAvatarDescriptor必須</td>
+                        <td class="en-only">VRCAvatarDescriptor Required</td>
+                    </tr>
+                </table>
 
-        <h4>ポスタライズ</h4>
-        <ul>
-            <li><strong>レベル (Posterize Levels):</strong> 色階調の段階数（0-1、値が小さいほど階調が少なくなる）</li>
-        </ul>
+                <h2 id="quickstart">クイックスタート</h2>
 
-        <h4>ディザリング</h4>
-        <ul>
-            <li><strong>強度 (Dither Strength):</strong> ディザーパターンの強さ（0-1）</li>
-        </ul>
+                <h3 id="quickstart-install">インストール</h3>
+                
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Prefabの配置</strong>
+                    <p>言語に応じたPrefabをアバターのルート直下に配置：</p>
+                    <ul>
+                        <li>日本語版：<code>Assets/x2much4u/VividAvatarFX/Prefab/VividAvatarFX_JP.prefab</code></li>
+                        <li>英語版：<code>Assets/x2much4u/VividAvatarFX/Prefab/VividAvatarFX_EN.prefab</code></li>
+                    </ul>
+                </div>
 
-        <h4>ブルーム</h4>
-        <ul>
-            <li><strong>強度 (Intensity):</strong> 発光効果の強さ（0-1）</li>
-            <li><strong>閾値 (Threshold):</strong> 発光が始まる明るさの基準（0-1）</li>
-            <li><strong>半径 (Radius):</strong> 発光の広がり（0-1）</li>
-        </ul>
+                <div class="warning">
+                    <strong>⚠️ 重要：</strong>Prefabは必ずアバターのルート直下に配置してください。他の場所に配置すると正常に動作しません。
+                </div>
 
-        <h4>色収差</h4>
-        <ul>
-            <li><strong>強度 (Chromatic Aberration):</strong> 色ずれの強さ（0-1）</li>
-            <li><strong>色変更 (Preset):</strong> 8種類の色収差パターン（0-1で8段階、0/8, 1/8, 2/8...7/8）
+                <h3 id="quickstart-setup">初期セットアップ</h3>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Setup Toolを開く</strong>
+                    <p>以下のいずれかの方法で開きます：</p>
+                    <ul>
+                        <li>マテリアルInspectorの「セットアップ & ベイク」ボタン</li>
+                        <li>メニューバー：<code>Tools → x2much4u → VividAvatarFX → VAFX Setup Tool</code></li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>アバターを設定</strong>
+                    <p>Setup Toolの「ターゲットアバター」欄にアバターをドラッグ&ドロップ</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <strong>視線制御の設定（オプション）</strong>
+                    <ul>
+                        <li>目のボーンは自動検出されます</li>
+                        <li>「ベイク時に視線制御も設定する」にチェックを入れると視線制御も同時セットアップ</li>
+                        <li>他の視線制御ギミックを使用している場合はチェックを外してください</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">5</span>
+                    <strong>ベイク実行</strong>
+                    <p>「マテリアル値を焼き込み & アバターに統合」ボタンをクリック</p>
+                </div>
+
+                <div class="success">
+                    <strong>✅ セットアップ完了！</strong>
+                    <p>これでVividAvatarFXの導入は完了です。アバターをアップロードして使用できます。</p>
+                </div>
+
+                <div class="info">
+                    <strong>💡 なぜベイクが必要？</strong>
+                    <p>VividAvatarFXは、現在のマテリアル値を直接ExpressionParametersに焼き込むことで動作します。これにより、VRC内でエフェクトをリアルタイムに調整できます。</p>
+                    <p><strong>マテリアルの値を変更したら、必ず再度ベイクを実行してください。</strong></p>
+                </div>
+
+                <h2 id="effects">
+                    <span class="ja-only">エフェクト詳細</span>
+                    <span class="en-only">Effect Details</span>
+                </h2>
+
+                <h3 id="effects-color">
+                    <span class="ja-only">カラー設定</span>
+                    <span class="en-only">Color Settings</span>
+                </h3>
+
+                <h4 class="ja-only">カラーグレーディング</h4>
+                <h4 class="en-only">Color Grading</h4>
                 <ul>
-                    <li>0: R+, G中, B- （標準的な色収差）</li>
-                    <li>1: R-, G+, B中</li>
-                    <li>2: R-, G+, B+</li>
-                    <li>3: R+, G+, B-</li>
-                    <li>4: R+, G-, B-</li>
-                    <li>5: R-, G+, B-</li>
-                    <li>6: R-, G-, B+</li>
-                    <li>7: R+, G-, B+</li>
+                    <li class="ja-only"><strong>明るさ：</strong>画面全体の明るさを調整</li>
+                    <li class="ja-only"><strong>コントラスト：</strong>明暗の差を調整</li>
+                    <li class="ja-only"><strong>彩度：</strong>色の鮮やかさを調整</li>
+                    <li class="ja-only"><strong>色相シフト：</strong>色相を回転</li>
+                    <li class="ja-only"><strong>ガンマ：</strong>中間調の明るさを調整</li>
+                    <li class="ja-only"><strong>色反転：</strong>ネガティブ効果</li>
+                    <li class="en-only"><strong>Brightness:</strong> Adjust overall screen brightness</li>
+                    <li class="en-only"><strong>Contrast:</strong> Adjust difference between light and dark</li>
+                    <li class="en-only"><strong>Saturation:</strong> Adjust color vividness</li>
+                    <li class="en-only"><strong>Hue Shift:</strong> Rotate hue</li>
+                    <li class="en-only"><strong>Gamma:</strong> Adjust mid-tone brightness</li>
+                    <li class="en-only"><strong>Color Invert:</strong> Negative effect</li>
                 </ul>
-            </li>
-        </ul>
 
-        <h4>レンズ歪み</h4>
-        <ul>
-            <li><strong>強度 (Intensity):</strong> 歪みの強さ（0-1）</li>
-            <li><strong>スケール (Scale):</strong> レンズのズーム倍率（0-1）</li>
-            <li><strong>歪み形状 (Power):</strong> 歪みの形状カーブ（0-1）</li>
-            <li><strong>バレル係数 (Barrel):</strong> バレル/ピンクッション歪みの度合い（0-1）</li>
-            <li><strong>横引き延ばし (Horizontal Stretch):</strong> 横方向の拡大（0-1）</li>
-            <li><strong>横に潰す (Horizontal Squash):</strong> 横方向の縮小（0-1）</li>
-            <li><strong>縦引き延ばし (Vertical Stretch):</strong> 縦方向の拡大（0-1）</li>
-            <li><strong>縦に潰す (Vertical Squash):</strong> 縦方向の縮小（0-1）</li>
-        </ul>
+                <h4 class="ja-only">トーンカーブ</h4>
+                <h4 class="en-only">Tone Curve</h4>
+                <p class="ja-only">RGB各チャンネルのトーンカーブを個別に調整。スケールとパワーを組み合わせて繊細な色調整が可能です。</p>
+                <p class="en-only">Adjust tone curves for each RGB channel individually. Combine scale and power for precise color adjustments.</p>
 
-        <h4>グリッチエフェクト</h4>
-        <ul>
-            <li><strong>全体の強度 (Overall Intensity):</strong> グリッチ効果全体の強さ（0-1）</li>
-        </ul>
-        <p><strong>横方向ラインシフト：</strong></p>
-        <ul>
-            <li><strong>強度 (Intensity):</strong> ずれの強さ（0-1）</li>
-            <li><strong>頻度 (Frequency):</strong> 発生頻度（0-1）</li>
-            <li><strong>ブレンド (Blend):</strong> 元画像との混合率（0-1）</li>
-        </ul>
-        <p><strong>縦方向ラインシフト：</strong></p>
-        <ul>
-            <li><strong>強度 (Intensity):</strong> ずれの強さ（0-1）</li>
-            <li><strong>頻度 (Frequency):</strong> 発生頻度（0-1）</li>
-            <li><strong>ブレンド (Blend):</strong> 元画像との混合率（0-1）</li>
-        </ul>
-        <p><strong>カラー分離：</strong></p>
-        <ul>
-            <li><strong>強度 (Intensity):</strong> 色分離の強さ（0-1）</li>
-            <li><strong>ブレンド (Blend):</strong> 元画像との混合率（0-1）</li>
-        </ul>
-        <p><strong>ブロックノイズ：</strong></p>
-        <ul>
-            <li><strong>サイズ (Size):</strong> ブロックの大きさ（0-1）</li>
-            <li><strong>頻度 (Frequency):</strong> 発生頻度（0-1）</li>
-            <li><strong>強度 (Intensity):</strong> ノイズの強さ（0-1）</li>
-            <li><strong>ブレンド (Blend):</strong> 元画像との混合率（0-1）</li>
-        </ul>
+                <h4>Lift / Gamma / Gain</h4>
+                <ul>
+                    <li class="ja-only"><strong>Lift：</strong>シャドウ（暗部）の色調を調整</li>
+                    <li class="ja-only"><strong>Gamma：</strong>ミッドトーン（中間調）の色調を調整</li>
+                    <li class="ja-only"><strong>Gain：</strong>ハイライト（明部）の色調を調整</li>
+                    <li class="en-only"><strong>Lift:</strong> Adjust shadow (dark areas) color tone</li>
+                    <li class="en-only"><strong>Gamma:</strong> Adjust mid-tone color tone</li>
+                    <li class="en-only"><strong>Gain:</strong> Adjust highlight (bright areas) color tone</li>
+                </ul>
+                <p class="ja-only">各項目でHSV（色相・彩度・明度）を個別に設定できます。</p>
+                <p class="en-only">You can set HSV (Hue, Saturation, Value) individually for each.</p>
 
-        <h2 id="preset">プリセット機能</h2>
+                <h3 id="effects-post">
+                    <span class="ja-only">ポストエフェクト</span>
+                    <span class="en-only">Post Effects</span>
+                </h3>
 
-        <h3 id="preset-register">プリセット登録</h3>
-        <p>現在のマテリアル設定をプリセットとして登録し、VRChat内のメニューから呼び出せるようにします。</p>
+                <h4 class="ja-only">ブルーム</h4>
+                <h4 class="en-only">Bloom</h4>
+                <p class="ja-only">高品質なブルームエフェクト。光る部分を美しく滲ませます：</p>
+                <p class="en-only">High-quality bloom effect. Beautifully blurs bright areas:</p>
+                <ul>
+                    <li class="ja-only"><strong>強度：</strong>ブルーム効果の強さ</li>
+                    <li class="ja-only"><strong>閾値：</strong>どの明るさから光らせるか</li>
+                    <li class="ja-only"><strong>半径：</strong>ブルームの広がり</li>
+                    <li class="ja-only"><strong>滑らかさ：</strong>境界のソフトネス</li>
+                    <li class="ja-only"><strong>拡散：</strong>光の拡散具合</li>
+                    <li class="ja-only"><strong>ぼやけ：</strong>ブルームのぼかし度合い</li>
+                    <li class="en-only"><strong>Intensity:</strong> Bloom effect strength</li>
+                    <li class="en-only"><strong>Threshold:</strong> Brightness level to start blooming</li>
+                    <li class="en-only"><strong>Radius:</strong> Bloom spread</li>
+                    <li class="en-only"><strong>Softness:</strong> Border softness</li>
+                    <li class="en-only"><strong>Diffusion:</strong> Light diffusion amount</li>
+                    <li class="en-only"><strong>Blur:</strong> Bloom blur amount</li>
+                </ul>
 
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>Preset Makerを開く</strong>
-            <p>以下のいずれかの方法で起動：</p>
-            <ul>
-                <li>マテリアルInspectorの「プリセット登録」ボタンをクリック</li>
-                <li>Unityメニュー → <code>Tools → x2much4u → VividAvatarFX → VAFX Preset Maker</code></li>
-            </ul>
+                <h4 class="ja-only">ビネット</h4>
+                <h4 class="en-only">Vignette</h4>
+                <ul>
+                    <li class="ja-only"><strong>強度：</strong>ビネット効果の強さ</li>
+                    <li class="ja-only"><strong>滑らかさ：</strong>境界のぼかし具合</li>
+                    <li class="ja-only"><strong>透明度：</strong>エフェクトの不透明度</li>
+                    <li class="ja-only"><strong>色（HSV）：</strong>ビネットの色を調整</li>
+                    <li class="en-only"><strong>Intensity:</strong> Vignette effect strength</li>
+                    <li class="en-only"><strong>Smoothness:</strong> Border blur amount</li>
+                    <li class="en-only"><strong>Alpha:</strong> Effect opacity</li>
+                    <li class="en-only"><strong>Color (HSV):</strong> Adjust vignette color</li>
+                </ul>
+
+                <h4 class="ja-only">その他のエフェクト</h4>
+                <h4 class="en-only">Other Effects</h4>
+                <ul>
+                    <li class="ja-only"><strong>シネマティックライン：</strong>画面の上下左右に黒帯</li>
+                    <li class="ja-only"><strong>ネオンエッジ：</strong>輪郭を光らせる</li>
+                    <li class="ja-only"><strong>ノイズ/グレイン：</strong>フィルムグレイン効果</li>
+                    <li class="ja-only"><strong>ポスタライズ：</strong>色数を減らしてアニメ風に</li>
+                    <li class="ja-only"><strong>ディザリング：</strong>ディザパターン追加</li>
+                    <li class="ja-only"><strong>モザイク：</strong>ブロック状のモザイク</li>
+                    <li class="en-only"><strong>Cinematic Lines:</strong> Black bars on screen edges</li>
+                    <li class="en-only"><strong>Neon Edge:</strong> Glowing outlines</li>
+                    <li class="en-only"><strong>Noise/Grain:</strong> Film grain effect</li>
+                    <li class="en-only"><strong>Posterize:</strong> Reduce colors for anime style</li>
+                    <li class="en-only"><strong>Dithering:</strong> Add dither pattern</li>
+                    <li class="en-only"><strong>Mosaic:</strong> Block-style mosaic</li>
+                </ul>
+
+                <h3 id="effects-lens">
+                    <span class="ja-only">レンズエフェクト</span>
+                    <span class="en-only">Lens Effects</span>
+                </h3>
+
+                <h4 class="ja-only">色収差</h4>
+                <h4 class="en-only">Chromatic Aberration</h4>
+                <p class="ja-only">レンズの色ズレを再現。8種類のプリセットから選択：</p>
+                <p class="en-only">Reproduce lens color shift. Choose from 8 presets:</p>
+                <ul>
+                    <li class="ja-only"><strong>強度：</strong>色ズレの量</li>
+                    <li class="ja-only"><strong>色変更：</strong>プリセット切り替え（0〜1で8パターン）</li>
+                    <li class="en-only"><strong>Intensity:</strong> Color shift amount</li>
+                    <li class="en-only"><strong>Color Change:</strong> Switch preset (8 patterns from 0-1)</li>
+                </ul>
+
+                <h4 class="ja-only">レンズ歪み</h4>
+                <h4 class="en-only">Lens Distortion</h4>
+                <p class="ja-only">魚眼レンズやバレル歪みを表現します。VR視点では非表示のため、VR酔いを軽減しつつ、カメラやデスクトップでは美しい表現が可能です。</p>
+                <p class="en-only">Express fisheye lens and barrel distortion. Hidden in VR view to reduce motion sickness, while maintaining beautiful expression in camera and desktop views.</p>
+                <ul>
+                    <li class="ja-only"><strong>強度：</strong>歪みの強さ</li>
+                    <li class="ja-only"><strong>スケール：</strong>歪みの範囲</li>
+                    <li class="ja-only"><strong>歪み形状：</strong>歪みの特性</li>
+                    <li class="ja-only"><strong>バレル係数：</strong>樽型/糸巻き型の調整</li>
+                    <li class="ja-only"><strong>横引き延ばし/潰す：</strong>水平方向の変形</li>
+                    <li class="ja-only"><strong>縦引き延ばし/潰す：</strong>垂直方向の変形</li>
+                    <li class="en-only"><strong>Intensity:</strong> Distortion strength</li>
+                    <li class="en-only"><strong>Scale:</strong> Distortion range</li>
+                    <li class="en-only"><strong>Distortion Shape:</strong> Distortion characteristics</li>
+                    <li class="en-only"><strong>Barrel Coefficient:</strong> Barrel/Pincushion adjustment</li>
+                    <li class="en-only"><strong>Horizontal Stretch/Squash:</strong> Horizontal deformation</li>
+                    <li class="en-only"><strong>Vertical Stretch/Squash:</strong> Vertical deformation</li>
+                </ul>
+
+                <h4 class="ja-only">グリッチエフェクト</h4>
+                <h4 class="en-only">Glitch Effect</h4>
+                <p class="ja-only">デジタル的な壊れた視覚効果：</p>
+                <p class="en-only">Digital corrupted visual effects:</p>
+                <ul>
+                    <li class="ja-only"><strong>横ラインシフト：</strong>走査線の横ズレ（強度・頻度・ブレンド）</li>
+                    <li class="ja-only"><strong>縦ラインシフト：</strong>走査線の縦ズレ（強度・頻度・ブレンド）</li>
+                    <li class="ja-only"><strong>カラー分離：</strong>RGBチャンネルのズレ（強度・ブレンド）</li>
+                    <li class="ja-only"><strong>ブロックノイズ：</strong>ブロック状のノイズ（サイズ・頻度・強度・ブレンド）</li>
+                    <li class="en-only"><strong>Horizontal Line Shift:</strong> Horizontal scanline displacement (Intensity, Frequency, Blend)</li>
+                    <li class="en-only"><strong>Vertical Line Shift:</strong> Vertical scanline displacement (Intensity, Frequency, Blend)</li>
+                    <li class="en-only"><strong>Color Split:</strong> RGB channel displacement (Intensity, Blend)</li>
+                    <li class="en-only"><strong>Block Noise:</strong> Block-style noise (Size, Frequency, Intensity, Blend)</li>
+                </ul>
+
+                <h2 id="preset">
+                    <span class="ja-only">プリセット機能</span>
+                    <span class="en-only">Preset System</span>
+                </h2>
+                <p class="ja-only">現在のマテリアル設定を最大22個のプリセットとして保存・管理できます。</p>
+                <p class="en-only">Save and manage current material settings as up to 22 presets.</p>
+
+                <h3 id="preset-create">
+                    <span class="ja-only">プリセットの作成</span>
+                    <span class="en-only">Create Preset</span>
+                </h3>
+
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong class="ja-only">Preset Makerを開く</strong>
+                    <strong class="en-only">Open Preset Maker</strong>
+                    <p class="ja-only">以下のいずれかの方法で開きます：</p>
+                    <p class="en-only">Open using one of the following methods:</p>
+                    <ul>
+                        <li class="ja-only">マテリアルInspectorの「プリセット登録」ボタン</li>
+                        <li class="ja-only">メニューバー：<code>Tools → x2much4u → VividAvatarFX → VAFX Preset Maker</code></li>
+                        <li class="en-only">Material Inspector: "Register Preset" button</li>
+                        <li class="en-only">Menu bar: <code>Tools → x2much4u → VividAvatarFX → VAFX Preset Maker</code></li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong class="ja-only">設定を調整</strong>
+                    <strong class="en-only">Adjust Settings</strong>
+                    <ul>
+                        <li class="ja-only"><strong>保存スロット：</strong>Preset01〜Preset22から選択</li>
+                        <li class="ja-only"><strong>メニュー表示名：</strong>VRChat内で表示される名前を入力</li>
+                        <li class="ja-only"><strong>有効化設定：</strong>各プラットフォームでの表示を個別設定</li>
+                        <li class="en-only"><strong>Save Slot:</strong> Choose from Preset01-Preset22</li>
+                        <li class="en-only"><strong>Menu Display Name:</strong> Enter name shown in VRChat</li>
+                        <li class="en-only"><strong>Enable Settings:</strong> Configure display for each platform</li>
+                    </ul>
+                    <ul style="margin-left: 40px;">
+                        <li>Enable VR<span class="ja-only">：VR視点で表示</span><span class="en-only">: Show in VR view</span></li>
+                        <li>Enable Desktop<span class="ja-only">：デスクトップ視点で表示</span><span class="en-only">: Show in desktop view</span></li>
+                        <li>Enable SS<span class="ja-only">：カメラ（視界ジャック）で表示</span><span class="en-only">: Show in camera (view-jacking)</span></li>
+                        <li>Enable Other<span class="ja-only">：その他（Unity編集画面など）</span><span class="en-only">: Other (Unity editor, etc.)</span></li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong class="ja-only">ベイク実行</strong>
+                    <strong class="en-only">Execute Bake</strong>
+                    <p class="ja-only">「プリセット [名前] を [スロット] にベイク」ボタンをクリック</p>
+                    <p class="en-only">Click "Bake Preset [name] to [slot]" button</p>
+                </div>
+
+                <div class="info">
+                    <strong class="ja-only">📁 プリセットの保存場所</strong>
+                    <strong class="en-only">📁 Preset Save Location</strong>
+                    <p class="ja-only">プリセットは<code>Assets/x2much4u/VividAvatarFX/Preset/</code>にJSON形式で保存されます。</p>
+                    <p class="en-only">Presets are saved as JSON format in <code>Assets/x2much4u/VividAvatarFX/Preset/</code>.</p>
+                    <p class="ja-only">ファイル名：<code>VAFX_[表示名].json</code></p>
+                    <p class="en-only">Filename: <code>VAFX_[display_name].json</code></p>
+                </div>
+
+                <h3 id="preset-apply">
+                    <span class="ja-only">プリセットの適用</span>
+                    <span class="en-only">Apply Preset</span>
+                </h3>
+                <ol>
+                    <li class="ja-only">マテリアルInspectorの「プリセット」ドロップダウンから選択</li>
+                    <li class="ja-only">「適用」ボタンをクリック</li>
+                    <li class="ja-only">マテリアルに設定が反映されます</li>
+                    <li class="en-only">Select from "Preset" dropdown in Material Inspector</li>
+                    <li class="en-only">Click "Apply" button</li>
+                    <li class="en-only">Settings will be applied to material</li>
+                </ol>
+
+                <div class="warning">
+                    <strong class="ja-only">⚠️ 重要：</strong>
+                    <strong class="en-only">⚠️ Important:</strong>
+                    <span class="ja-only">プリセットを適用しただけではVRChat内で反映されません。適用後、必ずSetup Toolで再度ベイクを実行してください。</span>
+                    <span class="en-only">Simply applying a preset won't reflect in VRChat. Always re-bake with Setup Tool after applying.</span>
+                </div>
+
+                <h3 id="preset-share">
+                    <span class="ja-only">プリセットの共有</span>
+                    <span class="en-only">Share Preset</span>
+                </h3>
+
+                <h4 class="ja-only">エクスポート</h4>
+                <h4 class="en-only">Export</h4>
+                <p class="ja-only">マテリアルInspectorの「エクスポート」ボタンで、現在の設定をJSON形式で保存できます。他のユーザーに設定を共有する際に便利です。</p>
+                <p class="en-only">Click "Export" button in Material Inspector to save current settings as JSON format. Useful for sharing settings with other users.</p>
+
+                <h4 class="ja-only">インポート</h4>
+                <h4 class="en-only">Import</h4>
+                <p class="ja-only">「インポート」ボタンで外部のプリセットJSONファイルを読み込み、適用してPresetフォルダにコピーできます。</p>
+                <p class="en-only">Click "Import" button to load external preset JSON files, apply them, and copy to Preset folder.</p>
+
+                <div class="info">
+                    <strong class="ja-only">プリセット登録 vs エクスポート</strong>
+                    <strong class="en-only">Register Preset vs Export</strong>
+                    <ul>
+                        <li class="ja-only"><strong>プリセット登録：</strong>AnimatorControllerに設定を書き込み、VRChatメニューから切り替え可能に</li>
+                        <li class="ja-only"><strong>エクスポート：</strong>設定をJSONファイルとして出力（共有用）</li>
+                        <li class="en-only"><strong>Register Preset:</strong> Write settings to AnimatorController, switchable from VRChat menu</li>
+                        <li class="en-only"><strong>Export:</strong> Output settings as JSON file (for sharing)</li>
+                    </ul>
+                </div> Other：その他（Unity編集画面など）</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>ベイク実行</strong>
+                    <p>「プリセット [名前] を [スロット] にベイク」ボタンをクリック</p>
+                </div>
+
+                <div class="info">
+                    <strong>📁 プリセットの保存場所</strong>
+                    <p>プリセットは<code>Assets/x2much4u/VividAvatarFX/Preset/</code>にJSON形式で保存されます。</p>
+                    <p>ファイル名：<code>VAFX_[表示名].json</code></p>
+                </div>
+
+                <h3 id="preset-apply">プリセットの適用</h3>
+                <ol>
+                    <li>マテリアルInspectorの「プリセット」ドロップダウンから選択</li>
+                    <li>「適用」ボタンをクリック</li>
+                    <li>マテリアルに設定が反映されます</li>
+                </ol>
+
+                <div class="warning">
+                    <strong>⚠️ 重要：</strong>プリセットを適用しただけではVRChat内で反映されません。適用後、必ずSetup Toolで再度ベイクを実行してください。
+                </div>
+
+                <h3 id="preset-share">プリセットの共有</h3>
+
+                <h4>エクスポート</h4>
+                <p>マテリアルInspectorの「エクスポート」ボタンで、現在の設定をJSON形式で保存できます。他のユーザーに設定を共有する際に便利です。</p>
+
+                <h4>インポート</h4>
+                <p>「インポート」ボタンで外部のプリセットJSONファイルを読み込み、適用してPresetフォルダにコピーできます。</p>
+
+                <div class="info">
+                    <strong>プリセット登録 vs エクスポート</strong>
+                    <ul>
+                        <li><strong>プリセット登録：</strong>AnimatorControllerに設定を書き込み、VRChatメニューから切り替え可能に</li>
+                        <li><strong>エクスポート：</strong>設定をJSONファイルとして出力（共有用）</li>
+                    </ul>
+                </div>
+
+                <h2 id="eyecontrol">
+                    <span class="ja-only">視線制御</span>
+                    <span class="en-only">Eye Control</span>
+                </h2>
+                <p class="ja-only">VividAvatarFXはVRC Aim Constraintを使用した視線制御システムを統合しています。</p>
+                <p class="en-only">VividAvatarFX integrates an eye control system using VRC Aim Constraint.</p>
+
+                <h3 id="eyecontrol-setup">
+                    <span class="ja-only">自動セットアップ</span>
+                    <span class="en-only">Automatic Setup</span>
+                </h3>
+                <p class="ja-only">Setup Tool実行時、以下の順序で目のボーンを自動検出します：</p>
+                <p class="en-only">When running Setup Tool, eye bones are automatically detected in the following order:</p>
+                <ol>
+                    <li class="ja-only">AnimatorのHumanoid設定からLeftEye/RightEyeを取得</li>
+                    <li class="ja-only">見つからない場合、Headボーン以下から名前で検索</li>
+                    <li class="en-only">Get LeftEye/RightEye from Animator's Humanoid settings</li>
+                    <li class="en-only">If not found, search by name under Head bone</li>
+                </ol>
+                <ul style="margin-left: 40px;">
+                    <li class="ja-only">左目：eye.l, eye_l, lefteye, left eye など</li>
+                    <li class="ja-only">右目：eye.r, eye_r, righteye, right eye など</li>
+                    <li class="en-only">Left eye: eye.l, eye_l, lefteye, left eye, etc.</li>
+                    <li class="en-only">Right eye: eye.r, eye_r, righteye, right eye, etc.</li>
+                </ul>
+
+                <div class="info">
+                    <strong class="ja-only">💡 バックアップ機能</strong>
+                    <strong class="en-only">💡 Backup Feature</strong>
+                    <p class="ja-only">既存のConstraintがある場合、自動的に「_Backup」という名前でバックアップを作成します。パラメーター削除時に自動復元されます。</p>
+                    <p class="en-only">If existing Constraints are found, automatically creates backup named "_Backup". Automatically restored when parameters are removed.</p>
+                </div>
+
+                <h3 id="eyecontrol-manual">
+                    <span class="ja-only">手動設定</span>
+                    <span class="en-only">Manual Setup</span>
+                </h3>
+                <p class="ja-only">自動検出がうまくいかない場合：</p>
+                <p class="en-only">If automatic detection doesn't work:</p>
+                <ol>
+                    <li class="ja-only">Setup Toolで左目ボーン/右目ボーンを手動選択</li>
+                    <li class="ja-only">通常は<code>Armature/Hips/Spine/Chest/Neck/Head/</code>以下にあります</li>
+                    <li class="ja-only">「ベイク時に視線制御も設定する」にチェックを入れてベイク実行</li>
+                    <li class="en-only">Manually select left/right eye bones in Setup Tool</li>
+                    <li class="en-only">Usually located under <code>Armature/Hips/Spine/Chest/Neck/Head/</code></li>
+                    <li class="en-only">Check "Setup Eye Control on Bake" and execute bake</li>
+                </ol>
+
+                <div class="warning">
+                    <strong class="ja-only">⚠️ 注意：</strong>
+                    <strong class="en-only">⚠️ Note:</strong>
+                    <span class="ja-only">他の視線制御ギミックを使用している場合、干渉を防ぐため「ベイク時に視線制御も設定する」のチェックを外してください。</span>
+                    <span class="en-only">If using another eye control system, uncheck "Setup Eye Control on Bake" to prevent interference.</span>
+                </div>
+
+                <h4 class="ja-only">視線制御の切り替え</h4>
+                <h4 class="en-only">Eye Control Toggle</h4>
+                <p class="ja-only">視線制御のON/OFFを切り替えるアニメーションクリップが自動生成されます：</p>
+                <p class="en-only">Animation clips for toggling eye control ON/OFF are automatically generated:</p>
+                <ul>
+                    <li><code>VAFX_Eye_ON.anim</code><span class="ja-only">：視線制御を有効化</span><span class="en-only">: Enable eye control</span></li>
+                    <li><code>VAFX_Eye_OFF.anim</code><span class="ja-only">：視線制御を無効化</span><span class="en-only">: Disable eye control</span></li>
+                    <li class="ja-only">保存先：<code>Assets/x2much4u/VividAvatarFX/Animation/Light/</code></li>
+                    <li class="en-only">Save location: <code>Assets/x2much4u/VividAvatarFX/Animation/Light/</code></li>
+                </ul>
+
+                <h2 id="light">
+                    <span class="ja-only">ライト機能</span>
+                    <span class="en-only">Light System</span>
+                </h2>
+                <p class="ja-only">撮影用ライトシステム。掴んで固定できる可搬式ライトです。</p>
+                <p class="en-only">Photography light system. Portable lights that can be grabbed and fixed in place.</p>
+
+                <h3 id="light-types">
+                    <span class="ja-only">ライトの種類</span>
+                    <span class="en-only">Light Types</span>
+                </h3>
+
+                <h4>Point Light × 3</h4>
+                <ul>
+                    <li class="ja-only">全方向に光を放射</li>
+                    <li class="ja-only">影は落ちません</li>
+                    <li class="ja-only"><strong>Range調整：</strong>光の届く範囲を調整可能</li>
+                    <li class="en-only">Emits light in all directions</li>
+                    <li class="en-only">No shadows cast</li>
+                    <li class="en-only"><strong>Range adjustment:</strong> Adjustable light reach distance</li>
+                </ul>
+
+                <h4>Spot Light × 4</h4>
+                <ul>
+                    <li class="ja-only">指向性のある光</li>
+                    <li class="ja-only"><strong>影が落ちます（Soft Shadow）</strong></li>
+                    <li class="ja-only"><strong>Angle調整：</strong>照射角度を調整可能</li>
+                    <li class="en-only">Directional light</li>
+                    <li class="en-only"><strong>Casts shadows (Soft Shadow)</strong></li>
+                    <li class="en-only"><strong>Angle adjustment:</strong> Adjustable light angle</li>
+                </ul>
+
+                <div class="warning">
+                    <strong class="ja-only">⚠️ VRChatの既知の不具合</strong>
+                    <strong class="en-only">⚠️ Known VRChat Issue</strong>
+                    <p class="ja-only">自分のアバターの影のみカメラに映りません。他のアバターやオブジェクトの影は正常に撮影できます。</p>
+                    <p class="en-only">Your own avatar's shadow won't appear in camera. Other avatars' and objects' shadows will be captured normally.</p>
+                    <p class="ja-only">詳細：<a href="https://feedback.vrchat.com/bug-reports/p/local-players-dont-cast-shadows-caused-by-lights-in-avatars-on-cameras-1" target="_blank" style="color: #667eea;">VRChat Canny</a></p>
+                    <p class="en-only">Details: <a href="https://feedback.vrchat.com/bug-reports/p/local-players-dont-cast-shadows-caused-by-lights-in-avatars-on-cameras-1" target="_blank" style="color: #667eea;">VRChat Canny</a></p>
+                </div>
+
+                <h3 id="light-usage">
+                    <span class="ja-only">使い方</span>
+                    <span class="en-only">Usage</span>
+                </h3>
+                <ol>
+                    <li class="ja-only">VRChatメニューから使用したいライトを選択</li>
+                    <li class="ja-only">ライトを掴んで任意の位置に配置</li>
+                    <li class="ja-only">固定ボタンでその場に固定</li>
+                    <li class="ja-only">強度・色・Range/Angleを調整</li>
+                    <li class="en-only">Select desired light from VRChat menu</li>
+                    <li class="en-only">Grab and place light at desired position</li>
+                    <li class="en-only">Fix in place with fix button</li>
+                    <li class="en-only">Adjust intensity, color, Range/Angle</li>
+                </ol>
+
+                <div class="info">
+                    <strong class="ja-only">💡 ライト調整のヒント</strong>
+                    <strong class="en-only">💡 Light Adjustment Tips</strong>
+                    <ul>
+                        <li class="ja-only">Point Lightは全体照明や背景光に最適</li>
+                        <li class="ja-only">Spot Lightは被写体の強調や影の演出に最適</li>
+                        <li class="ja-only">複数のライトを組み合わせて撮影スタジオのようなセットアップが可能</li>
+                        <li class="en-only">Point Light is ideal for overall lighting and background light</li>
+                        <li class="en-only">Spot Light is ideal for subject emphasis and shadow effects</li>
+                        <li class="en-only">Combine multiple lights for studio-like setup</li>
+                    </ul>
+                </div>
+
+                <h2 id="technical">
+                    <span class="ja-only">技術仕様</span>
+                    <span class="en-only">Technical Specifications</span>
+                </h2>
+
+                <h3 class="ja-only">Expression Parameters使用量</h3>
+                <h3 class="en-only">Expression Parameters Usage</h3>
+                <p><strong class="ja-only">実質0ビット</strong><strong class="en-only">Effectively 0 bits</strong></p>
+                <p class="ja-only">すべてのパラメーターは<code>networkSynced: false</code>に設定されているため、Expression Parametersの容量を消費しません。他のギミックと容量を競合することなく使用できます。</p>
+                <p class="en-only">All parameters are set to <code>networkSynced: false</code>, so they don't consume Expression Parameters capacity. Can be used without conflicting with other gimmicks.</p>
+
+                <h3 class="ja-only">シェーダー仕様</h3>
+                <h3 class="en-only">Shader Specifications</h3>
+                <ul>
+                    <li><strong class="ja-only">シェーダー名：</strong><strong class="en-only">Shader name:</strong> <code>x2much4u/VividAvatarFX</code></li>
+                    <li><strong class="ja-only">レンダーキュー：</strong><strong class="en-only">Render queue:</strong> 4100 <span class="ja-only">（デフォルト、変更可能）</span><span class="en-only">(Default, changeable)</span></li>
+                    <li><strong>Shader Model:</strong> 3.0<span class="ja-only">以上</span><span class="en-only"> or higher</span></li>
+                    <li><strong>GrabPass:</strong> <span class="ja-only">使用</span><span class="en-only">Used</span></li>
+                </ul>
+
+                <h2 id="troubleshooting">
+                    <span class="ja-only">トラブルシューティング</span>
+                    <span class="en-only">Troubleshooting</span>
+                </h2>
+
+                <h3 class="ja-only">エフェクトが表示されない</h3>
+                <h3 class="en-only">Effects Not Showing</h3>
+                <div class="info">
+                    <strong class="ja-only">チェックリスト：</strong>
+                    <strong class="en-only">Checklist:</strong>
+                    <ol>
+                        <li class="ja-only">Setup Toolで「マテリアル値を焼き込み & アバターに統合」を実行しましたか？</li>
+                        <li class="ja-only">表示設定（Enable VR/Desktop/SS/Other）が適切に有効になっていますか？</li>
+                        <li class="ja-only">全体の透明度やメインカラーの透明度が0になっていませんか？</li>
+                        <li class="ja-only"><strong>影響範囲外にカメラが行っていませんか？</strong></li>
+                        <li class="en-only">Did you execute "Bake Material Values & Merge to Avatar" in Setup Tool?</li>
+                        <li class="en-only">Are display settings (Enable VR/Desktop/SS/Other) properly enabled?</li>
+                        <li class="en-only">Is overall opacity or main color alpha set to 0?</li>
+                        <li class="en-only"><strong>Is the camera outside the effect range?</strong></li>
+                    </ol>
+                </div>
+
+                <h4 class="ja-only">影響範囲について</h4>
+                <h4 class="en-only">About Effect Range</h4>
+                <p class="ja-only">VividAvatarFXはCubeが視界に入っていないとエフェクトが適用されません。</p>
+                <p class="en-only">VividAvatarFX effects won't apply unless the Cube is in view.</p>
+
+                <div class="step">
+                    <strong class="ja-only">影響範囲の調整方法</strong>
+                    <strong class="en-only">How to Adjust Effect Range</strong>
+                    <ol>
+                        <li class="ja-only">VRChatメニュー：<code>メインメニュー → 視点設定 → 影響範囲</code></li>
+                        <li class="ja-only">スケール値を調整（デフォルト：3、最大：20）</li>
+                        <li class="ja-only">「影響範囲可視化」をONにすると半透明の水色キューブで確認可能</li>
+                        <li class="ja-only"><strong>確認後は必ず可視化をOFFに戻してください</strong></li>
+                        <li class="en-only">VRChat menu: <code>Main Menu → View Settings → Effect Range</code></li>
+                        <li class="en-only">Adjust scale value (Default: 3, Max: 20)</li>
+                        <li class="en-only">Turn ON "Visualize Range" to see translucent cyan cube</li>
+                        <li class="en-only"><strong>Always turn OFF visualization after checking</strong></li>
+                    </ol>
+                </div>
+
+                <div class="warning">
+                    <strong class="ja-only">⚠️ 影響範囲を大きくしすぎないで</strong>
+                    <strong class="en-only">⚠️ Don't Make Range Too Large</strong>
+                    <p class="ja-only">スケールを大きくしすぎると、フォールバック時（古いグラフィックボードなど）に巨大な不透過キューブが出現し、視界を完全に遮ってしまいます。</p>
+                    <p class="en-only">If scale is too large, a huge opaque cube will appear in fallback (old graphics cards, etc.), completely blocking view.</p>
+                    <p class="ja-only">デフォルトのスケール3で十分な範囲をカバーできます。必要に応じて段階的に調整してください。</p>
+                    <p class="en-only">Default scale of 3 covers sufficient range. Adjust gradually as needed.</p>
+                </div>
+
+                <h3 class="ja-only">プリセットが適用されない</h3>
+                <h3 class="en-only">Preset Not Applying</h3>
+                <ul>
+                    <li class="ja-only">プリセットJSONファイルが<code>Assets/x2much4u/VividAvatarFX/Preset/</code>にありますか？</li>
+                    <li class="ja-only">ファイル名が<code>VAFX_</code>で始まっていますか？</li>
+                    <li class="ja-only">適用後にSetup Toolで再度ベイクを実行しましたか？</li>
+                    <li class="en-only">Is the preset JSON file in <code>Assets/x2much4u/VividAvatarFX/Preset/</code>?</li>
+                    <li class="en-only">Does the filename start with <code>VAFX_</code>?</li>
+                    <li class="en-only">Did you re-bake with Setup Tool after applying?</li>
+                </ul>
+
+                <h3 class="ja-only">視線制御が動作しない</h3>
+                <h3 class="en-only">Eye Control Not Working</h3>
+                <ol>
+                    <li class="ja-only">Setup Toolで「ベイク時に視線制御も設定する」にチェックが入っていましたか？</li>
+                    <li class="ja-only">目のボーンが正しく設定されていますか？</li>
+                    <li class="ja-only">VRChat内で視線制御のトグルをONにしていますか？</li>
+                    <li class="ja-only">他の視線制御ギミックと干渉していませんか？</li>
+                    <li class="en-only">Was "Setup Eye Control on Bake" checked in Setup Tool?</li>
+                    <li class="en-only">Are eye bones correctly set?</li>
+                    <li class="en-only">Is eye control toggle ON in VRChat?</li>
+                    <li class="en-only">Is it interfering with other eye control systems?</li>
+                </ol>
+
+                <h3 class="ja-only">マテリアルを変更したのにVRCで反映されない</h3>
+                <h3 class="en-only">Material Changes Not Reflected in VRC</h3>
+                <p><strong class="ja-only">原因：</strong><strong class="en-only">Cause:</strong> <span class="ja-only">ベイクを実行していない</span><span class="en-only">Baking not executed</span></p>
+                <p><strong class="ja-only">解決方法：</strong><strong class="en-only">Solution:</strong> <span class="ja-only">Setup Toolで再度ベイクを実行してください。マテリアルの値を変更した場合は必ずベイクが必要です。</span><span class="en-only">Re-bake with Setup Tool. Always bake after changing material values.</span></p>く設定されていますか？</li>
+                    <li>VRChat内で視線制御のトグルをONにしていますか？</li>
+                    <li>他の視線制御ギミックと干渉していませんか？</li>
+                </ol>
+
+                <h3>マテリアルを変更したのにVRCで反映されない</h3>
+                <p><strong>原因：</strong>ベイクを実行していない</p>
+                <p><strong>解決方法：</strong>Setup Toolで再度ベイクを実行してください。マテリアルの値を変更した場合は必ずベイクが必要です。</p>
+
+                <h2 id="faq">よくある質問</h2>
+
+                <h2 id="faq">
+                    <span class="ja-only">よくある質問</span>
+                    <span class="en-only">FAQ</span>
+                </h2>
+
+                <h3><span class="ja-only">Q: Quest対応していますか？</span><span class="en-only">Q: Is Quest supported?</span></h3>
+                <p><strong>A:</strong> <span class="ja-only">VividAvatarFXはPC専用です。Quest版では動作しません。</span><span class="en-only">VividAvatarFX is PC only. It does not work on Quest.</span></p>
+
+                <h3><span class="ja-only">Q: パラメーター数が多くて心配です</span><span class="en-only">Q: I'm worried about too many parameters</span></h3>
+                <p><strong>A:</strong> <span class="ja-only">すべてのパラメーターは<code>networkSynced: false</code>のため、Expression Parametersの容量を消費しません。<strong>実質的な使用容量は0ビット</strong>です。</span><span class="en-only">All parameters are <code>networkSynced: false</code>, so they don't consume Expression Parameters capacity. <strong>Effectively uses 0 bits</strong>.</span></p>
+
+                <h3><span class="ja-only">Q: 複数のアバターで使えますか？</span><span class="en-only">Q: Can I use it on multiple avatars?</span></h3>
+                <p><strong>A:</strong> <span class="ja-only">はい、ライセンスの範囲内で複数のアバターに使用できます。アバターごとにPrefabを配置してセットアップしてください。</span><span class="en-only">Yes, you can use it on multiple avatars within the license terms. Set up by placing Prefab on each avatar.</span></p>
+
+                <h3><span class="ja-only">Q: 他のポストエフェクトツールと併用できますか？</span><span class="en-only">Q: Can I use it with other post-effect tools?</span></h3>
+                <p><strong>A:</strong> <span class="ja-only">基本的には可能ですが、レンダーキューの設定により表示順序が変わる場合があります。競合が発生する場合は、レンダーキュー値を調整してください。</span><span class="en-only">Generally possible, but display order may change depending on render queue settings. Adjust render queue values if conflicts occur.</span></p>
+
+                <h3><span class="ja-only">Q: エフェクトをアニメーションで制御できますか？</span><span class="en-only">Q: Can I control effects with animations?</span></h3>
+                <p><strong>A:</strong> <span class="ja-only">はい、すべてのパラメーターはマテリアルプロパティなので、Animationで制御可能です。</span><span class="en-only">Yes, all parameters are material properties, so they can be controlled with animations.</span></p>
+
+                <h3><span class="ja-only">Q: プリセットは何個まで作れますか？</span><span class="en-only">Q: How many presets can I create?</span></h3>
+                <p><strong>A:</strong> <span class="ja-only">最大22個のプリセットを登録できます。3つのメニューに分散配置されます（各7個 + 1個予備）。</span><span class="en-only">You can register up to 22 presets. Distributed across 3 menus (7 each + 1 spare).</span></p>
+
+                <h3><span class="ja-only">Q: マテリアルを複製して使えますか？</span><span class="en-only">Q: Can I duplicate and use the material?</span></h3>
+                <p><strong>A:</strong> <span class="ja-only">はい、マテリアルを複製して異なる設定を持つ複数のバリエーションを作成できます。それぞれ個別にプリセットを管理できます。</span><span class="en-only">Yes, you can duplicate the material to create multiple variations with different settings. Each can manage presets individually.</span></p>
+
+                <h3><span class="ja-only">Q: アップデート時の手順は？</span><span class="en-only">Q: What's the update procedure?</span></h3>
+                <p><strong>A:</strong> <span class="ja-only">新しいバージョンをインポート後、Setup Toolで再度ベイクを実行してください。プリセットやカスタム設定は保持されます。</span><span class="en-only">After importing new version, re-bake with Setup Tool. Presets and custom settings will be preserved.</span></p>
+
+                <h3><span class="ja-only">Q: 設定を元に戻したい</span><span class="en-only">Q: I want to reset settings</span></h3>
+                <p><strong>A:</strong> <span class="ja-only">マテリアルInspector右上の<strong>⁝</strong>から<strong>Reset</strong>を押すと、シェーダーの初期値に戻ります。</span><span class="en-only">Click <strong>⁝</strong> at top-right of Material Inspector and select <strong>Reset</strong> to return to shader default values.</span></p>
+
+                <h3><span class="ja-only">Q: VR視点でレンズ歪みが表示されないのはなぜ？</span><span class="en-only">Q: Why doesn't lens distortion show in VR view?</span></h3>
+                <p><strong>A:</strong> <span class="ja-only">VR酔いを防ぐため、VR視点では意図的に非表示になっています。カメラやデスクトップ視点では引き続き表示されます。</span><span class="en-only">It's intentionally hidden in VR view to prevent motion sickness. It continues to display in camera and desktop views.</span></p>
+
+                <h2 id="license">
+                    <span class="ja-only">ライセンス</span>
+                    <span class="en-only">License</span>
+                </h2>
+
+                <h3 class="ja-only">VividAvatarFX本体</h3>
+                <h3 class="en-only">VividAvatarFX Main Product</h3>
+                <p class="ja-only">VividAvatarFXは<strong>VN3 License Ver.2.0.1</strong>のもとで配布されています。</p>
+                <p class="en-only">VividAvatarFX is distributed under <strong>VN3 License Ver.2.0.1</strong>.</p>
+
+                <div class="info">
+                    <strong class="ja-only">主要な利用条件</strong>
+                    <strong class="en-only">Main Usage Terms</strong>
+                    <ul>
+                        <li>✅ <span class="ja-only">営利目的での利用：可能</span><span class="en-only">Commercial use: Allowed</span></li>
+                        <li>✅ <span class="ja-only">商用利用：可能</span><span class="en-only">Business use: Allowed</span></li>
+                        <li>❌ <span class="ja-only">再配布：禁止</span><span class="en-only">Redistribution: Prohibited</span></li>
+                        <li>✅ <span class="ja-only">JSONファイル（プリセット設定）の配布：許可</span><span class="en-only">JSON file (preset settings) distribution: Allowed</span></li>
+                    </ul>
+                    <p class="ja-only"><strong>詳細は製品に同梱のVN3ライセンス全文を必ずご確認ください。</strong></p>
+                    <p class="en-only"><strong>Please check the full VN3 license text included with the product for details.</strong></p>
+                    <p><a href="https://drive.google.com/drive/folders/1iJT_2lE_kOlim-YSXlYpvrK9QJp19qWB" target="_blank" style="color: #667eea; font-weight: bold;"><span class="ja-only">→ VN3ライセンス全文</span><span class="en-only">→ Full VN3 License</span></a></p>
+                </div>
+
+                <h3 class="ja-only">使用ライブラリ</h3>
+                <h3 class="en-only">Used Libraries</h3>
+                <p class="ja-only">VividAvatarFXは以下のMITライセンスコードを使用しています：</p>
+                <p class="en-only">VividAvatarFX uses the following MIT-licensed code:</p>
+
+                <h4>AoiKamishiro</h4>
+                <ul>
+                    <li class="ja-only">Camera Analyzerの基本構造とVertex Shader構造</li>
+                    <li class="en-only">Camera Analyzer base structure and Vertex Shader structure</li>
+                    <li>Copyright (c) 2020 AoiKamishiro</li>
+                    <li><a href="https://github.com/AoiKamishiro/UnityShader_TextureOverlay" target="_blank" style="color: #667eea;">GitHub</a></li>
+                </ul>
+
+                <h4>CNLohr</h4>
+                <ul>
+                    <li class="ja-only">VRChatカメラ検出メソッド</li>
+                    <li class="en-only">VRChat camera detection methods</li>
+                    <li>Copyright (c) 2023 Charles Lohr</li>
+                    <li><a href="https://github.com/cnlohr/shadertrixx" target="_blank" style="color: #667eea;">GitHub</a></li>
+                </ul>
+
+                <h2 id="changelog">
+                    <span class="ja-only">更新履歴</span>
+                    <span class="en-only">Changelog</span>
+                </h2>
+                
+                <h3><span class="ja-only">Version 1.0.0（最新版）</span><span class="en-only">Version 1.0.0 (Latest)</span></h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong class="ja-only">初回リリース</strong>
+                    <strong class="en-only">Initial Release</strong>
+                    <p class="ja-only">VividAvatarFX 正式版リリース</p>
+                    <p class="en-only">VividAvatarFX official version release</p>
+                </div>
+
+                <!--
+                更新履歴テンプレート / Changelog Template:
+
+                <h3>Version X.X.X</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong class="ja-only">機能追加のタイトル</strong>
+                    <strong class="en-only">Feature Addition Title</strong>
+                    <p class="ja-only">機能の詳細説明をここに記載します。</p>
+                    <p class="en-only">Detailed description of the feature goes here.</p>
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong class="ja-only">バグ修正のタイトル</strong>
+                    <strong class="en-only">Bug Fix Title</strong>
+                    <p class="ja-only">修正内容の詳細をここに記載します。</p>
+                    <p class="en-only">Detailed description of the fix goes here.</p>
+                </div>
+
+                複数の変更がある場合は、上記のように<div class="step">ブロックを追加してください。
+                For multiple changes, add <div class="step"> blocks as shown above.
+                -->
+
+                <footer>
+                    <p>&copy; 2025 ゴンリー (x2much4u) - VividAvatarFX</p>
+                    <p class="ja-only">VRChat想定アバターギミック #VAFX</p>
+                    <p class="en-only">VRChat Avatar Gimmick #VAFX</p>
+                    <p><a href="https://x2much4u.booth.pm/" target="_blank">https://x2much4u.booth.pm/</a></p>
+                    <p style="margin-top: 10px; font-size: 0.85em; opacity: 0.8;">
+                        VN3 License Ver.2.0.1 | Version 1.0.0
+                    </p>
+                </footer>
+            </div>
         </div>
-
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>保存スロットを選択</strong>
-            <p>Preset01〜Preset22の中から保存先を選択します。</p>
-        </div>
-
-        <div class="step">
-            <span class="step-number">3</span>
-            <strong>メニュー表示名を入力</strong>
-            <p>VRChat内のExPression Menuに表示される名前を入力します。日本語も使用可能です。</p>
-        </div>
-
-        <div class="step">
-            <span class="step-number">4</span>
-            <strong>表示設定を選択</strong>
-            <p>このプリセットでの表示設定を選択します：</p>
-            <ul>
-                <li><strong>Enable VR:</strong> VR視点で表示するか</li>
-                <li><strong>Enable Desktop:</strong> デスクトップ視点で表示するか</li>
-                <li><strong>Enable SS:</strong> カメラ撮影時に表示するか</li>
-                <li><strong>Enable Other:</strong> その他の環境で表示するか</li>
-            </ul>
-            <p>これらの設定は、マテリアルの値よりも優先されます。</p>
-        </div>
-
-        <div class="step">
-            <span class="step-number">5</span>
-            <strong>ベイクを実行</strong>
-            <p>緑色のボタン「プリセット [名前] を [スロット] にベイク」をクリックします。</p>
-        </div>
-
-        <div class="info">
-            <strong>既存プリセットの上書き</strong>
-            <p>既に同名のJSONファイルが存在する場合、上書き確認ダイアログが表示されます。選択肢は3つ：</p>
-            <ul>
-                <li><strong>上書きする:</strong> JSONファイルを更新し、ベイクも実行</li>
-                <li><strong>上書きしない（焼き込みのみ実行）:</strong> JSONファイルは更新せず、AnimatorControllerへのベイクのみ実行</li>
-                <li><strong>キャンセル:</strong> 何もしない</li>
-            </ul>
-        </div>
-
-        <div class="info">
-            <strong>プリセット表示名プレビュー</strong>
-            <p>Preset Makerの下部には、現在登録されているプリセットの一覧が表示されます。色分けは以下の通り：</p>
-            <ul>
-                <li><strong>青色:</strong> 選択中のプリセット</li>
-                <li><strong>緑色:</strong> JSONファイルが存在するプリセット</li>
-                <li><strong>灰色:</strong> 未登録のプリセット</li>
-            </ul>
-        </div>
-
-        <h3 id="preset-use">プリセットの使用</h3>
-
-        <h4>Unity内での適用</h4>
-        <p>マテリアルInspectorの「プリセット」ドロップダウンから保存済みプリセットを選択し、「適用」ボタンをクリックすると、マテリアルにプリセットの値が反映されます。</p>
-
-        <div class="warning">
-            <strong>適用後は必ずベイク</strong>
-            <p>プリセットを適用しただけではVRChat内で変更されません。適用後、Setup ToolまたはPreset Makerで再度ベイクを実行してください。</p>
-        </div>
-
-        <h4>VRChat内での切り替え</h4>
-        <p>VRChat内では、Expression Menuから登録したプリセットを選択することで、瞬時にエフェクトを切り替えられます。プリセットメニューは3ページに分かれています。</p>
-
-        <h3 id="preset-share">共有機能</h3>
-
-        <h4>エクスポート</h4>
-        <p>マテリアルInspectorの「エクスポート」ボタンで、現在の設定をJSONファイルとして保存できます。保存先を指定するダイアログが表示されます。</p>
-
-        <div class="warning">
-            <strong>Presetフォルダ外への保存</strong>
-            <p><code>Assets/x2much4u/VividAvatarFX/Preset/</code>以外に保存すると、プリセットメニューで認識されません。共有用にエクスポートする場合はこの動作で問題ありませんが、自分で使用する場合はPresetフォルダ内に保存してください。</p>
-        </div>
-
-        <h4>インポート</h4>
-        <p>マテリアルInspectorの「インポート」ボタンで、外部のJSONファイルを読み込めます。インポート時には以下の処理が行われます：</p>
-        <ol>
-            <li>JSONファイルの内容をマテリアルに適用</li>
-            <li>JSONファイルを<code>Preset/</code>フォルダにコピー</li>
-            <li>プリセットメニューに追加</li>
-        </ol>
-
-        <div class="info">
-            <strong>エクスポート と プリセット登録 の違いは何？</strong>
-            <ul>
-                <li><strong>エクスポート:</strong> 設定をJSONファイルとして保存するだけ（他の人と共有する場合に使用）</li>
-                <li><strong>プリセット登録:</strong> AnimatorControllerに設定を書き込み、VRChat内のメニューから切り替え可能にする</li>
-            </ul>
-        </div>
-
-        <h2 id="faq">よくある質問</h2>
-
-        <h3>Q: エフェクトが表示されない</h3>
-        <p><strong>A:</strong> 以下を確認してください：</p>
-        <ul>
-            <li>Setup Toolでベイクを実行したか</li>
-            <li>表示設定（EnableVR/EnableDesktopなど）が有効になっているか</li>
-            <li>マテリアルが正しく<code>x2much4u/VividAvatarFX</code>シェーダーを使用しているか</li>
-            <li>影響範囲の設定が適切か（後述）</li>
-        </ul>
-
-        <h3>Q: 影響範囲とは？</h3>
-        <p><strong>A:</strong> VividAvatarFXは、Cubeオブジェクトが視界に入っている範囲でのみエフェクトが適用されます。これはシェーダーの仕組み上、描画オブジェクトが必要なためです。</p>
-
-        <div class="info">
-            <strong>影響範囲の調整方法</strong>
-            <p>VRChat内のメニュー → 視点設定 → 影響範囲から、Cubeのスケールを調整できます（デフォルト: 3、最大: 20）。</p>
-        </div>
-
-        <div class="warning">
-            <strong>影響範囲を大きくしすぎない</strong>
-            <p>スケールを大きくしすぎると、フォールバック時（シェーダーが動作しない環境）に巨大な不透過Cubeが出現し、視界を完全に遮ってしまいます。段階的に調整してください。</p>
-        </div>
-
-        <div class="info">
-            <strong>影響範囲の可視化</strong>
-            <p>VRChat内のメニュー → 視点設定 → 影響範囲可視化をONにすると、半透明の水色キューブとして影響範囲を確認できます。調整後は必ずOFFに戻してください。</p>
-        </div>
-
-        <h3>Q: デスクトップで表示されない / 「その他」でしか表示されない</h3>
-        <p><strong>A:</strong> 以下の場合に表示判定が失敗することがあります：</p>
-        <ul>
-            <li>カメラを傾けるギミックを使用している</li>
-            <li>他の視界エフェクトと併用している</li>
-            <li>特殊なカメラ設定を使用している</li>
-        </ul>
-        <p><strong>解決方法:</strong> 「Enable Other」をONにする（最も確実）、または競合するギミックを無効化する</p>
-
-        <h3>Q: カメラのみで表示したいのに、デスクトップでも表示される</h3>
-        <p><strong>A:</strong> VRChatのウィンドウモードに切り替えてください（Alt+Enter）。フルスクリーンモードでは判定が不正確になる場合があります。</p>
-
-        <h3>Q: パラメーター数が多くて圧迫が心配</h3>
-        <p><strong>A:</strong> VividAvatarFXのパラメーターは<code>networkSynced: false</code>に設定されているため、ExpressionParametersの容量を一切消費しません。実質的な使用メモリは0です。</p>
-
-        <h3>Q: プリセットが読み込まれない</h3>
-        <p><strong>A:</strong> <code>Assets/x2much4u/VividAvatarFX/Preset/</code>フォルダにJSONファイルが存在するか確認してください。サブフォルダ内のファイルも認識されます。</p>
-
-        <h3>Q: 設定を初期値に戻したい</h3>
-        <p><strong>A:</strong> マテリアルInspector右上の<strong>⁝</strong>メニューから<strong>Reset</strong>を選択すると、シェーダーのデフォルト値に戻ります。</p>
-
-        <h3>Q: VRChat内で設定をリセットしたい</h3>
-        <p><strong>A:</strong> Expression Menuから「ベイクした値にリセット」ボタンを押すと、最後にベイクした値にすべてのパラメーターがリセットされます。</p>
-
-        <h2 id="license">ライセンス</h2>
-
-        <h3>VividAvatarFX本体</h3>
-        <p>VividAvatarFX本体は<strong>VN3 License</strong>のもとで配布されています。</p>
-
-        <div class="info">
-            <strong>主要な利用条件</strong>
-            <ul>
-                <li><strong>個人利用:</strong> 自由に使用可能</li>
-                <li><strong>商用利用:</strong> 可能</li>
-                <li><strong>改変:</strong> 可能</li>
-                <li><strong>再配布:</strong> 禁止</li>
-                <li><strong>JSONファイルの配布:</strong> 許可（プリセット設定の共有）</li>
-            </ul>
-            <p>詳細な利用規約は、製品に同梱されているVN3ライセンス全文を必ずご確認ください。</p>
-            <p><a href="https://drive.google.com/drive/folders/1iJT_2lE_kOlim-YSXlYpvrK9QJp19qWB" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">→ VN3ライセンス全文</a></p>
-        </div>
-
-        <div class="code-block">
-VividAvatarFX<br>
-Copyright (c) 2025 ゴンリー (x2much4u)<br>
-VN3 License
-        </div>
-
-        <footer>
-            <p>&copy; 2025 ゴンリー (x2much4u) - VividAvatarFX</p>
-            <p>VRChat想定アバターギミック #VAFX</p>
-            <p><a href="https://x2much4u.booth.pm/" target="_blank" style="color: #667eea; text-decoration: none;">https://x2much4u.booth.pm/</a></p>
-        </footer>
     </div>
-    </div>
-</div>
 </body>
 </html>
